@@ -1,0 +1,27 @@
+#header-login-form {
+	position: relative;
+	left: 120px;
+	top: -100px;
+}
+#header-login-form.logged_in {
+	position: relative;
+	top: 16px;
+	left: -10px !important;
+}
+#header-login-form .login-bottom {
+	position: relative;
+	top: 10px;
+	right: 150px;
+}
+#header-login-form .login-button {
+	position: relative;
+	top: -5px;
+}
+#header-login-form .remember {
+	position: relative;
+	top: 25px;
+	left: -300px;
+}
+#header-login-form button.login-button {
+	margin-top: 5px;
+}

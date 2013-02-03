@@ -1,0 +1,33 @@
+@font-face {
+    font-family: 'RockwellRegular';
+    src: url('font/rock-webfont.eot');
+    src: url('font/rock-webfont.eot?#iefix') format('embedded-opentype'),
+         url('font/rock-webfont.woff') format('woff'),
+         url('font/rock-webfont.ttf') format('truetype'),
+         url('font/rock-webfont.svg#RockwellRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+.hover {
+	background: url('images/star.png'); 
+	z-index: 1;
+}
+.highlight {
+	font-family: RockwellRegular, Arial, sans-serif;
+	font-size: 14px;
+	position: relative;
+	bottom: -3px;
+	color: #93784b;
+	font-weight: bold;
+}
+.star_rating {
+	font-family: RockwellRegular, Arial, sans-serif;
+	font-size: 14px;
+	color: #93784b;
+	float: left;
+	width: 100px;
+	position: relative;
+	top: 10px;
+}

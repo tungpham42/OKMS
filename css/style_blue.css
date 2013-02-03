@@ -1,0 +1,619 @@
+/* 
+   Reset (http://meyerweb.com/eric/tools/css/reset/)
+------------------------------------------------------------------- */
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, 
+blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, 
+img, ins, kbd, q, s, samp, small, strike, strong, sub, tt, var, b, u, i, 
+center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, 
+tbody, tfoot, thead, tr, th, td { margin: 0; padding: 0; border: 0; outline: 0; 
+font-size: 100%; vertical-align: inherit; background: transparent; } body { 
+line-height: 1; } ol, ul { list-style: none; } blockquote, q { quotes: none; } 
+blockquote:before, blockquote:after, q:before, q:after { content: ''; content: 
+none; } :focus { outline: 0; } ins { text-decoration: none; } del { text-decoration: line-through; }
+table { border-collapse: separate; border-spacing: 0;display: table;vertical-align: middle;border-color: inherit; }
+
+
+/* 
+   General 
+------------------------------------------------------------------- */
+html {
+	font-size: 62.5%; /* reset 1em to 10px */
+	height: 100%;
+}
+
+body {
+	background: #FBFBFB;
+	color: #333;
+	font: normal 1.3em 'lucida grande', tahoma, verdana, arial, sans-serif;
+	height: 100%;
+	padding-bottom: 1px;
+}
+
+
+/* 
+   Typography 
+------------------------------------------------------------------- */
+
+p {
+	line-height: 1.4em;
+	padding: 0.2em 0 0.2em;
+}
+
+h1 {font: normal 2.2em 'lucida grande', tahoma, verdana, arial, sans-serif;}
+h2 {font: normal 2em 'lucida grande', tahoma, verdana, arial, sans-serif;}
+h3 {font: normal 1.8em 'lucida grande', tahoma, verdana, arial, sans-serif;}
+h4 {font: normal 1.6em 'lucida grande', tahoma, verdana, arial, sans-serif;}
+h5 {font: normal 1.4em 'lucida grande', tahoma, verdana, arial, sans-serif;}
+h6 {font: bold 1.2em 'lucida grande', tahoma, verdana, arial, sans-serif;}
+
+h1,h2,h3,h4,h5,h6 {margin-bottom: 0.2em;}
+
+blockquote {
+	background: white url('') no-repeat 0 -414px;
+	border-bottom: 1px solid black;
+	border-top: 1px solid black;
+	color: black;
+	display: block;
+	margin: 0.6em 0 1.6em;
+	padding: 0.8em 1em 0.2em 46px;
+}
+
+/* 
+   Links 
+------------------------------------------------------------------- */
+
+a {color: white;}
+a:hover {
+	color: #dfdfdf;
+	text-decoration: underline;
+}
+
+
+/* 
+   Forms 
+------------------------------------------------------------------- */
+
+fieldset {
+	margin: 1em 0 1.2em;
+	border: 0px solid #ccc;
+}
+
+input, textarea, select {
+	background-color: #FFFFFF;
+	border-color: #d9d9d9 #D0D0D0 #A9A9A9;
+	border-style: solid;
+	border-width: 1px;
+	font: normal 1em 'lucida grande', tahoma, verdana, arial, sans-serif;
+	padding: 1px;
+}
+/*
+input[type="url"], input[type="email"], input[type="password"], input[type="search"], input[type="text"], textarea {
+	background: white;
+	color: #525252;
+	padding: 2px;
+	font-size: 14px;
+	line-height: 18px;
+	border: 1px solid #CCC;
+	-moz-box-shadow: inset 0 4px 4px rgba(0,0,0,0.03);
+	-webkit-box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.03);
+	box-shadow: inset 0 4px 4px rgba(0, 0, 0, 0.03);
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	outline: none;
+}
+*/
+textarea {overflow: auto;}
+
+input.image {
+	border: 0;
+	padding: 0;
+}
+input.link, a.button.link {
+	background: transparent;
+	border: 0px;
+	text-decoration: none;
+}
+input.link:hover {
+	text-decoration: underline;
+}
+.blank {border: 2px solid red;}
+/* 
+   Images 
+------------------------------------------------------------------- */
+
+img.bordered {
+	background-color: white;
+	border: 1px solid black;
+	padding: 3px;
+}
+
+img.left {margin: 0 15px 12px 0;}
+img.right {margin: 0 0 15px 12px;}
+span.counter {
+	border: 1px solid #d2d2d2;
+	border-radius: 10px;
+	padding: 0px 3px;
+	background: #eaeaea;
+	position: relative;
+	top: -1px;
+	left: -3px;
+}
+
+/* 
+   Floats
+------------------------------------------------------------------- */
+
+.left {float: left;}
+.right {float: right;}
+
+.clear,.clearer {clear: both;}
+.clearer {
+	display: block;
+	font-size: 0;
+	line-height: 0;	
+}
+
+/* 
+   Layout 
+------------------------------------------------------------------- */
+
+/* General */
+#page_section {
+	position: relative;
+	top: 0px;
+	width: 980px;
+	margin: 0px auto;
+	background: url('images/shadow.png') repeat-y;
+}
+#toolbar {
+	border: 0;
+	list-style: none;
+	outline: 0;
+	text-align: left; /* LTR */
+	vertical-align: baseline;
+	color: #ccc;
+	font: normal small 'lucida grande', tahoma, verdana, arial, sans-serif;
+	left: 0;
+	margin: 0;
+	position: fixed;
+	right: 0;
+	top: 0;
+	background: black;
+	line-height: 20px;
+	padding: 5px 50px 5px 10px;
+	-moz-box-shadow: 0 3px 20px #000;
+	-webkit-box-shadow: 0 3px 20px #000;
+	box-shadow: 0 3px 20px #000;
+	filter: progid:DXImageTransform.Microsoft.Shadow(color=#000000, direction='180', strength='10');
+	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(color=#000000, direction='180', strength='10')";
+	z-index: 600;
+}
+ul.toolbar, ul.toolbar > li, ul.toolbar > li > a {
+	float: left;
+}
+ul.toolbar > li > a {
+	padding: 0 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	text-decoration: none;
+}
+#toolbar ul.toolbar > li > a:focus,
+#toolbar ul.toolbar > li > a:hover,
+#toolbar ul.toolbar > li > a:active,
+#toolbar ul.toolbar > li > a.active:focus {
+  background: #444;
+}
+h1.title {color: #2222F2;}
+#header {
+	position: relative;
+	padding: 11px 0;
+	color: white;
+	margin: 0px 10px 0px 10px;
+	height: 125px;
+	background: white url('images/banner_blue.gif') no-repeat right;
+}
+
+/* Navigation */
+#topmenu {
+	float: left;
+	background: white;
+	position: relative;
+	clear: both;
+	left: 804px;
+	bottom: -4px;
+}
+#topmenu ul > li {
+	list-style: none;
+	position: relative;
+	float: left;
+	padding: 5px 10px;
+	border-left: 1px dotted black;
+}
+#topmenu ul > li:first {
+	border-left: 0px;
+}
+#topmenu ul > li > a {
+	color: black;
+	text-decoration: none;
+}
+#topmenu ul > li > a:hover {
+	text-decoration: underline;
+}
+#leftmenu {
+	float : left;
+	width : 200px;
+	border : 0px solid #e9e4e5;
+	background : transparent;
+	font : 1.1em 'lucida grande', tahoma, verdana, arial, sans-serif;
+	position : relative;
+	height : 100%;
+	height: auto !important;
+	z-index : inherit;
+	margin : 0;
+}
+#leftmenu ul > li {
+	list-style: none;
+	position: relative;
+	display: inline;
+	float: left;
+	margin-left: -15px;
+	background-image: url('images/fold.png') !important;
+	background-repeat: no-repeat !important;
+	background-position: 0px 27px !important;
+	padding-bottom: 1px;
+}
+#leftmenu ul > li > div {
+	position: relative;
+	text-decoration: none;
+	color: #ffffff;
+	background-color: #0042e8;
+	list-style-type: none;
+	display: block;
+	width: 160px;
+	text-decoration: none;
+	border: 1px solid black;
+	margin-bottom: 3px;
+	padding: 4px 5px 4px 15px;
+}
+#leftmenu ul.administrator > li > div,#leftmenu ul.student > li > div,#leftmenu ul.coordinator > li > div {background-color: #a40000;}
+#leftmenu ul > li > div:hover,#leftmenu ul > li > div:active {
+	padding-left: 10px;
+}
+#leftmenu ul > li > div > a:hover {
+	color: black;
+}
+#leftmenu ul {
+height : auto;
+z-index : inherit;
+list-style : none;
+margin : 0;
+padding : 0;
+}
+#leftmenu h5 {
+background: #CCC;
+width: 153px;
+padding: 0px 7px;
+}
+#rightmenu {
+	float: left;
+	border: 0px solid #E9E4E5;
+	background: transparent;
+	font: 1.1em 'lucida grande', tahoma, verdana, arial, sans-serif;
+	position: absolute;
+	height: 100%;
+	height: auto !important;
+	z-index: inherit;
+	left: 750px;
+	top: 5px;
+}
+#rightmenu .courses {
+	overflow: auto;
+	border: 1px solid #E9E4E5;
+	padding: 10px 20px;
+	width: 160px;
+}
+#rightmenu a{
+	color: #333;
+}
+#rightmenu h5 {
+background: #CCC;
+width: 188px;
+padding: 0px 7px;
+}
+#logo {
+	position: relative;
+	left: 100px;
+	width: 110px;
+	height: 106px;
+	float: left;
+	background-image: url('images/logo_blue.png');
+}
+
+/* Main */
+#main {
+	position: relative;
+	font: normal 0.9em 'lucida grande', tahoma, verdana, arial, sans-serif;
+	background: white;
+	padding: 0px;
+	padding-bottom: 42px;
+	min-height: 420px;
+	height: 100%;
+	height: auto !important;
+	margin: 0px 10px 0px 10px;
+}
+
+#main ul li {list-style: none;}
+#main ol li {list-style: decimal;}
+
+#content {
+position: relative;
+min-height: 420px;
+height: auto !important;
+background: transparent;
+text-align: left;
+margin-left: 200px;
+padding: 2px;
+width: 530px;
+}
+#content p,#content h1 {
+margin: 5px 0px 0px 5px;
+word-wrap: break-word;
+white-space:pre-wrap;
+}
+#content a,#content a:hover {
+color: black;
+}
+/* Footer links */
+#footer {
+	background: url('images/footer.jpg') top left no-repeat;
+	width: 940px;
+	height: 48px;
+	float: left;
+	font-size: 0.8em;
+	font-weight: bold;
+	padding: 10px;
+	margin-left: 10px;
+	text-align: left;
+}
+#footer a {color: blue;}
+#footer .right, #footer .right a {
+	color: blue;
+	text-decoration: none;
+}
+#footer a:hover {color: darkblue;}
+#footer #totop {
+width : 120px;
+border : 1px solid #222;
+background : #333;
+text-align : center;
+position : fixed;
+bottom : 15px;
+right : 10px;
+cursor : pointer;
+display : none;
+color : white;
+font-size : 12px;
+font-weight: bold;
+padding : 5px;
+}
+table {
+	width: 100%;
+	margin: 10px;
+	border: 1px solid #BEBFB9;
+}
+table td, table th {
+	vertical-align: middle;
+	padding: 8px 10px;
+	border: 0;
+	color: black;
+}
+table th {
+	text-transform: uppercase;
+	background: #e1e2dc;
+	font-weight: normal;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #bebfb9;
+	padding: 3px 10px;
+}
+tr.even, tr.odd {
+	border-width: 0 1px 0 1px;
+	border-style: solid;
+	border-color: #BEBFB9;
+}
+tr.even, tr.even > td {
+	background: #e3e4de;
+}
+tr.odd, tr.odd > td {
+	background: white;
+}
+td.count {
+	background: #efefef;
+	text-align: center;
+}
+#debug {display: none; margin-top: 12px;}
+.comment,
+#addCommentContainer{
+	
+	/* Syling the comments and the comment form container */
+	
+	padding:12px;
+	width:400px;
+	position:relative;
+	background-color:#fcfcfc;
+	border:1px solid white;
+	color:#888;
+	margin-bottom:25px;
+	
+	/* CSS3 rounded corners and drop shadows */
+	
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+	border-radius:10px;
+
+	-moz-box-shadow:2px 2px 0 #c2c2c2;
+	-webkit-box-shadow:2px 2px 0 #c2c2c2;
+	box-shadow:2px 2px 0 #c2c2c2;
+}
+.comment .avatar{
+
+	/*
+	/	The avatar is positioned absolutely, 
+	/	and offset outside the comment div
+	/*/
+
+	height:50px;
+	left:-70px;
+	position:absolute;
+	width:50px;
+	background:url('img/default_avatar.gif') no-repeat #fcfcfc;
+	
+	/* Centering it vertically: */
+	
+	margin-top:-25px;
+	top:50%;
+
+	-moz-box-shadow:1px 1px 0 #c2c2c2;
+	-webkit-box-shadow:1px 1px 0 #c2c2c2;
+	box-shadow:1px 1px 0 #c2c2c2;
+}
+
+.comment .avatar img{
+	display:block;
+}
+
+.comment .name{
+	font-size:20px;
+	padding-bottom:10px;
+	color:#ccc;
+}
+
+.comment .date{
+	font-size:10px;
+	padding:6px 0;
+	position:absolute;
+	right:15px;
+	top:10px;
+	color:#bbb;
+}
+
+.comment p,
+#addCommentContainer p{
+	font-size:18px;
+	line-height:1.5;
+	overflow-x:hidden;
+}
+
+#addCommentContainer input[type=text],
+#addCommentContainer textarea{
+
+	/* Styling the inputs */
+
+	display:block;
+	border:1px solid #ccc;
+	margin:5px 0 5px;
+	padding:3px;
+	font-size:12px;
+	color:#555;
+	font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
+}
+
+#addCommentContainer textarea{
+	width:300px;
+}
+#comments {
+	display: none;
+}
+a.edit_comment {
+	cursor: pointer;
+}
+.vote,.comment_vote a {
+	color: white !important;
+	text-align: center;
+}
+form.vote.like, form.vote.dislike, input.button.like, input.button.dislike, a.button.comment_toggle {float: left}
+input.button.like, input.button.dislike, input.button.follow, a.button.comment_toggle, a.delete_comment {
+	background: transparent;
+	color: #333;
+	text-decoration: none;
+	border: 0px;
+}
+a.edit_comment:hover, input.button.like:hover, input.button.dislike:hover, input.button.follow:hover, a.button.comment_toggle:hover, a.delete_comment:hover {
+	text-decoration: underline;
+}
+span.like, span.dislike, span.follow {
+	display: inline;
+	float: left;
+	position: relative;
+	top: 4px;
+	left: 5px;
+}
+span.comment_count {
+	display: inline;
+	float: left;
+	position: relative;
+	top: 2px;
+	left: 4px;
+}
+.comment > table {
+	border: 0px;
+}
+.multipleSelectBoxControl span{	/* Labels above select boxes*/
+	font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
+	font-size:11px;
+	font-weight:bold;
+}
+.multipleSelectBoxControl div option{	/* Select box layout */
+	font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
+}
+.multipleSelectBoxControl div select{	
+	height:100%;
+}
+.multipleSelectBoxControl input{	/* Small butons */
+	width:25px;	
+}
+.multipleSelectBoxControl div{
+	float:left;
+}
+fieldset{
+	width:500px;
+	margin:10px;
+}
+img{
+	border:0px;
+}
+legend {
+	margin-left: 20px;
+}
+legend > a{
+	color: #2222CC !important;
+}
+.course .author {
+	font-weight: bold;
+}
+table.course, table.course td, table.post {
+	border: 0px;
+}
+table.post {
+	border-top: 1px dotted #D2D2D2;
+	border-right: 1px dotted #D2D2D2;
+}
+table.post:hover {
+	border-top: 1px dotted #8888D2;
+	border-right: 1px dotted #8888D2;
+}
+fieldset.course {
+	border-left: 1px solid transparent;
+}
+fieldset.course:hover {
+	border-left: 1px dotted #D2D2D2;
+}
+fieldset.course:hover > legend{
+	text-decoration: underline;
+}
+body.admin table {
+	border: 1px solid #D2D2D2;
+}

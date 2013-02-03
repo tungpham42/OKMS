@@ -1,0 +1,57 @@
+body {
+	background: #FBFBFB;
+	min-width: 0;
+}
+h1 {
+	font-size: 2em;
+	margin: .67em 0;	
+	text-align: center;
+	color: #e33e3e;
+}
+h2 {
+	font-size: 1.4em;
+	margin: .67em 0;	
+	text-align: center;
+	color: #e33e3e;
+}
+#logo {
+	position: relative;
+	width: 110px;
+	height: 106px;
+	float: left;
+	background-image: url('images/logo.png');
+}
+#verify {
+	width: 420px;
+	margin: auto;
+	padding: 26px 24px 46px;
+	font-weight: normal;
+	background: white;
+	border: 1px solid #E5E5E5;
+	-moz-box-shadow: rgba(200,200,200,0.7) 0 4px 10px -1px;
+	-webkit-box-shadow: rgba(200, 200, 200, 0.7) 0 4px 10px -1px;
+	box-shadow: rgba(200, 200, 200, 0.7) 0 4px 10px -1px;
+}
+#verify label {
+	color: #777;
+	font-size: 14px;
+}
+/* 
+   Forms 
+------------------------------------------------------------------- */
+
+fieldset {
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+	margin: 1em 0 1.2em;
+}
+
+input, textarea, select {
+	background-color: #FFFFFF;
+	border-color: #d9d9d9 #D0D0D0 #A9A9A9;
+	border-style: solid;
+	border-width: 1px;
+	font: normal 1em 'lucida grande', tahoma, verdana, arial, sans-serif;
+	padding: 1px;
+	outline: 0px;
+}
