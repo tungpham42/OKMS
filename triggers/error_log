@@ -1,5 +1,0 @@
-[12-Oct-2012 19:58:16] PHP Warning:  mysql_num_rows(): supplied argument is not a valid MySQL result resource in /home/tungpham/public_html/okms/triggers/post_create.php on line 13
-[12-Oct-2012 21:17:07] PHP Parse error:  syntax error, unexpected T_ELSE in /home/tungpham/public_html/okms/triggers/search.php on line 27
-[12-Oct-2012 21:17:10] PHP Parse error:  syntax error, unexpected T_ELSE in /home/tungpham/public_html/okms/triggers/search.php on line 27
-[12-Oct-2012 21:17:11] PHP Parse error:  syntax error, unexpected T_ELSE in /home/tungpham/public_html/okms/triggers/search.php on line 27
-[12-Oct-2012 21:17:13] PHP Parse error:  syntax error, unexpected T_ELSE in /home/tungpham/public_html/okms/triggers/search.php on line 27
