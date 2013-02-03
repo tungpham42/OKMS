@@ -581,13 +581,13 @@ function send_mail($to,$subject,$body,$from) //Send mail with SMTP authenticatio
 	$mail->Port = 587;
 	$mail->SMTPSecure = "tls";
 	$mail->SMTPDebug = 0;
-	$mail->Username = "s3230273@rmit.edu.vn";  // SMTP username
-	$mail->Password = "rm!t290190"; // SMTP password
+	$mail->Username = "email@example.com";  // SMTP username
+	$mail->Password = "password"; // SMTP password
 	
 	$mail->From = $from;
 	$mail->FromName = "Online KMS";
 	$mail->AddAddress($to);                  // name is optional
-	$mail->AddReplyTo("s3230273@rmit.edu.vn", "Online KMS");
+	$mail->AddReplyTo("email@example.com", "Online KMS");
 
 	$mail->WordWrap = 50;                                 // set word wrap to 50 characters
 	$mail->IsHTML(true);                                  // set email format to HTML

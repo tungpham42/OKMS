@@ -2,9 +2,9 @@
 /* Database config */
 
 $db_host		= 'localhost';
-$db_user		= 'tungpham_okms';
-$db_pass		= 'OKMSpa$$1';
-$db_database	= 'tungpham_main';
+$db_user		= 'root';
+$db_pass		= '';
+$db_database	= 'database';
 
 /* End config */
 
