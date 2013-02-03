@@ -6,7 +6,7 @@ CONTENTS OF THIS FILE
  * Installation
 
 ABOUT OKMS
-------------
+----------
 
 OKMS stands for Online Knowledge Management System. It is a Q & A platform 
 for lecturers and students to share knowledge and query. The Online Knowledge 
@@ -14,14 +14,14 @@ Management System is a web-based application to aim for the desire of grasping
 the fundamental and advanced knowledge firmly of students.
 
 FEATURES
---------------------------
+--------
 
 The system proposed allows lecturers posting questions collected from students 
-and their answers. These questions and answers here called “post”. These posts 
+and their answers. These questions and answers here called "post". These posts 
 will be categorized into courses (e.g. ISYS2110 Internet for Business, INTE2431 
 Business IT or ACCT2105 Introductory Accounting).
 Students are allowed to interact with posts in multiple ways, include viewing, 
-commenting, like or dislike and voting for the difficulty level. These interactions 
+commenting, like or dislike and rating for the difficulty level. These interactions 
 would accumulate enabling students to sort for the most interacted posts to view. 
 Furthermore, these statistics help lecturers understand which knowledge area they 
 should explain in more detailed.
@@ -38,7 +38,7 @@ further.
 
 
 INSTALLATION
----------------------
+------------
 
 To use this package, first create a database. Then import the database.sql or 
 database-sample-data.sql file into that database. After that, change the 
