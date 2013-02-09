@@ -41,9 +41,9 @@ if (isset($_POST['submit'])):
 						'okms@tungpham42.info');
 			print '<br/>User edited. Click <a href="?p=home">here</a> to go to home page<br/>';
 			print 'We sent you an email with your changed account information!';
-			sleep(3);
-			header('location: '.currentURL().'?p=home');
 		}
+		sleep(3);
+		header('location: '.currentURL().'?p=home');
 		//else print 'This username or email is already taken!';
 	} else {
 		print '<span style="color: red;">'.implode('<br />',$err).'<br/></span>';
