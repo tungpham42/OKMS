@@ -1,5 +1,5 @@
 <?php
 require 'libraries/class.database.php';
 /* Database config */
-$db = new Database('localhost','tungpham_okms','OKMSpa$$1','tungpham_main','OKMS_');
+$db = new Database('tunnel.pagodabox.com','marlene','kb1u9wUr','iraida','OKMS_');
 $db->connect();
