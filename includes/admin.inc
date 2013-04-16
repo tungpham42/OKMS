@@ -1,5 +1,6 @@
 <?php
 /* Auth */
+global $db;
 session_name('okms');
 if (!session_id()) session_start();
 if (!isset($_SESSION['username'])) 
@@ -65,7 +66,7 @@ $cids = ($_SESSION['rid'] == 1) ? cids_load_all(): user_cids_load_all($_SESSION[
 $pids = user_pids_load_all($_SESSION['uid']);
 $user = user_load($_SESSION['uid']);
 $course = course_load($cid);
-$users = array_load_all('USER');
+$users = $db->array_load_all('USER');
 $user_paths = array();
 for ($i = 0; $i < count($users); $i++):
 	$user_paths[$i] = 'user/'.$users[$i]['User_ID'];
@@ -81,13 +82,13 @@ for ($i = 0; $i < count($users); $i++) {
 	$profile_follow_paths[$i] = 'user/'.$users[$i]['User_Username'].'/follows';
 }
 
-$posts = array_load_all('POST');
+$posts = $db->array_load_all('POST');
 $post_paths = array();
 for ($i = 0; $i < count($posts); $i++):
 	$post_paths[$i] = 'question/'.$posts[$i]['Post_URL'];
 endfor;
 
-$courses = array_load_all('COURSE');
+$courses = $db->array_load_all('COURSE');
 $course_paths = array();
 for ($i = 0; $i < count($courses); $i++):
 	$course_paths[$i] = 'course/'.$courses[$i]['Course_Code'];
@@ -106,7 +107,7 @@ for ($i = 0; $i < count($courses); $i++) {
 	}
 }
 /* Title */
-if (!isset($_SESSION['rid']) && $_GET['p'] == 'user/create'):
+if (!isset($_SESSION['rid']) && ($_GET['p'] == 'user/create' || $_GET['p'] == 'user/register')):
 	$title = 'Register new account';
 elseif (!isset($_SESSION['rid']) && $_GET['p'] == 'user/password_reset'):
 	$title = 'Lost your password?';
@@ -430,7 +431,7 @@ elseif ($p == 'user/excel'):
 	endif;
 elseif (in_array($p,$user_paths)):
 	$user = user_load($uid);
-	if (isset($_SESSION['username']) && $_SESSION['username'] == $user['User_Username']):
+	if (isset($_SESSION['username']) && $_SESSION['username'] == $user['User_Username'] || $_SESSION['rid'] == 1):
 		$title = 'Account of '.$user['User_Username'];
 		$body_class = 'admin user list';
 	else:
@@ -439,7 +440,7 @@ elseif (in_array($p,$user_paths)):
 	endif;
 elseif (in_array($p,$profile_paths)):
 	$user = user_load_from_name($username);
-	$title = 'Posts of '.((isset($user['User_Fullname'])) ? $user['User_Fullname']: $user['User_Username']);
+	$title = 'Profile of '.((isset($user['User_Fullname'])) ? $user['User_Fullname']: $user['User_Username']);
 	$body_class = 'profile';
 elseif (in_array($p,$profile_follow_paths)):
 	$user = user_load_from_name($username);

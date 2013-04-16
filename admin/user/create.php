@@ -10,9 +10,7 @@ $err = pass_error($pass);
 if (isset($_POST['submit']) && $pass == $pass1):
 	if (!count($err)):
 		create_user($rid,$name,$fullname,'',$pass,$mail,$hash);
-		if(mysql_affected_rows($link)==1)
-		{
-			send_mail(	$mail,
+		send_mail(	$mail,
 					'Online KMS Registration System - Your New Account',
 					'
 <table style="border: 1px solid black;">
@@ -37,8 +35,6 @@ if (isset($_POST['submit']) && $pass == $pass1):
 			//header('location: '.currentURL().'?p=home');
 			print '<br/>User created. Click <a href="?p=home">here</a> to go to home page<br/>';
 			print 'We sent you an email with your new account information!';
-		}
-		else print 'This username or email is already taken!';
 	else:
 		print implode('<br />',$err);
 	endif;

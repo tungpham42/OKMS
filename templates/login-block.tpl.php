@@ -19,7 +19,7 @@ if(!$_SESSION['username'])
 			<input name="rememberMe" id="rememberMe" type="checkbox" checked="checked" value="1" /> &nbsp;Remember me
 		</div>
 		<div class="login-bottom">
-			<a class="forgot" href="?p=user/password_reset">Forgot Password</a> | <a class="register" href="?p=user/create">Sign Up</a>
+			<a class="forgot" href="?p=user/password_reset">Forgot Password</a> | <a class="register" href="?p=user/register">Sign Up</a>
 		</div>
 	</form>
 </div>

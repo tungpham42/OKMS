@@ -1681,7 +1681,7 @@ body.admin.user.list #search_bar input#search_user_box {
 	font-family: Impact;
 	color: #231F20;
 }
-input[name=post_edit], input[name=post_archive], input[name=post_delete], input[name=user_activate], input[name=user_deactivate], input[name=user_edit], input[name=user_delete], input[name=role_edit], input[name=role_delete], input[name=course_csv], input[name=course_assign], input[name=course_promote], input[name=course_edit], input[name=course_delete], input[name=course_allow], input[name=course_not_allow], input[name=course_enrol], input[name=semester_edit], input[name=semester_delete], input[name=repost], input[name=post_restore] {
+input[name=post_edit], input[name=post_archive], input[name=post_delete], input[name=user_activate], input[name=user_deactivate], input[name=user_edit], input[name=user_delete], input[name=role_edit], input[name=role_delete], input[name=course_csv], input[name=course_assign], input[name=course_promote], input[name=course_edit], input[name=course_delete], input[name=course_allow], input[name=course_not_allow], input[name=course_guest_on], input[name=course_guest_off], input[name=course_enrol], input[name=semester_edit], input[name=semester_delete], input[name=repost], input[name=post_restore] {
 	font-size: 0px !important;
 	line-height: 0px !important;
 	border: 0px !important;
@@ -1703,12 +1703,12 @@ input[name=post_delete], input[name=user_delete], input[name=role_delete], input
 	width: 15px;
 	height: 16px;
 }
-input[name=user_activate], input[name=course_allow] {
+input[name=user_activate], input[name=course_allow], input[name=course_guest_on] {
 	background-image: url('images/icon_activate.png') !important;
 	width: 16px;
 	height: 16px;
 }
-input[name=user_deactivate], input[name=course_not_allow] {
+input[name=user_deactivate], input[name=course_not_allow], input[name=course_guest_off] {
 	background-image: url('images/icon_deactivate.png') !important;
 	width: 16px;
 	height: 16px;

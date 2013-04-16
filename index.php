@@ -4,7 +4,7 @@ header('Connection: keep-alive');
 require 'includes/functions.inc';
 include('includes/admin.inc');
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="content-type" content="text/html;charset=utf-8">
@@ -16,7 +16,7 @@ include('includes/admin.inc');
 		<!--[if IE]>
 		<link type="text/css" rel="stylesheet" media="all" href="css/ie.css" />
 		<![endif]-->
-		<script type="text/javascript">
+		<script>
 		if (navigator.appName == 'Microsoft Internet Explorer') {
 			document.write('<link type="text/css" rel="stylesheet" media="all" href="css/ie.css" />');
 		}
@@ -27,7 +27,7 @@ include('includes/admin.inc');
 	</head>
 	<body class="<?php echo $body_class; ?>">
 	<noscript>
-		<style type="text/css">
+		<style>
 		#header {top: 37px;}
 		#page_section {top: 194px;}
 		.noscriptmsg {
@@ -75,6 +75,8 @@ include('includes/admin.inc');
 					<?php
 					if (!isset($_SESSION['rid']) && $_GET['p'] == 'user/create'):
 						include('templates/register-page.tpl.php');
+					elseif (!isset($_SESSION['rid']) && $_GET['p'] == 'user/register'):
+						include('templates/register-guest-page.tpl.php');
 					elseif (!isset($_SESSION['rid']) && $_GET['p'] == 'user/password_reset'):
 						include('templates/passwordreset-page.tpl.php');
 					elseif (!isset($_SESSION['rid']) && $_GET['p'] == 'user/verify'):
@@ -317,7 +319,7 @@ include('includes/admin.inc');
 						print 'You are not authorized';
 					elseif (in_array($p,$user_paths)):
 						$user = user_load($uid);
-						if (isset($_SESSION['username']) && $_SESSION['username'] == $user['User_Username']):
+						if (isset($_SESSION['username']) && $_SESSION['username'] == $user['User_Username'] || $_SESSION['rid'] == 1):
 							include('admin/user/account.php');
 						else:
 							print 'You are not authorized';

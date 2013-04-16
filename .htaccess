@@ -132,11 +132,11 @@ DirectoryIndex index.php index.html index.htm
 AddHandler cgi-script .py
 
 <IfModule mod_rewrite.c>
-RewriteEngine On
-RewriteRule ^/?([a-zA-Z_]+)$ index.php?p=$1 [L]
-RewriteRule ^(.*)/$ $1.php
-RewriteCond %{QUERY_STRING} ^p=([a-zA-Z0-9]*)$
-RewriteRule ^page\.php$ http://tungpham42.info/online_kms/%1 [R=301,L]
+RewriteEngine    On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} ^/okms/(.*)$
+RewriteRule ^(.*)$ /okms/?p=$1 [L,QSA]
 </IfModule>
 
 # $Id$

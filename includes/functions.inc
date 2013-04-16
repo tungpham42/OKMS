@@ -9,56 +9,6 @@ require_once('libraries/PHPExcel/PHPExcel/IOFactory.php');
 define('PREFIX', 'OKMS_');
 define('DEFAULT_AVATAR', 'http://tungpham42.info/okms/images/avatar.jpg');
 /* General Functions */
-function array_load_all($table_name) { //Put all table records into an array
-	$array = array();
-	$result = mysql_query("SELECT * FROM ".PREFIX.$table_name);
-	if ($result) {
-		while($row = mysql_fetch_assoc($result)) {
-			$array[] = $row;
-		}
-	}
-	return $array;
-}
-function array_load_with_operator($table_name,$identifier,$value,$operator) { //Put specific table records according to condition,  > < = into an array
-	$array = array();
-	$result = mysql_query("SELECT * FROM ".PREFIX.$table_name." WHERE ".$identifier.$operator.$value);
-	if ($result) {
-		while($row = mysql_fetch_assoc($result)) {
-			$array[] = $row;
-		}
-	}
-	return $array;
-}
-function array_load_with_two_identifier($table_name,$identifier1,$value1,$identifier2,$value2) { //Load array from database with 2 identifiers
-	$array = array();	
-	$result = mysql_query("SELECT * FROM ".PREFIX.$table_name." WHERE ".$identifier1."=".$value1." AND ".$identifier2."=".$value2);
-	if ($result) {
-		while($row = mysql_fetch_assoc($result)) {
-			$array[] = $row;
-		}
-	}
-	return $array;
-}
-function array_load_with_two_values($table_name,$identifier,$value1,$value2) { //Load array from database with 1 identifier and 2 values
-	$array = array();	
-	$result = mysql_query("SELECT * FROM ".PREFIX.$table_name." WHERE ".$identifier."=".$value1." OR ".$identifier."=".$value2);
-	if ($result) {
-		while($row = mysql_fetch_assoc($result)) {
-			$array[] = $row;
-		}
-	}
-	return $array;
-}
-function array_load($table_name,$identifier,$value) { //Load array from database with 1 identifier and 1 value
-	$array = array_load_with_operator($table_name,$identifier,$value,'=');
-	return $array;
-}
-function delete_record($identifier, $value, $table_name) { //Delete table records with 1 identifier
-	mysql_query("DELETE FROM ".PREFIX.$table_name." WHERE ".$identifier."='".$value."'");
-}
-function delete_record_with_two_identifier($identifier1, $value1, $identifier2, $value2, $table_name) { //Delete table records with 2 identifiers
-	mysql_query("DELETE FROM ".PREFIX.$table_name." WHERE ".$identifier1."='".$value1."' AND ".$identifier2."='".$value2."'");
-}
 function table_row_class($id) { //Identify the table row class based on counter
 	$output = '';
 	if ((($id+1) % 2) == 1) {
@@ -75,22 +25,26 @@ function substr_word($str,$start,$end) { //Substract words from content
 	}
 }
 function load_name_from_rid($rid) { //Load role name from role ID
-	$roles = array_load('ROLE','Role_ID',$rid);
+	global $db;
+	$roles = $db->array_load('ROLE','Role_ID',$rid);
 	sort($roles);
 	return $roles[0]['Role_Name'];
 }
 function post_load($pid) { //Load post array from post ID
-	$posts = array_load('POST','Post_ID',$pid);
+	global $db;
+	$posts = $db->array_load('POST','Post_ID',$pid);
 	sort($posts);
 	return $posts[0];
 }
 function posts_load_from_cid($cid) { //Load posts array from course ID
-	$posts = array_load('POST','Course_ID',$cid);
+	global $db;
+	$posts = $db->array_load('POST','Course_ID',$cid);
 	sort($posts);
 	return $posts;
 }
 function latest_post_load() { //Load latest post array
-	$posts = array_load_all('POST');
+	global $db;
+	$posts = $db->array_load_all('POST');
 	usort($posts,'sort_post_date_descend');
 	return $posts[0];
 }
@@ -99,47 +53,56 @@ function latest_pid_load() { //Load latest pid
 	return $post['Post_ID'];
 }
 function user_load($uid) { //Load user array from user ID
-	$users = array_load('USER','User_ID',$uid);
+	global $db;
+	$users = $db->array_load('USER','User_ID',$uid);
 	sort($users);
 	return $users[0];
 }
 function user_load_from_name($name) { //Load user array from username
-	$users = array_load('USER','User_Username','"'.$name.'"');
+	global $db;
+	$users = $db->array_load('USER','User_Username',$name);
 	sort($users);
 	return $users[0];
 }
 function user_load_from_mail($mail) { //Load user array from email
-	$users = array_load('USER','User_Mail','"'.$mail.'"');
+	global $db;
+	$users = $db->array_load('USER','User_Mail',$mail);
 	sort($users);
 	return $users[0];
 }
 function role_load($rid) { //Load role array from role ID
-	$roles = array_load('ROLE','Role_ID',$rid);
+	global $db;
+	$roles = $db->array_load('ROLE','Role_ID',$rid);
 	sort($roles);
 	return $roles[0];
 }
 function semester_load($semid) { //Load semester array from semester ID
-	$semesters = array_load('SEMESTER','Semester_ID',$semid);
+	global $db;
+	$semesters = $db->array_load('SEMESTER','Semester_ID',$semid);
 	sort($semesters);
 	return $semesters[0];
 }
 function course_load($cid) { //Load course array from course ID
-	$courses = array_load('COURSE','Course_ID',$cid);
+	global $db;
+	$courses = $db->array_load('COURSE','Course_ID',$cid);
 	sort($courses);
 	return $courses[0];
 }
 function course_load_from_code($code) { //Load course array from course code
-	$courses = array_load('COURSE','Course_Code',$code);
+	global $db;
+	$courses = $db->array_load('COURSE','Course_Code',$code);
 	sort($courses);
 	return $courses[0];
 }
 function course_users_load($uid) { //Load array from table course_users with user ID
-	$course_users = array_load('USER_COURSE','User_ID',$uid);
+	global $db;
+	$course_users = $db->array_load('USER_COURSE','User_ID',$uid);
 	sort($course_users);
 	return $course_users;
 }
 function cids_load_all() { //Load all course IDs into an array
-	$courses = array_load_all('COURSE');
+	global $db;
+	$courses = $db->array_load_all('COURSE');
 	$cids = array();
 	foreach ($courses as $course) {
 		$cids[] = $course['Course_ID'];
@@ -147,7 +110,8 @@ function cids_load_all() { //Load all course IDs into an array
 	return $cids;
 }
 function uids_load_all() { //Load all user IDs into an array
-	$users = array_load_all('USER');
+	global $db;
+	$users = $db->array_load_all('USER');
 	$uids = array();
 	foreach ($users as $user) {
 		$uids[] = $user['User_ID'];
@@ -155,7 +119,8 @@ function uids_load_all() { //Load all user IDs into an array
 	return $uids;
 }
 function uids_load_all_by_rid($rid) { //Load all user IDs from role ID into an array
-	$users = array_load('USER','Role_ID',$rid);
+	global $db;
+	$users = $db->array_load('USER','Role_ID',$rid);
 	$uids = array();
 	foreach ($users as $user) {
 		$uids[] = $user['User_ID'];
@@ -191,7 +156,8 @@ function courses_load_from_uid($uid) { //Load courses array from user ID
 	return $courses;
 }
 function user_courses_load($cid) { //Load array from table course_users from course ID
-	$user_courses = array_load('USER_COURSE','Course_ID',$cid);
+	global $db;
+	$user_courses = $db->array_load('USER_COURSE','Course_ID',$cid);
 	sort($user_courses);
 	return $user_courses;
 }
@@ -218,27 +184,32 @@ function users_load_by_cid($cid) { //Load users array from course ID
 	return $users;
 }
 function comment_load($comid) { //Load comment array from comment ID
-	$comments = array_load('COMMENT','Comment_ID',$comid);
+	global $db;
+	$comments = $db->array_load('COMMENT','Comment_ID',$comid);
 	sort($comments);
 	return $comments[0];
 }
 function comments_load_by_pid($pid) { //Load comments array from post ID
-	$comments = array_load('COMMENT','Post_ID',$pid);
+	global $db;
+	$comments = $db->array_load('COMMENT','Post_ID',$pid);
 	sort($comments);
 	return $comments;
 }
 function post_vote_load($pid,$uid) { //Load post vote array from post ID and user ID
-	$post_votes = array_load_with_two_identifier('POST_VOTE','Post_ID',$pid,'User_ID',$uid);
+	global $db;
+	$post_votes = $db->array_load_with_two_identifier('POST_VOTE','Post_ID',$pid,'User_ID',$uid);
 	sort($post_votes);
 	return $post_votes[0];
 }
 function post_votes_load_by_pid($pid) { //Load post votes array from post ID
-	$post_votes = array_load('POST_VOTE','Post_ID',$pid);
+	global $db;
+	$post_votes = $db->array_load('POST_VOTE','Post_ID',$pid);
 	sort($post_votes);
 	return $post_votes;
 }
 function post_votes_load_by_uid($uid) { //Load post votes array from user ID
-	$post_votes = array_load('POST_VOTE','User_ID',$uid);
+	global $db;
+	$post_votes = $db->array_load('POST_VOTE','User_ID',$uid);
 	sort($post_votes);
 	return $post_votes;
 }
@@ -253,17 +224,20 @@ function post_vote_pids_load_by_uid($uid) { //Load post vote pids array from use
 	return $pids;
 }
 function comment_vote_load($comid,$uid) { //Load comment vote array from comment ID and user ID
-	$comment_votes = array_load_with_two_identifier('COMMENT_VOTE','Comment_ID',$comid,'User_ID',$uid);
+	global $db;
+	$comment_votes = $db->array_load_with_two_identifier('COMMENT_VOTE','Comment_ID',$comid,'User_ID',$uid);
 	sort($comment_votes);
 	return $comment_votes[0];
 }
 function post_follows_load_by_pid($pid) { //Load post follows array from post ID
-	$post_follows = array_load('POST_FOLLOW','Post_ID',$pid);
+	global $db;
+	$post_follows = $db->array_load('POST_FOLLOW','Post_ID',$pid);
 	sort($post_follows);
 	return $post_follows;
 }
 function post_follows_load_by_uid($uid) { //Load post follows array from user ID
-	$post_follows = array_load('POST_FOLLOW','User_ID',$uid);
+	global $db;
+	$post_follows = $db->array_load('POST_FOLLOW','User_ID',$uid);
 	sort($post_follows);
 	return $post_follows;
 }
@@ -278,14 +252,38 @@ function post_follow_pids_load_by_uid($uid) { //Load post follow pids array from
 	return $pids;
 }
 function post_follow_load($pid,$uid) { //Load post follow array from post ID and user ID
-	$post_follows = array_load_with_two_identifier('POST_FOLLOW','Post_ID',$pid,'User_ID',$uid);
+	global $db;
+	$post_follows = $db->array_load_with_two_identifier('POST_FOLLOW','Post_ID',$pid,'User_ID',$uid);
 	sort($post_follows);
 	return $post_follows[0];
 }
 function post_rate_load($pid,$uid) { //Load post rate array from post ID and user ID
-	$post_rates = array_load_with_two_identifier('POST_RATE','Post_ID',$pid,'User_ID',$uid);
+	global $db;
+	$post_rates = $db->array_load_with_two_identifier('POST_RATE','Post_ID',$pid,'User_ID',$uid);
 	sort($post_rates);
 	return $post_rates[0];
+}
+function friends_load_by_uid($uid) { //Load friends array from user ID
+	global $db;
+	$friends = $db->array_load('FRIEND','User_ID',$uid);
+	sort($friends);
+	return $friends;
+}
+function friend_ids_load_by_uid($uid) { //Load friend IDs array from user ID
+	$friend_ids = array();
+	$friends = friends_load_by_uid($uid);
+	sort($friends);
+	foreach ($friends as $friend) {
+		$friend_ids[] = $friend['Friend_ID'];
+	}
+	sort($friend_ids);
+	return $friend_ids;
+}
+function friend_load($uid,$friend_id) { //Load friend array from user ID and friend ID
+	global $db;
+	$friends = $db->array_load_with_two_identifier('FRIEND','User_ID',$uid,'Friend_ID',$friend_id);
+	sort($friends);
+	return $friends[0];
 }
 function count_posts_from_cid($cid) { //Return total number of posts by course ID
 	$posts = posts_load_from_cid($cid);
@@ -324,7 +322,8 @@ function count_comments_from_cid($cid) { //Return total number of posts by cours
 	return $count;
 }
 function count_post_likes_by_week($week) { //Return total number of likes by week
-	$posts = array_load_all('POST');
+	global $db;
+	$posts = $db->array_load_all('POST');
 	$posts = array_filter($posts, array(new Filter($week), 'filter_week'));
 	$count = 0;
 	foreach ($posts as $post) {
@@ -333,7 +332,8 @@ function count_post_likes_by_week($week) { //Return total number of likes by wee
 	return $count;
 }
 function count_post_dislikes_by_week($week) { //Return total number of dislikes by week
-	$posts = array_load_all('POST');
+	global $db;
+	$posts = $db->array_load_all('POST');
 	$posts = array_filter($posts, array(new Filter($week), 'filter_week'));
 	$count = 0;
 	foreach ($posts as $post) {
@@ -342,7 +342,8 @@ function count_post_dislikes_by_week($week) { //Return total number of dislikes 
 	return $count;
 }
 function count_post_follows_by_week($week) { //Return total number of follows by week
-	$posts = array_load_all('POST');
+	global $db;
+	$posts = $db->array_load_all('POST');
 	$posts = array_filter($posts, array(new Filter($week), 'filter_week'));
 	$count = 0;
 	foreach ($posts as $post) {
@@ -351,7 +352,8 @@ function count_post_follows_by_week($week) { //Return total number of follows by
 	return $count;
 }
 function count_comments_by_week($week) { //Return total number of comments by week
-	$posts = array_load_all('POST');
+	global $db;
+	$posts = $db->array_load_all('POST');
 	$posts = array_filter($posts, array(new Filter($week), 'filter_week'));
 	$count = 0;
 	foreach ($posts as $post) {
@@ -409,7 +411,8 @@ function count_lecturers($cid) { //Return total number of lecturers by course ID
 	return count($lecturers);
 }
 function count_post_likes($pid) { //Return total number of post likes by post ID
-	$post_votes = array_load('POST_VOTE','Post_ID',$pid);
+	global $db;
+	$post_votes = $db->array_load('POST_VOTE','Post_ID',$pid);
 	$count = 0;
 	foreach ($post_votes as $post_vote) {
 		if ($post_vote['PostVote_Like'] == 1) {
@@ -419,7 +422,8 @@ function count_post_likes($pid) { //Return total number of post likes by post ID
 	return $count;
 }
 function count_post_dislikes($pid) { //Return total number of post dislikes by post ID
-	$post_votes = array_load('POST_VOTE','Post_ID',$pid);
+	global $db;
+	$post_votes = $db->array_load('POST_VOTE','Post_ID',$pid);
 	$count = 0;
 	foreach ($post_votes as $post_vote) {
 		if ($post_vote['PostVote_Dislike'] == 1) {
@@ -429,11 +433,13 @@ function count_post_dislikes($pid) { //Return total number of post dislikes by p
 	return $count;
 }
 function count_post_follows($pid) { //Return total number of post follows by post ID
-	$post_follows = array_load('POST_FOLLOW','Post_ID',$pid);
+	global $db;
+	$post_follows = $db->array_load('POST_FOLLOW','Post_ID',$pid);
 	return count($post_follows);
 }
 function count_comment_likes($comid) { //Return total number of comment likes by comment ID
-	$comment_votes = array_load('COMMENT_VOTE','Comment_ID',$comid);
+	global $db;
+	$comment_votes = $db->array_load('COMMENT_VOTE','Comment_ID',$comid);
 	$count = 0;
 	foreach ($comment_votes as $comment_vote) {
 		if ($comment_vote['CommentVote_Like'] == 1) {
@@ -443,7 +449,8 @@ function count_comment_likes($comid) { //Return total number of comment likes by
 	return $count;
 }
 function count_comment_dislikes($comid) { //Return total number of comment dislikes by comment ID
-	$comment_votes = array_load('COMMENT_VOTE','Comment_ID',$comid);
+	global $db;
+	$comment_votes = $db->array_load('COMMENT_VOTE','Comment_ID',$comid);
 	$count = 0;
 	foreach ($comment_votes as $comment_vote) {
 		if ($comment_vote['CommentVote_Dislike'] == 1) {
@@ -453,7 +460,8 @@ function count_comment_dislikes($comid) { //Return total number of comment disli
 	return $count;
 }
 function total_post_rates($pid) { //Return total rating of post by post ID
-	$post_rates = array_load('POST_RATE','Post_ID',$pid);
+	global $db;
+	$post_rates = $db->array_load('POST_RATE','Post_ID',$pid);
 	$total = 0;
 	foreach ($post_rates as $post_rate) {
 		$total += $post_rate['PostRate'];
@@ -461,11 +469,13 @@ function total_post_rates($pid) { //Return total rating of post by post ID
 	return $total;
 }
 function count_post_rates($pid) { //Return total number of post rates by post ID
-	$post_rates = array_load('POST_RATE','Post_ID',$pid);
+	global $db;
+	$post_rates = $db->array_load('POST_RATE','Post_ID',$pid);
 	return count($post_rates);
 }
 function count_post_rate($pid,$rate) { //Return total number of post rate by post ID
-	$post_rates = array_load('POST_RATE','Post_ID',$pid);
+	global $db;
+	$post_rates = $db->array_load('POST_RATE','Post_ID',$pid);
 	$post_rates = array_filter($post_rates, array(new Filter($rate), 'filter_post_rate'));
 	return count($post_rates);
 }
@@ -478,15 +488,18 @@ function average_post_rates($pid) {
 	return average_post_rates_with_decimal($pid,0);
 }
 function count_posts_by_week($week) { //Return total number of posts by week
-	$posts = array_load('POST','Post_Week',$week);
+	global $db;
+	$posts = $db->array_load('POST','Post_Week',$week);
 	return count($posts);
 }
 function count_posts_by_course_week($cid,$week) { //Return total number of posts by week
-	$posts = array_load_with_two_identifier('POST','Course_ID',$cid,'Post_Week',$week);
+	global $db;
+	$posts = $db->array_load_with_two_identifier('POST','Course_ID',$cid,'Post_Week',$week);
 	return count($posts);
 }
 function post_load_from_url_alias($url) { //Load post array from post type and post URL
-	$posts = array_load('POST','Post_URL','"'.$url.'"');
+	global $db;
+	$posts = $db->array_load('POST','Post_URL',$url);
 	sort($posts);
 	return (isset($posts[0])) ? $posts[0]: null;
 }
@@ -499,7 +512,7 @@ function get_pid_from_url($p) { //Get post ID from page URL, for use in admin.in
 function get_cid_from_url($p) { //Get course ID from page URL, for use in admin.inc
 	$pos = strpos($p,'/',0);
 	$code = substr($p,$pos+1);
-	$course = course_load_from_code('"'.$code.'"');
+	$course = course_load_from_code($code);
 	return (isset($course)) ? $course['Course_ID']: 0;
 }
 function get_username_from_url($p) { //Get username from page URL
@@ -521,7 +534,7 @@ function get_course_week_from_url($p) { //Get week number and course code from p
 	$week_start_pos = $course_end_pos + 5;
 	$course_code = substr($p,$course_start_pos+1,$course_code_length);
 	$week = substr($p,$week_start_pos+1);
-	$course = course_load_from_code('"'.$course_code.'"');
+	$course = course_load_from_code($course_code);
 	$cid = $course['Course_ID'];
 	$course_week = array(
 					'cid' => $cid,
@@ -581,13 +594,13 @@ function send_mail($to,$subject,$body,$from) //Send mail with SMTP authenticatio
 	$mail->Port = 587;
 	$mail->SMTPSecure = "tls";
 	$mail->SMTPDebug = 0;
-	$mail->Username = "email@example.com";  // SMTP username
-	$mail->Password = "password"; // SMTP password
+	$mail->Username = "okms.vietnam@gmail.com";  // SMTP username
+	$mail->Password = "OKMSpa$$1"; // SMTP password
 	
 	$mail->From = $from;
 	$mail->FromName = "Online KMS";
 	$mail->AddAddress($to);                  // name is optional
-	$mail->AddReplyTo("email@example.com", "Online KMS");
+	$mail->AddReplyTo("okms.vietnam@gmail.com", "Online KMS");
 
 	$mail->WordWrap = 50;                                 // set word wrap to 50 characters
 	$mail->IsHTML(true);                                  // set email format to HTML
@@ -613,9 +626,29 @@ function auth_error_array($name,$fullname,$pass,$mail,$rid,$pass1,$has_agreed) {
 	$first_letter = substr($name,0,1);
 	$premail = substr($mail,0,$pos);
 	$domain = substr($mail,$pos+1);
+	if(name_duplicated($name))
+	{
+		$err[]='Username already in use!';
+	}
 	if(strlen($name)<2 || strlen($name)>16)
 	{
 		$err[]='Your username must be between 3 and 16 characters!';
+	}
+	if(preg_match('/[^a-z0-9\-\_\.]+/i',$name))
+	{
+		$err[]='Your username contains invalid characters!';
+	}
+	if(!check_mail($mail))
+	{
+		$err[]='Your email is not valid!';
+	}
+	if(mail_duplicated($mail))
+	{
+		$err[]='Email already in use!';
+	}
+	if($domain != 'rmit.edu.vn' && $domain != 'RMIT.EDU.VN' && $domain != 'student.rmit.edu.au' && $domain != 'STUDENT.RMIT.EDU.AU')
+	{
+		$err[]='Your email domain is invalid!';
 	}
 	if (($first_letter == 'v' || $first_letter == 'V' || $first_letter == 'e' || $first_letter == 'E') && preg_match('#[0-9]#',$premail))
 	{ 
@@ -629,14 +662,6 @@ function auth_error_array($name,$fullname,$pass,$mail,$rid,$pass1,$has_agreed) {
 	{
 		$err[]='Your full name must be smaller than 16 characters!';
 	}
-	if(preg_match('/[^a-z0-9\-\_\.]+/i',$name))
-	{
-		$err[]='Your username contains invalid characters!';
-	}
-	if($domain != 'rmit.edu.vn' && $domain != 'RMIT.EDU.VN' && $domain != 'student.rmit.edu.au' && $domain != 'STUDENT.RMIT.EDU.AU')
-	{
-		$err[]='Your email domain is invalid!';
-	}
 	if(strlen($pass)<5 || strlen($pass)>16)
 	{
 		$err[]='Your password must be between 6 and 16 characters!';
@@ -644,14 +669,6 @@ function auth_error_array($name,$fullname,$pass,$mail,$rid,$pass1,$has_agreed) {
 	if($pass != $pass1)
 	{
 		$err[]='Password not match';
-	}
-	if(!check_mail($mail))
-	{
-		$err[]='Your email is not valid!';
-	}
-	if(mail_duplicated($mail))
-	{
-		$err[]='Email already in use!';
 	}
 	if($rid == '')
 	{
@@ -663,9 +680,65 @@ function auth_error_array($name,$fullname,$pass,$mail,$rid,$pass1,$has_agreed) {
 	}
 	return $err;
 }
+function auth_guest_error_array($name,$fullname,$pass,$mail,$rid,$pass1,$has_agreed) { //Return errors array from user name, password, email and role ID
+	$err = array();
+	$pos = strpos($mail,'@');
+	$first_letter = substr($name,0,1);
+	$premail = substr($mail,0,$pos);
+	$domain = substr($mail,$pos+1);
+	if(name_duplicated($name))
+	{
+		$err[]='Username already in use!';
+	}
+	if(strlen($name)<2 || strlen($name)>16)
+	{
+		$err[]='Your username must be between 3 and 16 characters!';
+	}
+	if(preg_match('/[^a-z0-9\-\_\.]+/i',$name))
+	{
+		$err[]='Your username contains invalid characters!';
+	}
+	if(!check_mail($mail))
+	{
+		$err[]='Your email is not valid!';
+	}
+	if(mail_duplicated($mail))
+	{
+		$err[]='Email already in use!';
+	}
+	if(strlen($fullname)>16)
+	{
+		$err[]='Your full name must be smaller than 16 characters!';
+	}
+	if(strlen($pass)<5 || strlen($pass)>16)
+	{
+		$err[]='Your password must be between 6 and 16 characters!';
+	}
+	if($pass != $pass1)
+	{
+		$err[]='Password not match';
+	}
+	if($has_agreed == 0)
+	{
+		$err[]='You did not check the box agreeing to abide by the Terms and Conditions';
+	}
+	return $err;
+}
 function mail_duplicated($mail) {
-	$mails = array_load('USER','User_Mail',$mail);
-	if (count($mails) > 0) {
+	global $db;
+	$users = $db->array_load('USER','User_Mail',$mail);
+	sort($users);
+	if (count($users) > 0) {
+		return true;
+	} else {
+		return false;
+	}
+}
+function name_duplicated($name) {
+	global $db;
+	$users = $db->array_load('USER','User_Username',$name);
+	sort($users);
+	if (count($users) > 0) {
 		return true;
 	} else {
 		return false;
@@ -700,8 +773,9 @@ function pass_error_array($uid,$current_pass,$pass,$pass1) { //Return error mees
 }
 /* User Functions */
 function list_users($rid=0,$count,$page=1) { //Return users list, for admin use
+	global $db;
 	$output = '';
-	$users = array_load_all('USER');
+	$users = $db->array_load_all('USER');
 	if ($rid != 0) {
 		$users = array_filter($users, array(new Filter($rid), 'filter_rid'));
 	}
@@ -735,7 +809,7 @@ function list_users($rid=0,$count,$page=1) { //Return users list, for admin use
 	}
 	$output .= '</table>';
 	$output .= '<div class="paging">'.$pagination->getLinks().'</div>';
-	$output .= '<script type="text/javascript">
+	$output .= '<script>
 				function turnPage(page) {
 					$("#admin_user_section").load("triggers/admin_user.php",{rid:'.$rid.',count:'.$count.',page:page});
 				}
@@ -743,9 +817,10 @@ function list_users($rid=0,$count,$page=1) { //Return users list, for admin use
 	return $output;
 }
 function view_profile($count,$profile_uid,$uid,$sort_type,$page=1) { //Return list of posts for each user
+	global $db;
 	$output = '';	
 	$default = DEFAULT_AVATAR;
-	$posts = array_load('POST','User_ID',$profile_uid);
+	$posts = $db->array_load('POST','User_ID',$profile_uid);
 	$posts = array_filter($posts, array(new Filter(1), 'filter_current'));
 	$posts = array_filter($posts, array(new Filter(0), 'filter_post_hide'));
 	sort($posts);
@@ -767,7 +842,7 @@ function view_profile($count,$profile_uid,$uid,$sort_type,$page=1) { //Return li
 		}
 	}
 	$output .= '<div class="paging">'.$pagination->getLinks().'</div>';
-	$output .= '<script type="text/javascript">
+	$output .= '<script>
 				function turnPage(page) {
 					$("#feeds").load("triggers/paging_profile.php",{count:'.$count.',profile_uid:'.$profile_uid.',page:page});
 				}
@@ -811,7 +886,7 @@ function view_profile_follow($count,$profile_uid,$uid,$sort_type,$page=1) { //Re
 	}
 	$output .= '</div>';
 	$output .= '<div class="paging">'.$pagination->getLinks().'</div>';
-	$output .= '<script type="text/javascript">
+	$output .= '<script>
 				function turnPage(page) {
 					$("#feeds").load("triggers/paging_profile_follow.php",{count:'.$count.',profile_uid:'.$profile_uid.',page:page});
 				}
@@ -840,31 +915,64 @@ function view_user($uid) { //Return user account, for every authenticated user's
 	return $output;
 }
 function create_user($rid,$name,$fullname,$alias,$pass,$mail,$hash) { //Create new user
+	global $db;
 	$pass = md5($pass);
-	mysql_query("INSERT INTO ".PREFIX."USER(Role_ID,User_Username,User_Fullname,User_Alias,User_Password,User_Mail,User_Created,User_Hash,User_Status) VALUES('".$rid."','".$name."','".$fullname."','".$alias."','".$pass."','".$mail."','".time()."','".$hash."','0')");
+	$array = array(
+				'Role_ID' => $rid,
+				'User_Username' => $name,
+				'User_Fullname' => $fullname,
+				'User_Alias' => $alias,
+				'User_Password' => $pass,
+				'User_Mail' => $mail,
+				'User_Created' => time(),
+				'User_Hash' => $hash,
+				'User_Status' => "0"
+			);
+	$db->insert_record($array,'USER');
 }
 function edit_user($uid,$rid,$fullname,$pass) { //Edit user details including role ID, fullname, password
+	global $db;
 	$pass = md5($pass);
-	mysql_query("UPDATE ".PREFIX."USER SET Role_ID='".$rid."' WHERE User_ID='".$uid."'");
-	mysql_query("UPDATE ".PREFIX."USER SET User_Fullname='".$fullname."' WHERE User_ID='".$uid."'");
-	mysql_query("UPDATE ".PREFIX."USER SET User_Password='".$pass."' WHERE User_ID='".$uid."'");
+	$array = array(
+				'Role_ID' => $rid,
+				'User_Fullname' => $fullname,
+				'User_Password' => $pass
+			);
+	$db->update_record($array,'User_ID',$uid,'USER');
 }
 function edit_user_without_pass($uid,$rid,$fullname) { //Edit user details including role ID, fullname
-	mysql_query("UPDATE ".PREFIX."USER SET Role_ID='".$rid."' WHERE User_ID='".$uid."'");
-	mysql_query("UPDATE ".PREFIX."USER SET User_Fullname='".$fullname."' WHERE User_ID='".$uid."'");
+	global $db;
+	$array = array(
+				'Role_ID' => $rid,
+				'User_Fullname' => $fullname
+			);
+	$db->update_record($array,'User_ID',$uid,'USER');
 }
 function delete_user($uid) { //Delete user with user ID
-	delete_record('User_ID',$uid,'USER');
+	global $db;
+	$db->delete_record('User_ID',$uid,'USER');
 	delete_all_course_user($uid);
 }
 function promote_user($coor_uid,$cid) { //Promote lecturer to course coordinator
-	mysql_query("UPDATE ".PREFIX."COURSE SET User_ID='".$coor_uid."' WHERE Course_ID='".$cid."'");
+	global $db;
+	$array = array(
+				'User_ID' => $coor_uid
+			);
+	$db->update_record($array,'Course_ID',$cid,'COURSE');
 }
 function activate_user($uid) { //Activate user, change user status to 1
-	mysql_query("UPDATE ".PREFIX."USER SET User_Status=1 WHERE User_ID='".$uid."'");
+	global $db;
+	$array = array(
+				'User_Status' => '1'
+			);
+	$db->update_record($array,'User_ID',$uid,'USER');
 }
 function deactivate_user($uid) { //Deactivate user, change user status to 0
-	mysql_query("UPDATE ".PREFIX."USER SET User_Status=0 WHERE User_ID='".$uid."'");
+	global $db;
+	$array = array(
+				'User_Status' => '0'
+			);
+	$db->update_record($array,'User_ID',$uid,'USER');
 }
 function select_coor_uid($name,$cid) { //Return select element of lecturer user IDs
 	$output = '';
@@ -882,10 +990,18 @@ function select_coor_uid($name,$cid) { //Return select element of lecturer user 
 	return $output;
 }
 function csv_update_pass($name,$pass) { //Batch update user password
-	mysql_query("UPDATE ".PREFIX."USER SET User_Password='".$pass."' WHERE User_Username='".$name."'");
+	global $db;
+	$array = array(
+				'User_Password' => $pass
+			);
+	$db->update_record($array,'User_Username',$name,'USER');
 }
 function csv_update_email($name,$mail) { //Batch update user email
-	mysql_query("UPDATE ".PREFIX."USER SET User_Mail='".$mail."' WHERE User_Username='".$name."'");
+	global $db;
+	$array = array(
+				'User_Mail' => $mail
+			);
+	$db->update_record($array,'User_Username',$name,'USER');
 }
 function csv_create_user($name,$pass,$mail) { //Batch create user
 	create_user('2',$name,$pass,$mail);
@@ -908,11 +1024,12 @@ function username_existed($name) { //Check if username existed
 }
 /* Role Functions */
 function select_role($name,$rid = null) { //Return select element of role IDs
+	global $db;
 	$output = '';
 	if (isset($_SESSION['rid']) && $_SESSION['rid'] == 1){
-		$roles = array_load_all('ROLE');
+		$roles = $db->array_load_all('ROLE');
 	}elseif (!isset($_SESSION['rid']) || $_SESSION['rid'] != 1){
-		$roles = array_load_with_two_values('ROLE','Role_ID','2','3');
+		$roles = $db->array_load_with_two_values('ROLE','Role_ID','2','3');
 	}
 	$output .= '<select id="'.$name.'" name="'.$name.'">';
 	$output .= (isset($_GET['p']) && substr($_GET['p'],0,4) == 'menu') ? '<option value="0">none</option>': '';
@@ -925,11 +1042,12 @@ function select_role($name,$rid = null) { //Return select element of role IDs
 	return $output;
 }
 function radio_role($name,$rid = null) { //Return radio button element of role IDs
+	global $db;
 	$output = '';
 	if (isset($_SESSION['rid']) && $_SESSION['rid'] == 1){
-		$roles = array_load_all('ROLE');
+		$roles = $db->array_load_all('ROLE');
 	}elseif (!isset($_SESSION['rid']) || $_SESSION['rid'] != 1){
-		$roles = array_load_with_two_values('ROLE','Role_ID','2','3');
+		$roles = $db->array_load_with_two_values('ROLE','Role_ID','2','3');
 	}
 	for ($i = 0; $i < count($roles); $i++) {
 		$checked = ($rid != null && $rid == $roles[$i]['Role_ID']) ? 'checked': '';
@@ -938,8 +1056,9 @@ function radio_role($name,$rid = null) { //Return radio button element of role I
 	return $output;
 }
 function list_roles() { //Return list of roles, for admin use
+	global $db;
 	$output = '';
-	$roles = array_load_all('ROLE');
+	$roles = $db->array_load_all('ROLE');
 	$output .= '<a class="button" href="?p=role/create">Create role</a>';
 	$output .= '<span class="count" colspan="4">'.count($roles).' role'.((count($roles) > 1) ? 's': '').' to display.</span>';
 	$output .= '<table>';
@@ -957,24 +1076,35 @@ function list_roles() { //Return list of roles, for admin use
 	return $output;
 }
 function create_role($name) { //Create new role
-	mysql_query("INSERT INTO ".PREFIX."ROLE(Role_Name) VALUES('".$name."')");
+	global $db;
+	$array = array(
+				'Role_Name' => $name
+			);
+	$db->insert_record($array,'ROLE');
 }
 function edit_role($rid,$new) { //Edit role detail including role name
-	mysql_query("UPDATE ".PREFIX."ROLE SET Role_Name='".$new."' WHERE Role_ID='".$rid."'");
+	global $db;
+	$array = array(
+				'Role_Name' => $name
+			);
+	$db->update_record($array,'Role_ID',$rid,'ROLE');
 }
 function delete_role($rid) { //Delete role
-	delete_record('Role_ID',$rid,'ROLE');
+	global $db;
+	$db->delete_record('Role_ID',$rid,'ROLE');
 }
 /* Semester Functions */
 function current_semester_load() { //Load array of current semester
-	$semesters = array_load('SEMESTER','Semester_Current','1');
+	global $db;
+	$semesters = $db->array_load('SEMESTER','Semester_Current','1');
 	sort($semesters);
 	return $semesters[0];
 }
 function list_semesters() { //Return list of roles, for admin use
+	global $db;
 	$output = '';
 	$current_semester = current_semester_load();
-	$semesters = array_load_all('SEMESTER');
+	$semesters = $db->array_load_all('SEMESTER');
 	usort($semesters,'sort_semester_start_date_ascend');
 	$output .= '<a class="button" href="?p=semester/create">Create semester</a>';
 	$output .= '<span class="count" colspan="6">'.count($semesters).' semester'.((count($semesters) > 1) ? 's': '').' to display.</span>';
@@ -993,7 +1123,7 @@ function list_semesters() { //Return list of roles, for admin use
 	}
 	$output .= '<tr colspan="6"><td><form method="POST" action="triggers/set_current_semester.php"><input type="hidden" name="current_semid" id="current_semester" /><input name="semester_set_current" type="submit" value="Set current"/></form></td></tr>';
 	$output .= '</table>';
-	$output .= '<script type="text/javascript">
+	$output .= '<script>
 				$("input:radio[name=current_semester]").change(function(){
 					$("input#current_semester").val($("input:radio[name=current_semester]:checked").val());
 				});
@@ -1001,17 +1131,31 @@ function list_semesters() { //Return list of roles, for admin use
 	return $output;
 }
 function create_semester($semester_code,$semester_start_date,$semester_end_date) { //Create new semester
-	mysql_query("INSERT INTO ".PREFIX."SEMESTER(Semester_Code,Semester_Start_Date,Semester_End_Date) VALUES('".$semester_code."','".$semester_start_date."','".$semester_end_date."')");
+	global $db;
+	$array = array(
+				'Semester_Code' => $semester_code,
+				'Semester_Start_Date' => $semester_start_date,
+				'Semester_End_Date' => $semester_end_date
+			);
+	$db->insert_record($array,'SEMESTER');
 }
 function edit_semester($semid,$semester_code,$semester_start_date,$semester_end_date) { //Edit semester details
-	mysql_query("UPDATE ".PREFIX."SEMESTER SET Semester_Code='".$semester_code."',Semester_Start_Date='".$semester_start_date."',Semester_End_Date='".$semester_end_date."' WHERE Semester_ID='".$semid."'");
+	global $db;
+	$array = array(
+				'Semester_Code' => $semester_code,
+				'Semester_Start_Date' => $semester_start_date,
+				'Semester_End_Date' => $semester_end_date
+			);
+	$db->update_record($array,'Semester_ID',$semid,'SEMESTER');
 }
 function delete_semester($semid) { //Delete semester
-	delete_record('Semester_ID',$semid,'SEMESTER');
+	global $db;
+	$db->delete_record('Semester_ID',$semid,'SEMESTER');
 }
 function set_current_semester($semid) { //Set current semester
-	mysql_query("UPDATE ".PREFIX."SEMESTER SET Semester_Current=1 WHERE Semester_ID='".$semid."'");
-	mysql_query("UPDATE ".PREFIX."SEMESTER SET Semester_Current=0 WHERE Semester_ID!='".$semid."'");
+	global $db;
+	$db->update_record(array('Semester_Current' => '1'),'Semester_ID',$semid,'SEMESTER');
+	$db->update_record_with_operator(array('Semester_Current' => '0'),'Semester_ID',$semid,'SEMESTER','!=');
 }
 /* Post Functions */
 function view_post($pid,$uid,$button=0) { //Return post from post ID
@@ -1040,17 +1184,17 @@ function view_post($pid,$uid,$button=0) { //Return post from post ID
 	$output .= ($post['Post_Answer'] != '') ? '<div class="post_answer"><div class="post_answer_label">Answer:</div><div class="post_answer_content">'.$post['Post_Answer'].'</div></div>': '';
 	$output .= ($uid != 0 && $post_rate['User_ID'] != $uid && $_SESSION['rid'] != 1) ? star_rating($pid) : '<div title="Your rating" id="post_rate_pid_'.$pid.'" class="rate_widget">'.star_rating_update($pid).'</div><div title="Average rating: '.average_post_rates_with_decimal($pid,1).'" id="average_post_rate_pid_'.$pid.'" class="average_rate">'.star_rating_average($pid).'</div>';
 	$output .= ($uid != 0) ? '<div style="display: none" id="save_post_rate_pid_'.$pid.'"></div>': '';
-	$output .= ($uid != 0) ? '<a title="'.(($post_vote['PostVote_Like'] == 0) ? 'Like': 'Unlike').' this post" class="button'.(($post_vote['PostVote_Like'] == 0) ? ' like': ' like clicked').((!course_belonged($cid,$_SESSION['uid']) && $cid != 0 && $_SESSION['rid'] != 1) ? ' not_belonged': '').((isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? ' is_admin': '').'" id="post_like_pid_'.$pid.'">'.count_post_likes($pid).' Like'.((count_post_likes($pid) == 0 || count_post_likes($pid) == 1) ? '': 's').'</a>': '<a title="Like this post" class="button like disabled" id="post_like_pid_'.$pid.'">'.count_post_likes($pid).' Like'.((count_post_likes($pid) == 0 || count_post_likes($pid) == 1) ? '': 's').'</a>';
+	$output .= ($uid != 0) ? '<a title="'.(($post_vote['PostVote_Like'] == 0) ? 'Like': 'Unlike').' this post" class="button'.(($post_vote['PostVote_Like'] == 0) ? ' like': ' like clicked').((!course_belonged($cid,$_SESSION['uid']) && $cid != 0 && $_SESSION['rid'] != 1) ? ' not_belonged': '').((isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? ' is_admin': '').((isset($_SESSION['rid']) && $_SESSION['rid'] == 4 && $course['Course_For_Guest'] == 1) ? ' guest_mode': '').'" id="post_like_pid_'.$pid.'">'.count_post_likes($pid).' Like'.((count_post_likes($pid) == 0 || count_post_likes($pid) == 1) ? '': 's').'</a>': '<a title="Like this post" class="button like disabled" id="post_like_pid_'.$pid.'">'.count_post_likes($pid).' Like'.((count_post_likes($pid) == 0 || count_post_likes($pid) == 1) ? '': 's').'</a>';
 	$output .= ($uid != 0) ? '<div style="display: none" id="save_post_like_pid_'.$pid.'"></div>': '';
-	$output .= ($uid != 0) ? '<a title="'.(($post_vote['PostVote_Dislike'] == 0) ? 'Dislike': 'Undislike').' this post" class="button'.(($post_vote['PostVote_Dislike'] == 0) ? ' dislike': ' dislike clicked').((!course_belonged($cid,$_SESSION['uid']) && $cid != 0 && $_SESSION['rid'] != 1) ? ' not_belonged': '').((isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? ' is_admin': '').'" id="post_dislike_pid_'.$pid.'">'.count_post_dislikes($pid).' Dislike'.((count_post_dislikes($pid) == 0 || count_post_dislikes($pid) == 1) ? '': 's').'</a>': '<a title="Dislike this post" class="button dislike disabled" id="post_dislike_pid_'.$pid.'">'.count_post_dislikes($pid).' Dislike'.((count_post_dislikes($pid) == 0 || count_post_dislikes($pid) == 1) ? '': 's').'</a>';
+	$output .= ($uid != 0) ? '<a title="'.(($post_vote['PostVote_Dislike'] == 0) ? 'Dislike': 'Undislike').' this post" class="button'.(($post_vote['PostVote_Dislike'] == 0) ? ' dislike': ' dislike clicked').((!course_belonged($cid,$_SESSION['uid']) && $cid != 0 && $_SESSION['rid'] != 1) ? ' not_belonged': '').((isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? ' is_admin': '').((isset($_SESSION['rid']) && $_SESSION['rid'] == 4 && $course['Course_For_Guest'] == 1) ? ' guest_mode': '').'" id="post_dislike_pid_'.$pid.'">'.count_post_dislikes($pid).' Dislike'.((count_post_dislikes($pid) == 0 || count_post_dislikes($pid) == 1) ? '': 's').'</a>': '<a title="Dislike this post" class="button dislike disabled" id="post_dislike_pid_'.$pid.'">'.count_post_dislikes($pid).' Dislike'.((count_post_dislikes($pid) == 0 || count_post_dislikes($pid) == 1) ? '': 's').'</a>';
 	$output .= ($uid != 0) ? '<div style="display: none" id="save_post_dislike_pid_'.$pid.'"></div>': '';
-	$output .= ($uid != 0) ? '<a title="'.(($post_follow['User_ID'] != $uid) ? 'Follow': 'Unfollow').' this post" class="button'.(($post_follow['User_ID'] != $uid) ? ' follow': ' follow clicked').((!course_belonged($cid,$_SESSION['uid']) && $cid != 0 && $_SESSION['rid'] != 1) ? ' not_belonged': '').((isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? ' is_admin': '').'" id="post_follow_pid_'.$pid.'">'.count_post_follows($pid).' Follow'.((count_post_follows($pid) == 0 || count_post_follows($pid) == 1) ? '': 's').'</a>': '<a title="Follow this post" class="button follow disabled" id="post_follow_pid_'.$pid.'">'.count_post_follows($pid).' Follow'.((count_post_follows($pid) == 0 || count_post_follows($pid) == 1) ? '': 's').'</a>';
+	$output .= ($uid != 0) ? '<a title="'.(($post_follow['User_ID'] != $uid) ? 'Follow': 'Unfollow').' this post" class="button'.(($post_follow['User_ID'] != $uid) ? ' follow': ' follow clicked').((!course_belonged($cid,$_SESSION['uid']) && $cid != 0 && $_SESSION['rid'] != 1) ? ' not_belonged': '').((isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? ' is_admin': '').((isset($_SESSION['rid']) && $_SESSION['rid'] == 4 && $course['Course_For_Guest'] == 1) ? ' guest_mode': '').'" id="post_follow_pid_'.$pid.'">'.count_post_follows($pid).' Follow'.((count_post_follows($pid) == 0 || count_post_follows($pid) == 1) ? '': 's').'</a>': '<a title="Follow this post" class="button follow disabled" id="post_follow_pid_'.$pid.'">'.count_post_follows($pid).' Follow'.((count_post_follows($pid) == 0 || count_post_follows($pid) == 1) ? '': 's').'</a>';
 	$output .= '<div style="display: none" id="save_post_follow_pid_'.$pid.'"></div>';
 	$output .= '<a id="comments_count_pid_'.$pid.'" title="Leave a comment" class="button comment_toggle'.(($uid == 0) ? ' not_loggedin': '').((count_comments($pid) == 0) ? ' no_comment': '').'">'.count_comments($pid).' Comment'.((count_comments($pid) == 0 || count_comments($pid) == 1) ? '': 's').'</a>';
 	$output .= '<span class="post_time">'.ago($post['Post_Created']).'</span>';
 	$output .= ($uid != 0) ? list_comments($pid): list_comments_without_right($pid);
 	$output .= ($uid != 0) ? 
-				'<script type="text/javascript">
+				'<script>
 				$("#post_like_pid_'.$pid.'").click(function(){
 					postLike('.$pid.');
 				});
@@ -1062,7 +1206,7 @@ function view_post($pid,$uid,$button=0) { //Return post from post ID
 				});
 				</script>
 				': '';
-	$output .= '<script type="text/javascript">
+	$output .= '<script>
 				if ($("#comments_pid_'.$pid.'").css("display") == "none") {
 					$("#comments_count_pid_'.$pid.'").removeClass("clicked");
 				} else if ($("#comments_pid_'.$pid.'").css("display") == "block") {
@@ -1097,8 +1241,9 @@ function select_week($name,$week=null) { //Return select element of week numbers
 	return $output;
 }
 function list_posts($cid=0,$count,$page=1) { //Return list of posts, for lecturer, and admin use
+	global $db;
 	$output = '';
-	$posts = array_load_all('POST');
+	$posts = $db->array_load_all('POST');
 	$posts = array_filter($posts, array(new Filter(1), 'filter_current'));
 	if ($cid != 0) {
 		$posts = array_filter($posts, array(new Filter($cid), 'filter_cid'));
@@ -1134,7 +1279,7 @@ function list_posts($cid=0,$count,$page=1) { //Return list of posts, for lecture
 	$output .= '</table>';
 	$output .= '<span class="count" style="text-align: center;">'.$j.' post'.(($j > 1) ? 's': '').' to display.</span>';
 	$output .= '<div class="paging">'.$pagination->getLinks().'</div>';
-	$output .= '<script type="text/javascript">
+	$output .= '<script>
 				function turnPage(page) {
 					$("#admin_post_section").load("triggers/admin_post.php",{cid:'.$cid.',count:'.$count.',page:page});
 				}
@@ -1142,8 +1287,9 @@ function list_posts($cid=0,$count,$page=1) { //Return list of posts, for lecture
 	return $output;
 }
 function list_archives($cid=0,$count,$page=1) { //Return list of archive posts, for lecturer, and admin use
+	global $db;
 	$output = '';
-	$posts = array_load_all('POST');
+	$posts = $db->array_load_all('POST');
 	$posts = array_filter($posts, array(new Filter(0), 'filter_current'));
 	if ($cid != 0) {
 		$posts = array_filter($posts, array(new Filter($cid), 'filter_cid'));
@@ -1176,7 +1322,7 @@ function list_archives($cid=0,$count,$page=1) { //Return list of archive posts, 
 	}
 	$output .= '</table>';
 	$output .= '<div class="paging">'.$pagination->getLinks().'</div>';
-	$output .= '<script type="text/javascript">
+	$output .= '<script>
 				function turnPage(page) {
 					$("#admin_archive_section").load("triggers/admin_archive.php",{cid:'.$cid.',count:'.$count.',page:page});
 				}
@@ -1184,60 +1330,98 @@ function list_archives($cid=0,$count,$page=1) { //Return list of archive posts, 
 	return $output;
 }
 function create_post($uid,$cid,$week,$title,$url,$body,$answer,$hide=0) { //Create post
+	global $db;
 	$body = strip_tags($body);
 	$answer = strip_tags($answer);
 	$title = mysql_real_escape_string($title);
 	$url = mysql_real_escape_string($url);
 	$body = mysql_real_escape_string($body);
 	$answer = mysql_real_escape_string($answer);
-	mysql_query("INSERT INTO ".PREFIX."POST(User_ID,Course_ID,Post_Week,Post_Title,Post_URL,Post_Question,Post_Answer,Post_Hide_Name,Post_Created) VALUES('".$uid."','".$cid."','".$week."','".$title."','".$url."','".$body."','".$answer."','".$hide."','".time()."')");
+	$array = array(
+				'User_ID' => $uid,
+				'Course_ID' => $cid,
+				'Post_Week' => $week,
+				'Post_Title' => $title,
+				'Post_URL' => $url,
+				'Post_Question' => $body,
+				'Post_Answer' => $answer,
+				'Post_Hide_Name' => $hide,
+				'Post_Created' => time()
+			);
+	$db->insert_record($array,'POST');
 }
 function edit_post($pid,$cid,$week,$title,$url,$body,$answer) { //Edit post details including course ID, week number, post title, post URL alias, post body, post answer, and updated timestamp
+	global $db;
 	$body = strip_tags($body);
 	$answer = strip_tags($answer);
 	$title = mysql_real_escape_string($title);
 	$url = mysql_real_escape_string($url);
 	$body = mysql_real_escape_string($body);
 	$answer = mysql_real_escape_string($answer);
-	mysql_query("UPDATE ".PREFIX."POST SET Course_ID='".$cid."' WHERE Post_ID='".$pid."'");
-	mysql_query("UPDATE ".PREFIX."POST SET Post_Week='".$week."' WHERE Post_ID='".$pid."'");
-	mysql_query("UPDATE ".PREFIX."POST SET Post_Title='".$title."' WHERE Post_ID='".$pid."'");
-	mysql_query("UPDATE ".PREFIX."POST SET Post_URL='".$url."' WHERE Post_ID='".$pid."'");
-	mysql_query("UPDATE ".PREFIX."POST SET Post_Question='".$body."' WHERE Post_ID='".$pid."'");
-	mysql_query("UPDATE ".PREFIX."POST SET Post_Answer='".$answer."' WHERE Post_ID='".$pid."'");
-	mysql_query("UPDATE ".PREFIX."POST SET Post_Edited='".time()."' WHERE Post_ID='".$pid."'");
+	$array = array(
+				'Course_ID' => $cid,
+				'Post_Week' => $week,
+				'Post_Title' => $title,
+				'Post_URL' => $url,
+				'Post_Question' => $body,
+				'Post_Answer' => $answer,
+				'Post_Edited' => time()
+			);
+	$db->update_record($array,'Post_ID',$pid,'POST');
 }
 function delete_post($pid) { //Delete post by post ID
-	delete_record('Post_ID',$pid,'POST');
+	global $db;
+	$db->delete_record('Post_ID',$pid,'POST');
 }
 function archive_post($pid) { //Put post into archive from post ID
-	mysql_query("UPDATE ".PREFIX."POST SET Repost_ID='".$pid."' WHERE Post_ID='".$pid."'");
-	mysql_query("UPDATE ".PREFIX."POST SET Post_Current='0' WHERE Post_ID='".$pid."'");
+	global $db;
+	$array = array(
+				'Repost_ID' => $pid,
+				'Post_Current' => '0'
+			);
+	$db->update_record($array,'Post_ID',$pid,'POST');
 }
 function restore_post($pid) { //Put post into archive from post ID
-	mysql_query("UPDATE ".PREFIX."POST SET Post_Current='1' WHERE Post_ID='".$pid."'");
+	global $db;
+	$array = array(
+				'Post_Current' => '1'
+			);
+	$db->update_record($array,'Post_ID',$pid,'POST');
 }
 function repost($uid,$cid,$week,$title,$url,$body,$answer,$repostid) { //Repost an old post in the archive
+	global $db;
+	$body = strip_tags($body);
+	$answer = strip_tags($answer);
+	$title = mysql_real_escape_string($title);
+	$url = mysql_real_escape_string($url);
 	$body = mysql_real_escape_string($body);
 	$answer = mysql_real_escape_string($answer);
-	mysql_query("INSERT INTO ".PREFIX."POST(User_ID,Course_ID,Post_Week,Post_Title,Post_URL,Post_Question,Post_Answer,Repost_ID,Post_Created) VALUES('".$uid."','".$cid."','".$week."','".$title."','".$url."','".$body."','".$answer."','".$repostid."','".time()."')");
+	$array = array(
+				'User_ID' => $uid,
+				'Course_ID' => $cid,
+				'Post_Week' => $week,
+				'Post_Title' => $title,
+				'Post_URL' => $url,
+				'Post_Question' => $body,
+				'Post_Answer' => $answer,
+				'Repost_ID' => $repostid,
+				'Post_Created' => time()
+			);
+	$db->insert_record($array,'POST');
 }
 function repost_url($url,$repostid) { //Return repost's URL
-	$reposts = array_load('POST','Repost_ID',$repostid);
+	global $db;
+	$reposts = $db->array_load('POST','Repost_ID',$repostid);
 	$count = count($reposts)-1;
 	return $url.'-'.$count;
 }
-function hide_post($pid) { //Hide post
-	mysql_query("UPDATE ".PREFIX."POST SET Post_Hide_Name=1 WHERE Post_ID='".$pid."'");
-}
-function unhide_post($pid) { //Unhide post
-	mysql_query("UPDATE ".PREFIX."POST SET Post_Hide_Name=0 WHERE Post_ID='".$pid."'");
-}
 function delete_post_vote_from_pid($pid) { //Delete all likes and dislikes of post
-	delete_record('Post_ID',$pid,'POST_VOTE');
+	global $db;
+	$db->delete_record('Post_ID',$pid,'POST_VOTE');
 }
 function delete_post_follow_from_pid($pid) { //Delete all follows of post
-	delete_record('Post_ID',$pid,'POST_FOLLOW');
+	global $db;
+	$db->delete_record('Post_ID',$pid,'POST_FOLLOW');
 }
 /* Course Belonged function */
 function course_belonged($cid,$uid) {
@@ -1288,7 +1472,7 @@ function view_course($cid,$uid,$count,$page=1) { //Return course details with fe
 	}
 	$output .= '</div>';
 	$output .= '<div class="paging">'.$pagination->getLinks().'</div>';
-	$output .= '<script type="text/javascript">
+	$output .= '<script>
 				function turnPage(page) {
 					$("#feeds").load("triggers/paging_course.php",{cid:'.$cid.',count:'.$count.',page:page});
 				}
@@ -1378,12 +1562,13 @@ function view_courses_by_uid($uid) { //Return courses list by user ID
 	return $output;
 }
 function view_other_courses_by_uid($uid) { //Return other courses list by user ID
+	global $db;
 	$output = '';
 	$course_cids = array();
 	$course_user_cids = array();
 	$course_diff_cids = array();
 	$courses_diff = array();
-	$courses = array_load_all('COURSE');
+	$courses = $db->array_load_all('COURSE');
 	$course_users = course_users_load($uid);
 	foreach ($courses as $course) {
 		$course_cids[] = $course['Course_ID'];
@@ -1410,7 +1595,7 @@ function view_other_courses_by_uid($uid) { //Return other courses list by user I
 			$output .= '</li>';
 		}
 		$output .= '</ul>';
-		$output .= '<script type="text/javascript">
+		$output .= '<script>
 					$("#course_name_toggle").click(function(){
 						if (!$(this).hasClass("clicked")) {
 							$("#leftmenu ul#other_courses li.course span.course_name").css("display","block");
@@ -1428,12 +1613,13 @@ function view_other_courses_by_uid($uid) { //Return other courses list by user I
 	return $output;
 }
 function select_course($name,$cid = null) { //Return select element of course IDs
+	global $db;
 	$output = '';
-	$courses = array_load_all('COURSE');
+	$courses = $db->array_load_all('COURSE');
 	$output .= '<select id="'.$name.'" name="'.$name.'">';
 	$output .= ($_GET['p'] == 'post' || $_GET['p'] == 'post/archive' || (isset($_POST['report_type']) && ($_POST['report_type'] == 'Number of questions per week' || $_POST['report_type'] == 'Most popular questions' || $_POST['report_type'] == 'Most difficult questions'))) ? '<option value="0">All courses</option>': '';
 	for ($i = 0; $i < count($courses); $i++) {
-		if (($_SESSION['rid'] == 2 && course_belonged($courses[$i]['Course_ID'],$_SESSION['uid']) && $courses[$i]['Course_Allowed'] == 1) || ($_SESSION['rid'] == 3 && course_belonged($courses[$i]['Course_ID'],$_SESSION['uid'])) || $_SESSION['rid'] == 1) {
+		if (($_SESSION['rid'] == 2 && course_belonged($courses[$i]['Course_ID'],$_SESSION['uid']) && $courses[$i]['Course_Allowed'] == 1) || ($_SESSION['rid'] == 3 && course_belonged($courses[$i]['Course_ID'],$_SESSION['uid'])) || ($_SESSION['rid'] == 4 && $courses[$i]['Course_For_Guest'] == 1) || $_SESSION['rid'] == 1) {
 			$selected = ($cid != null && $cid == $courses[$i]['Course_ID']) ? 'selected': '';
 			$output .= '<option '.$selected.' value="'.$courses[$i]['Course_ID'].'">'.$courses[$i]['Course_Code'].' - '.$courses[$i]['Course_Name'].'</option>';
 		}
@@ -1442,11 +1628,12 @@ function select_course($name,$cid = null) { //Return select element of course ID
 	return $output;
 }
 function checkbox_course($name,$uid) { //Return checkbox element of course IDs
+	global $db;
 	$output = '';
 	$course_cids = array();
 	$course_user_cids = array();
 	$course_diff_cids = array();
-	$courses = array_load_all('COURSE');
+	$courses = $db->array_load_all('COURSE');
 	$course_users = course_users_load($uid);
 	foreach ($courses as $course) {
 		$course_cids[] = $course['Course_ID'];
@@ -1469,12 +1656,13 @@ function checkbox_course($name,$uid) { //Return checkbox element of course IDs
 	return $output;
 }
 function list_courses() { //Return list of courses, for admin use
+	global $db;
 	$output = '';
-	$courses = array_load_all('COURSE');
+	$courses = $db->array_load_all('COURSE');
 	$cids = user_cids_load_all($_SESSION['uid']);
 	$output .= ($_SESSION['rid'] == 1) ? '<a class="button" href="?p=course/create">Create course</a>': '';
 	$output .= '<table>';
-	$output .= '<tr><th>Course code</th><th>Course name</th><th>Lecturers</th><th colspan="7">Operations</th></tr>';
+	$output .= '<tr><th>Course code</th><th>Course name</th><th>Lecturers</th><th colspan="8">Operations</th></tr>';
 	$j = 0;
 	for ($i = 0; $i < count($courses); $i++) {
 		$cid = $courses[$i]['Course_ID'];
@@ -1484,7 +1672,7 @@ function list_courses() { //Return list of courses, for admin use
 			$output .= '<td class="center">'.$courses[$i]['Course_Code'].'</td>';
 			$output .= '<td>'.$courses[$i]['Course_Name'].'</td>';
 			$output .= '<td>'.view_course_lecturers($cid).'</td>';
-			$output .= (isset($_SESSION['rid']) && $_SESSION['rid'] == 3 && in_array($cid,$cids)) ? '<td class="center"><form action="?p=course/enrol" method="post"><input type="hidden" name="cid" value="'.$cid.'" /><input type="submit" name="course_enrol" title="Enrol students manually" value="Enrol students manually" /></form></td><td class="center"><form action="?p=course/csv" method="post"><input type="hidden" name="cid" value="'.$cid.'" /><input type="submit" name="course_csv" title="Enrol students by importer" value="Enrol students by importer" /></form></td><td class="center"><form action="triggers/course_post_allow.php" method="post"><input type="hidden" name="cid" value="'.$cid.'" /><input type="submit" name="'.(($courses[$i]['Course_Allowed'] == 1) ? 'course_allow': 'course_not_allow').'" title="'.(($courses[$i]['Course_Allowed'] == 0) ? 'Allow': 'Not allow').' post" value="'.(($courses[$i]['Course_Allowed'] == 0) ? 'Allow': 'Not allow').' post" /></form></td>': '<td class="empty"></td><td class="empty"></td>';
+			$output .= (isset($_SESSION['rid']) && $_SESSION['rid'] == 3 && in_array($cid,$cids)) ? '<td class="center"><form action="?p=course/enrol" method="post"><input type="hidden" name="cid" value="'.$cid.'" /><input type="submit" name="course_enrol" title="Enrol students manually" value="Enrol students manually" /></form></td><td class="center"><form action="?p=course/csv" method="post"><input type="hidden" name="cid" value="'.$cid.'" /><input type="submit" name="course_csv" title="Enrol students by importer" value="Enrol students by importer" /></form></td><td class="center"><form action="triggers/course_post_allow.php" method="post"><input type="hidden" name="cid" value="'.$cid.'" /><input type="submit" name="'.(($courses[$i]['Course_Allowed'] == 1) ? 'course_allow': 'course_not_allow').'" title="'.(($courses[$i]['Course_Allowed'] == 0) ? 'Allow': 'Not allow').' post" value="'.(($courses[$i]['Course_Allowed'] == 0) ? 'Allow': 'Not allow').' post" /></form></td><td class="center"><form action="triggers/course_for_guest.php" method="post"><input type="hidden" name="cid" value="'.$cid.'" /><input type="submit" name="'.(($courses[$i]['Course_For_Guest'] == 1) ? 'course_guest_on': 'course_guest_off').'" title="'.(($courses[$i]['Course_For_Guest'] == 0) ? 'Turn on': 'Turn off').' guest mode" value="'.(($courses[$i]['Course_For_Guest'] == 0) ? 'Turn on': 'Turn off').' guest mode" /></form></td>': '<td class="empty"></td><td class="empty"></td>';
 			$output .= (isset($_SESSION['rid']) && ($_SESSION['rid'] == 3 && $_SESSION['uid'] == $courses[$i]['User_ID'] && in_array($cid,$cids)) || $_SESSION['rid'] == 1) ? '<td class="center"><form action="?p=course/assign" method="post"><input type="hidden" name="cid" value="'.$cid.'" /><input type="submit" name="course_assign" title="Assign lecturers" value="Assign lecturers" /></form></td>': '<td class="empty"></td>';
 			$output .= (isset($_SESSION['rid']) && $_SESSION['rid'] == 1 && count_lecturers($cid) > 0) ? '<td class="center"><form action="?p=course/promote" method="post"><input type="hidden" name="cid" value="'.$cid.'" /><input type="submit" name="course_promote" title="Promote coordinator" value="Promote coordinator" /></form></td>': '<td class="empty"></td>';
 			$output .= (isset($_SESSION['rid']) && ($_SESSION['rid'] == 3 && $_SESSION['uid'] == $courses[$i]['User_ID'] && in_array($cid,$cids)) || $_SESSION['rid'] == 1) ? '<td class="center"><form method="POST" action="?p=course/edit"><input type="hidden" name="cid" value="'.$cid.'" /><input type="hidden" name="code" value="'.$courses[$i]['Course_Code'].'" /><input type="hidden" name="name" value="'.$courses[$i]['Course_Name'].'" /><input name="course_edit" type="submit" title="Edit" value="Edit"/></form></td>': '<td class="empty"></td>';
@@ -1498,24 +1686,57 @@ function list_courses() { //Return list of courses, for admin use
 	return $output;
 }
 function create_course($code,$name) { //Create course
-	mysql_query("INSERT INTO ".PREFIX."COURSE(Course_Code,Course_Name) VALUES('".$code."','".$name."')");
+	global $db;
+	$array = array(
+				'Course_Code' => $code,
+				'Course_Name' => $name
+			);
+	$db->insert_record($array,'COURSE');
 }
 function edit_course($cid,$code,$name) { //Edit course details including course code and course name
-	mysql_query("UPDATE ".PREFIX."COURSE SET Course_Code='".$code."' WHERE Course_ID='".$cid."'");
-	mysql_query("UPDATE ".PREFIX."COURSE SET Course_Name='".$name."' WHERE Course_ID='".$cid."'");
+	global $db;
+	$array = array(
+				'Course_Code' => $code,
+				'Course_Name' => $name
+			);
+	$db->update_record($array,'Course_ID',$cid,'COURSE');
 }
 function delete_course($cid) { //Delete course
-	delete_record('Course_ID',$cid,'COURSE');
+	global $db;
+	$db->delete_record('Course_ID',$cid,'COURSE');
 	delete_all_user_course($cid);
 }
 function allow_course_post($cid) { //Allow students to post question in course
-	mysql_query("UPDATE ".PREFIX."COURSE SET Course_Allowed='1' WHERE Course_ID='".$cid."'");
+	global $db;
+	$array = array(
+				'Course_Allowed' => '1'
+			);
+	$db->update_record($array,'Course_ID',$cid,'COURSE');
 }
 function disallow_course_post($cid) { //Disallow students to post questions in course
-	mysql_query("UPDATE ".PREFIX."COURSE SET Course_Allowed='0' WHERE Course_ID='".$cid."'");
+	global $db;
+	$array = array(
+				'Course_Allowed' => '0'
+			);
+	$db->update_record($array,'Course_ID',$cid,'COURSE');
+}
+function turn_on_course_guest($cid) { //Turn on guest mode
+	global $db;
+	$array = array(
+				'Course_For_Guest' => '1'
+			);
+	$db->update_record($array,'Course_ID',$cid,'COURSE');
+}
+function turn_off_course_guest($cid) { //Turn off guest mode
+	global $db;
+	$array = array(
+				'Course_For_Guest' => '0'
+			);
+	$db->update_record($array,'Course_ID',$cid,'COURSE');
 }
 function course_is_empty($cid) { //Check if course is empty
-	$posts = array_load('POST','Course_ID',$cid);
+	global $db;
+	$posts = $db->array_load('POST','Course_ID',$cid);
 	if (count($posts) == 0) {
 		return true;
 	} elseif (count($posts) > 0) {
@@ -1534,23 +1755,37 @@ function checkbox_course_user($name,$uid,$cid=null) { //Return checkbox element 
 	return $output;
 }
 function create_course_user($cid,$uid) { //Create new record in table course_users
-	mysql_query("INSERT INTO ".PREFIX."USER_COURSE(Course_ID,User_ID) VALUES('".$cid."','".$uid."')");
+	global $db;
+	$array = array(
+				'Course_ID' => $cid,
+				'User_ID' => $uid
+			);
+	$db->insert_record($array,'USER_COURSE');
 }
 function delete_course_user($cid,$uid) { //Delete record in table course_users
-	delete_record_with_two_identifier('Course_ID',$cid,'User_ID',$uid,'USER_COURSE');
+	global $db;
+	$db->delete_record_with_two_identifier('Course_ID',$cid,'User_ID',$uid,'USER_COURSE');
 }
 function delete_all_course_user($uid) { //Delete all records in table course_users by user ID
-	delete_record('User_ID',$uid,'USER_COURSE');
+	global $db;
+	$db->delete_record('User_ID',$uid,'USER_COURSE');
 }
 function delete_all_user_course($cid) { //Delete all records in table course_users by course ID
-	delete_record('Course_ID',$cid,'USER_COURSE');
+	global $db;
+	$db->delete_record('Course_ID',$cid,'USER_COURSE');
 }
 /* Post Follow Functions */
 function follow_post($uid,$pid) { //Follow a post
-	mysql_query("INSERT INTO ".PREFIX."POST_FOLLOW(User_ID,Post_ID) VALUES('".$uid."','".$pid."')");
+	global $db;
+	$array = array(
+				'User_ID' => $uid,
+				'Post_ID' => $pid
+			);
+	$db->insert_record($array,'POST_FOLLOW');
 }
 function unfollow_post($uid,$pid) { //Unfollow a post
-	delete_record_with_two_identifier('User_ID',$uid,'Post_ID',$pid,'POST_FOLLOW');
+	global $db;
+	$db->delete_record_with_two_identifier('User_ID',$uid,'Post_ID',$pid,'POST_FOLLOW');
 }
 function notify($pid,$commenter_name,$comment) { //Send notification emails to followers for every new comment
 	$uids = array();
@@ -1598,17 +1833,18 @@ function star_rating($pid) {
 	$output = '';
 	$post = post_load($pid);
 	$cid = $post['Course_ID'];
+	$course = course_load($cid);
 	$output .= '<div title="Rate this post" id="post_rate_pid_'.$pid.'" class="rate_widget">';
-	$output .= '<div id="rate_1_pid_'.$pid.'" class="ratings_stars'.((!course_belonged($cid,$_SESSION['uid']) && $cid != 0 && $_SESSION['rid'] != 1) ? ' not_belonged': '').((isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? ' is_admin': '').'"></div>';
-	$output .= '<div id="rate_2_pid_'.$pid.'" class="ratings_stars'.((!course_belonged($cid,$_SESSION['uid']) && $cid != 0 && $_SESSION['rid'] != 1) ? ' not_belonged': '').((isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? ' is_admin': '').'"></div>';
-	$output .= '<div id="rate_3_pid_'.$pid.'" class="ratings_stars'.((!course_belonged($cid,$_SESSION['uid']) && $cid != 0 && $_SESSION['rid'] != 1) ? ' not_belonged': '').((isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? ' is_admin': '').'"></div>';
-	$output .= '<div id="rate_4_pid_'.$pid.'" class="ratings_stars'.((!course_belonged($cid,$_SESSION['uid']) && $cid != 0 && $_SESSION['rid'] != 1) ? ' not_belonged': '').((isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? ' is_admin': '').'"></div>';
-	$output .= '<div id="rate_5_pid_'.$pid.'" class="ratings_stars'.((!course_belonged($cid,$_SESSION['uid']) && $cid != 0 && $_SESSION['rid'] != 1) ? ' not_belonged': '').((isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? ' is_admin': '').'"></div>';
+	$output .= '<div id="rate_1_pid_'.$pid.'" class="ratings_stars'.((!course_belonged($cid,$_SESSION['uid']) && $cid != 0 && $_SESSION['rid'] != 1) ? ' not_belonged': '').((isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? ' is_admin': '').((isset($_SESSION['rid']) && $_SESSION['rid'] == 4 && $course['Course_For_Guest'] == 1) ? ' guest_mode': '').'"></div>';
+	$output .= '<div id="rate_2_pid_'.$pid.'" class="ratings_stars'.((!course_belonged($cid,$_SESSION['uid']) && $cid != 0 && $_SESSION['rid'] != 1) ? ' not_belonged': '').((isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? ' is_admin': '').((isset($_SESSION['rid']) && $_SESSION['rid'] == 4 && $course['Course_For_Guest'] == 1) ? ' guest_mode': '').'"></div>';
+	$output .= '<div id="rate_3_pid_'.$pid.'" class="ratings_stars'.((!course_belonged($cid,$_SESSION['uid']) && $cid != 0 && $_SESSION['rid'] != 1) ? ' not_belonged': '').((isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? ' is_admin': '').((isset($_SESSION['rid']) && $_SESSION['rid'] == 4 && $course['Course_For_Guest'] == 1) ? ' guest_mode': '').'"></div>';
+	$output .= '<div id="rate_4_pid_'.$pid.'" class="ratings_stars'.((!course_belonged($cid,$_SESSION['uid']) && $cid != 0 && $_SESSION['rid'] != 1) ? ' not_belonged': '').((isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? ' is_admin': '').((isset($_SESSION['rid']) && $_SESSION['rid'] == 4 && $course['Course_For_Guest'] == 1) ? ' guest_mode': '').'"></div>';
+	$output .= '<div id="rate_5_pid_'.$pid.'" class="ratings_stars'.((!course_belonged($cid,$_SESSION['uid']) && $cid != 0 && $_SESSION['rid'] != 1) ? ' not_belonged': '').((isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? ' is_admin': '').((isset($_SESSION['rid']) && $_SESSION['rid'] == 4 && $course['Course_For_Guest'] == 1) ? ' guest_mode': '').'"></div>';
 	$output .= '<span class="post_rate_text" id="rate_text_pid_'.$pid.'"></span>';
 	$output .= '</div>';
 	$output .= '<div title="Average rating: '.average_post_rates_with_decimal($pid,1).'" id="average_post_rate_pid_'.$pid.'" class="average_rate">'.star_rating_average($pid).'</div>';
 	$output .= '<div style="display: none;" id="save_post_rate_pid_'.$pid.'"></div>';
-	$output .= '<script type="text/javascript">
+	$output .= '<script>
 				$("#average_post_rate_pid_'.$pid.'").load("triggers/post_rate_average.php",{pid:'.$pid.'});
 				$("#rate_1_pid_'.$pid.'").mouseenter(function(){
 					$(this).addClass("ratings_over");
@@ -1693,7 +1929,7 @@ function star_rating_average($pid) {
 	$output .= '<a class="details_rate_trigger" id="details_rate_trigger_pid_'.$pid.'">Details</a>';
 	$output .= '<div style="display: none;" id="average_rate_pid_'.$pid.'">'.average_post_rates($pid).'</div>';
 	$output .= '<div class="details_rate" style="display: none;" id="details_rate_pid_'.$pid.'"></div>';
-	$output .= '<script type="text/javascript">
+	$output .= '<script>
 				var averageRate = $("#average_rate_pid_'.$pid.'").text();
 				if (averageRate == 1) {
 					$("#average_rate_1_pid_'.$pid.'").attr("class","average_ratings_vote");
@@ -1733,7 +1969,7 @@ function star_rating_update($pid) {
 	$output .= '<div id="rate_5_pid_'.$pid.'" class="ratings_stars no_cursor"></div>';
 	$output .= '<span class="post_rate_text" id="rate_text_pid_'.$pid.'"></span>';
 	$output .= '<div style="display: none;" id="user_rate_pid_'.$pid.'">'.$post_rate['PostRate'].'</div>';
-	$output .= '<script type="text/javascript">
+	$output .= '<script>
 				var userRate = $("#user_rate_pid_'.$pid.'").text();
 				if (userRate == 1) {
 					$("#rate_1_pid_'.$pid.'").attr("class","ratings_vote");
@@ -1770,7 +2006,7 @@ function post_rate_details($pid) {
 	$rates = array('1','2','3','4','5');
 	$rate_descriptions = array('It is easy','Not challenge','Normal question','A bit challenge','This is hard');
 	$output .= '<h5>Rating details for the post "'.$post['Post_Title'].'"</h5><div id="chart_rate_details_pid_'.$pid.'" style="width: 280px; height: 120px;"></div>';
-	$output .= '<script type="text/javascript">
+	$output .= '<script>
 				(function() {
 					YUI().use("charts", function (Y)
 					{
@@ -1803,22 +2039,99 @@ function post_rate_details($pid) {
 	return $output;
 }
 function rate_post($uid,$pid,$rate) { //Rate a post
-	mysql_query("INSERT INTO ".PREFIX."POST_RATE(User_ID,Post_ID,PostRate) VALUES('".$uid."','".$pid."','".$rate."')");
-}
-function rerate_post($uid,$pid,$rate) { //Re-rate a post
-	mysql_query("UPDATE ".PREFIX."POST_RATE SET PostRate='".$rate."' WHERE User_ID='".$uid."' AND Post_ID='".$pid."'");
+	global $db;
+	$array = array(
+				'User_ID' => $uid,
+				'Post_ID' => $pid,
+				'PostRate' => $rate
+			);
+	$db->insert_record($array,'POST_RATE');
 }
 function unrate_post($uid,$pid) { //Un-rate a post
-	delete_record_with_two_identifier('User_ID',$uid,'Post_ID',$pid,'POST_RATE');
+	global $db;
+	$db->delete_record_with_two_identifier('User_ID',$uid,'Post_ID',$pid,'POST_RATE');
 }
 function delete_post_rate_from_pid($pid) { //Delete rating of post
-	delete_record('Post_ID',$pid,'POST_RATE');
+	global $db;
+	$db->delete_record('Post_ID',$pid,'POST_RATE');
+}
+/* Friend Functions */
+function friend_box($friend_id) { //Friend box
+	$output = '';
+	$output .= '<div class="friend_box">';
+	$output .= ($friend_id != $_SESSION['uid']) ? '<a id="user_friend_id_'.$friend_id.'" class="button'.((is_friend($_SESSION['uid'],$friend_id)) ? ' unfriend': ' friend').'">'.((is_friend($_SESSION['uid'],$friend_id)) ? 'Friend': 'Add friend').'</a>': '';
+	$output .= '<div style="display: none" id="save_user_friend_id_'.$friend_id.'"></div>';
+	$output .= '<script>
+				$(".friend_box > .button.unfriend").mouseenter(function(){
+					$(this).text("Unfriend");
+				}).mouseleave(function(){
+					$(this).text("Friend");
+				});
+				$("#user_friend_id_'.$friend_id.'").click(function(){
+					$("#save_user_friend_id_'.$friend_id.'").load("triggers/user_friend.php",{friend_id:'.$friend_id.'},function(){
+						location.reload();
+					});
+				});
+				</script>';
+	$output .= '</div>';
+	return $output;
+}
+function friends_list($uid) { //Friend list
+	$output = '';
+	$default = DEFAULT_AVATAR;
+	$size = 40;
+	$friend_ids = friend_ids_load_by_uid($uid);
+	sort($friend_ids);
+	$output .= '<div class="heading">Friends List</div>';
+	$output .= '<div id="friend_list">';
+	if (count($friend_ids) > 0) {
+		for ($i = 0; $i < count($friend_ids); $i++) {
+			$user = user_load($friend_ids[$i]);
+			$email = $user['User_Mail'];
+			$grav_url = "http://0.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=".$default."&s=" . $size;
+			$output .= '<div class="post '.(($i == 0) ? 'first': '').'">';
+			$output .= '<a class="author" href="?p=user/'.$user['User_Username'].'"><img src="'.$grav_url.'" width="40px"/></a>';
+			$output .= '<div class="post_right_detail">';
+			$output .= '<span class="author_name"><a href="?p=user/'.$user['User_Username'].'">'.$user['User_Fullname'].'</a></span><br/>';
+			$output .= '</div>';
+			$output .= '</div>';
+		}
+	} else {
+		$output .= '<div>No friends yet</div>';
+	}
+	$output .= '</div>';
+	return $output;
+}
+function is_friend($uid,$friend_id) {
+	$friend = friend_load($uid,$friend_id);
+	if (isset($friend)) {
+		return true;
+	} else {
+		return false;
+	}
+}
+function friend_user($uid,$friend_id) { //Create new record in table course_users
+	global $db;
+	$array = array(
+				'User_ID' => $uid,
+				'Friend_ID' => $friend_id
+			);
+	$db->insert_record($array,'FRIEND');
+}
+function unfriend_user($uid,$friend_id) { //Delete record in table course_users
+	global $db;
+	$db->delete_record_with_two_identifier('User_ID',$uid,'Friend_ID',$friend_id,'FRIEND');
+}
+function delete_all_friends($uid) { //Delete all records in table course_users by user ID
+	global $db;
+	$db->delete_record('User_ID',$uid,'FRIEND');
 }
 /* Front page listing functions */
 function front_page_listing($count,$uid,$sort_type,$option,$page=1) { //Return list of posts on front page
+	global $db;
 	$output = '';	
 	$default = DEFAULT_AVATAR;
-	$posts = array_load_all('POST');
+	$posts = $db->array_load_all('POST');
 	$posts = array_filter($posts, array(new Filter(1), 'filter_current'));
 	if ($option == 'All courses') {
 		$posts = $posts;
@@ -1847,7 +2160,7 @@ function front_page_listing($count,$uid,$sort_type,$option,$page=1) { //Return l
 	}
 	$output .= '</div>';
 	$output .= '<div class="paging">'.$pagination->getLinks().'</div>';
-	$output .= '<script type="text/javascript">
+	$output .= '<script>
 				function turnPage(page) {
 					$("#feeds").load("triggers/paging_front.php",{count:'.$count.',option:"'.$option.'",page:page});
 				}
@@ -1870,9 +2183,10 @@ function select_front_page_filter($name,$option=null) { //Return select element 
 }
 /* Latest Function */
 function latest_questions($count) {
+	global $db;
 	$output = '';
 	$default = DEFAULT_AVATAR;
-	$posts = array_load_all('POST');
+	$posts = $db->array_load_all('POST');
 	$posts = array_filter($posts, array(new Filter(1), 'filter_current'));
 	usort($posts,'sort_post_date_descend');
 	$output .= '<div class="heading">Latest Questions</div>';
@@ -1902,9 +2216,10 @@ function latest_questions($count) {
 }
 /* Most Commented Function */
 function most_commented($count) {
+	global $db;
 	$output = '';
 	$default = DEFAULT_AVATAR;
-	$posts = array_load_all('POST');
+	$posts = $db->array_load_all('POST');
 	$posts = array_filter($posts, array(new Filter(1), 'filter_current'));
 	sort($posts);
 	for ($p = 0; $p < count($posts); $p++) {
@@ -1937,9 +2252,10 @@ function most_commented($count) {
 }
 /* Week post listing functions */
 function view_week($week,$count,$uid,$sort_type,$page=1) { //Return list of posts on front page
+	global $db;
 	$output = '';	
 	$default = DEFAULT_AVATAR;
-	$posts = array_load_all('POST');
+	$posts = $db->array_load_all('POST');
 	$posts = array_filter($posts, array(new Filter(1), 'filter_current'));
 	$posts = array_filter($posts, array(new Filter($week), 'filter_week'));
 	sort($posts);
@@ -1963,7 +2279,7 @@ function view_week($week,$count,$uid,$sort_type,$page=1) { //Return list of post
 	}
 	$output .= '</div>';
 	$output .= '<div class="paging">'.$pagination->getLinks().'</div>';
-	$output .= '<script type="text/javascript">
+	$output .= '<script>
 				function turnPage(page) {
 					$("#feeds").load("triggers/paging_week.php",{week:'.$week.',count:'.$count.',page:page});
 				}
@@ -1975,9 +2291,10 @@ function view_week($week,$count,$uid,$sort_type,$page=1) { //Return list of post
 }
 /* Week post listing functions */
 function view_course_week($cid,$week,$count,$uid,$sort_type,$page=1) { //Return list of posts on front page
+	global $db;
 	$output = '';	
 	$default = DEFAULT_AVATAR;
-	$posts = array_load_all('POST');
+	$posts = $db->array_load_all('POST');
 	$posts = array_filter($posts, array(new Filter(1), 'filter_current'));
 	$posts = array_filter($posts, array(new Filter($cid), 'filter_cid'));
 	$posts = array_filter($posts, array(new Filter($week), 'filter_week'));
@@ -2002,7 +2319,7 @@ function view_course_week($cid,$week,$count,$uid,$sort_type,$page=1) { //Return 
 	}
 	$output .= '</div>';
 	$output .= '<div class="paging">'.$pagination->getLinks().'</div>';
-	$output .= '<script type="text/javascript">
+	$output .= '<script>
 				function turnPage(page) {
 					$("#feeds").load("triggers/paging_course_week.php",{cid:'.$cid.',week:'.$week.',count:'.$count.',page:page});
 				}
@@ -2018,7 +2335,7 @@ function ask_question($rid,$cid,$week) {
 	$course = course_load($cid);
 	$output .= '<div id="ask_question">';
 	$output .= '<div id="ask_label">Ask Question</div>';
-	$output .= '<div id="question_section" title="Ask question" class="'.(($rid == 0) ? 'not_loggedin': '').((!course_belonged($cid,$_SESSION['uid']) && $cid != 0 && $rid != 1) ? ' not_belonged': '').((isset($course['Course_Allowed']) && $course['Course_Allowed'] != 1 && $rid != 3) ? ' not_allowed': '').((isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? ' is_admin': '').((!is_enroled($_SESSION['uid'])) ? ' not_enroled': '').((!is_allowed($_SESSION['uid']) && $rid != 1 && $rid != 3) ? ' no_course': '').'">';
+	$output .= '<div id="question_section" title="Ask question" class="'.(($rid == 0) ? 'not_loggedin': '').((!course_belonged($cid,$_SESSION['uid']) && $cid != 0 && $rid != 1) ? ' not_belonged': '').((isset($course['Course_Allowed']) && $course['Course_Allowed'] != 1 && $rid != 3) ? ' not_allowed': '').((isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? ' is_admin': '').((!is_enroled($_SESSION['uid'])) ? ' not_enroled': '').((!is_allowed($_SESSION['uid']) && $rid != 1 && $rid != 3) ? ' no_course': '').(($_SESSION['rid'] == 4) ? ' guest_mode': '').'">';
 	$output .= '<span id="question_label">Type a question..</span>';
 	$output .= '<a id="question_close_button"></a>';
 	$output .= '<div class="question_element" style="margin-top: 5px;"><label for="question_title">Subject: </label><input class="element_input" id="question_title" name="question_title" type="text" size="30" /></div>';
@@ -2034,9 +2351,9 @@ function ask_question($rid,$cid,$week) {
 	$output .= '</div>';
 	$output .= '<div style="display:none" id="save_post"></div>';
 	$output .= '<div style="display:none" id="follow_post"></div>';
-	$output .= '<script type="text/javascript">
+	$output .= '<script>
 				$("#question_section").click(function(){
-					if (!$(this).hasClass("not_loggedin") && !$(this).hasClass("not_belonged") && !$(this).hasClass("not_allowed") && !$(this).hasClass("is_admin") && !$(this).hasClass("not_enroled") && !$(this).hasClass("no_course")) {
+					if (!$(this).hasClass("not_loggedin") && !$(this).hasClass("not_belonged") && !$(this).hasClass("not_allowed") && !$(this).hasClass("is_admin") && !$(this).hasClass("not_enroled") && !$(this).hasClass("no_course") || $(this).hasClass("guest_mode")) {
 						$("#question_label").text("");
 						$("#question_section .question_element,#question_close_button,#question_bottom").css("display","block");
 						$(this).css("cursor","default").animate({height:"'.(($rid != 2) ? '140px': '125px').'"},240);
@@ -2120,12 +2437,13 @@ function list_comments($pid,$c=null) { //Return list of comments by post ID
 	$default = DEFAULT_AVATAR;
 	$post = post_load($pid);
 	$cid = $post['Course_ID'];
+	$course = course_load($cid);
 	$current_user = user_load($_SESSION['uid']);
 	$current_grav_url = "http://0.gravatar.com/avatar/" . md5( strtolower( trim( $current_user['User_Mail'] ) ) ) . "?d=".$default."&s=" . $size;
 	$comments = comments_load_by_pid($pid);
 	usort($comments,'sort_comment_date_ascend');
 	$count = ($c == null) ? count($comments): $c;
-	$output .= '<div class="comments'.((!course_belonged($cid,$_SESSION['uid']) && $cid != 0 && $_SESSION['rid'] != 1) ? ' not_belonged': '').((isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? ' is_admin': '').'" id="comments_pid_'.$pid.'" style="display: none"><!-- Start comments of post '.$pid.' -->';
+	$output .= '<div class="comments'.((!course_belonged($cid,$_SESSION['uid']) && $cid != 0 && $_SESSION['rid'] != 1) ? ' not_belonged': '').((isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? ' is_admin': '').((isset($_SESSION['rid']) && $_SESSION['rid'] == 4 && $course['Course_For_Guest'] == 1) ? ' guest_mode': '').'" id="comments_pid_'.$pid.'" style="display: none"><!-- Start comments of post '.$pid.' -->';
 	for ($i = 0; $i < $count; $i++) {
 		if (isset($comments[$i])) {
 			$user = user_load($comments[$i]['User_ID']);
@@ -2147,7 +2465,7 @@ function list_comments($pid,$c=null) { //Return list of comments by post ID
 			$output .= (isset($_SESSION['uid']) && $_SESSION['uid'] == $comments[$i]['User_ID'] || ($_SESSION['rid'] == 3 && course_belonged($cid,$_SESSION['uid']))) ? '<div id="comment_comid_'.$comments[$i]['Comment_ID'].'" style="display: none"><textarea style="width: 290px;" id="textarea_body_comment_edit_comid_'.$comid.'" name="body">'.$comments[$i]['Comment_Body'].'</textarea><a style="float: none; margin-top: -18px;" class="button" id="submit_comment_edit_comid_'.$comid.'">Submit</a></div><div style="display: none" id="save_comment_edit_comid_'.$comid.'"></div><a title="Edit this comment" class="button edit_comment" onclick="toggle_comment_edit('."'".'comment_comid_'.$comid."'".',this)">Edit</a><a title="Delete this comment" class="button delete_comment" id="submit_comment_delete_comid_'.$comid.'">Delete</a><div style="display: none" id="save_comment_delete_comid_'.$comid.'"></div>': '';
 			$output .= '</div>';
 			$output .= '</div>';
-			$output .= '<script type="text/javascript">
+			$output .= '<script>
 						$("#comment_like_comid_'.$comid.'").click(function(){
 							commentLike('.$comid.','.$pid.');
 						});
@@ -2179,9 +2497,13 @@ function list_comments($pid,$c=null) { //Return list of comments by post ID
 	$output .= '<a style="float: right; position: relative; left: -6px; bottom: 23px;" class="button" id="submit_comment_create_pid_'.$pid.'">Create comment</a>';
 	$output .= '</div>';
 	$output .= '<div style="display: none" id="save_comment_create_pid_'.$pid.'"></div>';
-	$output .= '<script type="text/javascript">
+	$output .= '<script>
 				$("#submit_comment_create_pid_'.$pid.'").click(function(){
 					commentCreate('.$pid.');
+				}).keypress(function(e) {
+					if(e.which == 13) {
+						commentCreate('.$pid.');
+					}
 				});
 				$("textarea#textarea_body_comment_create_pid_'.$pid.'").keyup(function(){
 					limits($(this), 420);
@@ -2231,18 +2553,31 @@ function list_comments_without_right($pid,$c=null) { //Return list of comments b
 	return $output;
 }
 function create_comment($pid,$uid,$body,$hide) { //Create new comment
+	global $db;
 	$body = strip_tags($body);
 	$body = mysql_real_escape_string($body);
-	mysql_query("INSERT INTO ".PREFIX."COMMENT(Post_ID,User_ID,Comment_Body,Comment_Hide_Name,Comment_Created) VALUES('".$pid."','".$uid."','".$body."','".$hide."','".time()."')");
+	$array = array(
+				'Post_ID' => $pid,
+				'User_ID' => $uid,
+				'Comment_Body' => $body,
+				'Comment_Hide_Name' => $hide,
+				'Comment_Created' => time()
+			);
+	$db->insert_record($array,'COMMENT');
 }
 function edit_comment($comid,$body) { //Edit comment details including comment body and updated time
+	global $db;
 	$body = strip_tags($body);
 	$body = mysql_real_escape_string($body);
-	mysql_query("UPDATE ".PREFIX."COMMENT SET Comment_Body='".$body."' WHERE Comment_ID='".$comid."'");
-	mysql_query("UPDATE ".PREFIX."COMMENT SET Comment_Edited='".time()."' WHERE Comment_ID='".$comid."'");
+	$array = array(
+				'Comment_Body' => $body,
+				'Comment_Edited' => time()
+			);
+	$db->update_record($array,'Comment_ID',$comid,'COMMENT');
 }
 function delete_comment($comid) { //Delete comment
-	delete_record('Comment_ID',$comid,'COMMENT');
+	global $db;
+	$db->delete_record('Comment_ID',$comid,'COMMENT');
 	delete_comment_vote_from_comid($comid);
 }
 function delete_comments_from_pid($pid) { //Delete comments belonged to a post
@@ -2253,13 +2588,8 @@ function delete_comments_from_pid($pid) { //Delete comments belonged to a post
 	}
 }
 function delete_comment_vote_from_comid($comid) { //Delete all likes and dislikes of comment
-	delete_record('Comment_ID',$comid,'COMMENT_VOTE');
-}
-function hide_comment($comid) { //Hide comment author's name
-	mysql_query("UPDATE ".PREFIX."COMMENT SET Comment_Hide_Name=1 WHERE Comment_ID='".$comid."'");
-}
-function unhide_comment($comid) { //Unhide comment author's name
-	mysql_query("UPDATE ".PREFIX."COMMENT SET Comment_Hide_Name=0 WHERE Comment_ID='".$comid."'");
+	global $db;
+	$db->delete_record('Comment_ID',$comid,'COMMENT_VOTE');
 }
 /* Sort Functions */
 function sort_descend($a,$b){ //Call back function to sort descendently
@@ -2516,7 +2846,7 @@ function search_question($query,$cid,$count,$page=1) { //Search questions by pos
 	}
 	$output .= '</div>';
 	$output .= '<div class="paging">'.$pagination->getLinks().'</div>';
-	$output .= '<script type="text/javascript">
+	$output .= '<script>
 				function turnPage(page) {
 					$("#feeds").load("triggers/paging_search.php",{count:'.$count.',cid:'.$cid.',page:page,keyword:"'.$query.'"});
 				}
@@ -2525,23 +2855,24 @@ function search_question($query,$cid,$count,$page=1) { //Search questions by pos
 }
 // get current URL
 function currentURL() { //Get current page URL
- $pageURL = 'http';
- if (isset($_SERVER["HTTPS"])){
-	if ($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
- }
- $pageURL .= "://";
- if ($_SERVER["SERVER_PORT"] != "80") {
-  $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);
- } else {
-  $pageURL .= $_SERVER["SERVER_NAME"].parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);
- }
- return $pageURL;
+	$pageURL = 'http';
+	if (isset($_SERVER["HTTPS"])){
+		if ($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
+	}
+	$pageURL .= "://";
+	if ($_SERVER["SERVER_PORT"] != "80") {
+		$pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);
+	} else {
+		$pageURL .= $_SERVER["SERVER_NAME"].parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);
+	}
+	return $pageURL;
 }
 /* Menu Functions */
 function style_active_course_menu() { //Return the style of active course menu list
+	global $db;
 	$output = '';
-	$courses = array_load_all('COURSE');
-	$output .= '<style type="text/css">';
+	$courses = $db->array_load_all('COURSE');
+	$output .= '<style>';
 	for ($i = 0; $i < count($courses); $i++) {
 		$output .= 'body.cid-'.$courses[$i]['Course_ID'].' #leftmenu > ul > li > a.cid-'.$courses[$i]['Course_ID'];
 		$output .= ($i != count($courses)-1) ? ',': '';
@@ -2553,7 +2884,7 @@ function style_active_course_menu() { //Return the style of active course menu l
 function style_active_week_menu($cid=null) {
 	$output = '';
 	$weeks = array('1','2','3','4','5','6','7','8','9','10','11','12');
-	$output .= '<style type="text/css">';
+	$output .= '<style>';
 	for ($i = 0; $i < count($weeks); $i++) {
 		$output .= 'body.week-'.$weeks[$i].(($cid != null) ? '.cid-'.$cid: '').' #weeks ul > li > a.week-'.$weeks[$i].(($cid != null) ? '.cid-'.$cid: '');
 		$output .= ($i != count($weeks)-1) ? ',': '';
@@ -2607,7 +2938,7 @@ function weeks_bar($cid=null) {
 		$output .= '<li class="week week-'.$weeks[$i].(($cid != null) ? ' cid-'.$cid: '').'"><a class="week week-'.$weeks[$i].(($cid != null) ? ' cid-'.$cid: '').'" href="?p='.(($cid != null) ? 'course/'.$course['Course_Code'].'/': '').'week/'.$weeks[$i].'">'.$weeks[$i].'</a></li>';
 	}
 	$output .= '</ul>';
-	$output .= '<script type="text/javascript">
+	$output .= '<script>
 				$("#weeks_toggle").click(function(){
 					if ($("ul#weeks_bar").css("display") == "none") {
 						$(this).addClass("clicked");
@@ -2645,12 +2976,13 @@ function select_report_type($name,$type=null) { //Return select element of repor
 	return $output;
 }
 function report_most_difficult($count,$cid=0) {
+	global $db;
 	$output = '';
 	$course = course_load($cid);
 	$output .= '<div id="report_most_difficult">';
 	$output .= select_course('cid',$cid);
 	$output .= '<h2>Most difficult questions of '.(($cid == 0) ? 'all courses': '"'.$course['Course_Name'].'"').'</h2>';
-	$posts = array_load_all('POST');
+	$posts = $db->array_load_all('POST');
 	$posts = array_filter($posts, array(new Filter(1), 'filter_current'));
 	if ($cid != 0) {
 		$posts = array_filter($posts, array(new Filter($cid), 'filter_cid'));
@@ -2670,7 +3002,7 @@ function report_most_difficult($count,$cid=0) {
 	}
 	$output .= '</table><br/>';
 	$output .= '</div>';
-	$output .= '<script type="text/javascript">
+	$output .= '<script>
 				$("select#cid").change(function(){
 					$("#report_most_difficult").load("triggers/report_most_difficult.php",{cid:$(this).val(),report_type:"Most difficult questions",count:'.$count.'});
 				});
@@ -2678,12 +3010,13 @@ function report_most_difficult($count,$cid=0) {
 	return $output;
 }
 function report_most_popular($count,$cid=0) {
+	global $db;
 	$output = '';
 	$course = course_load($cid);
 	$output .= '<div id="report_most_popular">';
 	$output .= select_course('cid',$cid);
 	$output .= '<h2>Most popular questions of '.(($cid == 0) ? 'all courses': '"'.$course['Course_Name'].'"').'</h2>';
-	$posts = array_load_all('POST');
+	$posts = $db->array_load_all('POST');
 	$posts = array_filter($posts, array(new Filter(1), 'filter_current'));
 	if ($cid != 0) {
 		$posts = array_filter($posts, array(new Filter($cid), 'filter_cid'));
@@ -2729,7 +3062,7 @@ function report_most_popular($count,$cid=0) {
 	}
 	$output .= '</table><br/>';
 	$output .= '</div>';
-	$output .= '<script type="text/javascript">
+	$output .= '<script>
 				$("select#cid").change(function(){
 					$("#report_most_popular").load("triggers/report_most_popular.php",{cid:$(this).val(),report_type:"Most popular questions",count:'.$count.'});
 				});
@@ -2740,7 +3073,7 @@ function chart_questions_per_course() {
 	$output = '';
 	$courses = courses_load_from_uid($_SESSION['uid']);
 	$output .= '<h2>Number of questions and their figures in your courses</h2><div id="mychart" style="width: 1024px; min-height: 320px;"></div>';
-	$output .= '<script type="text/javascript">
+	$output .= '<script>
 				(function() {
 					YUI().use("charts-legend", function (Y)
 					{
@@ -2813,7 +3146,7 @@ function chart_questions_per_week($cid=0) {
 	$output .= '<h2>Number of questions per week of '.(($cid == 0) ? 'all courses': '"'.$course['Course_Name'].'"').'</h2>';
 	$output .= '<div id="mychart" style="width: 1024px; min-height: 320px;"></div>';
 	$output .= '</div>';
-	$output .= '<script type="text/javascript">
+	$output .= '<script>
 				(function() {
 					YUI().use("charts-legend", function (Y)
 					{
@@ -2877,7 +3210,7 @@ function chart_questions_per_week($cid=0) {
 					});
 				})();
 				</script>';
-	$output .= '<script type="text/javascript">
+	$output .= '<script>
 				$("select#cid").change(function(){
 					$("#chart_course_week").load("triggers/chart_course_week.php",{cid:$(this).val(),report_type:"Number of questions per week"});
 				});

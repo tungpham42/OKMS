@@ -1,5 +1,5 @@
 function postLike(pid) {
-	if (!$("#post_like_pid_"+pid).hasClass("not_belonged") && !$("#post_like_pid_"+pid).hasClass("is_admin")) {
+	if (!$("#post_like_pid_"+pid).hasClass("not_belonged") && !$("#post_like_pid_"+pid).hasClass("is_admin") || $("#post_like_pid_"+pid).hasClass("guest_mode")) {
 		$("#save_post_like_pid_"+pid).load("triggers/post_like.php",{pid:pid},function(){
 			$("#post_like_pid_"+pid).load("triggers/post_like_update.php",{pid:pid});
 			$("#post_dislike_pid_"+pid).load("triggers/post_dislike_update.php",{pid:pid});
@@ -11,7 +11,7 @@ function postLike(pid) {
 	}
 }
 function postDislike(pid) {
-	if (!$("#post_dislike_pid_"+pid).hasClass("not_belonged") && !$("#post_dislike_pid_"+pid).hasClass("is_admin")) {
+	if (!$("#post_dislike_pid_"+pid).hasClass("not_belonged") && !$("#post_dislike_pid_"+pid).hasClass("is_admin") || $("#post_dislike_pid_"+pid).hasClass("guest_mode")) {
 		$("#save_post_dislike_pid_"+pid).load("triggers/post_dislike.php",{pid:pid},function(){
 			$("#post_dislike_pid_"+pid).load("triggers/post_dislike_update.php",{pid:pid});
 			$("#post_like_pid_"+pid).load("triggers/post_like_update.php",{pid:pid});
@@ -23,7 +23,7 @@ function postDislike(pid) {
 	}
 }
 function postFollow(pid) {
-	if (!$("#post_follow_pid_"+pid).hasClass("not_belonged") && !$("#post_follow_pid_"+pid).hasClass("is_admin")) {
+	if (!$("#post_follow_pid_"+pid).hasClass("not_belonged") && !$("#post_follow_pid_"+pid).hasClass("is_admin") || $("#post_follow_pid_"+pid).hasClass("guest_mode")) {
 		$("#save_post_follow_pid_"+pid).load("triggers/post_follow.php",{pid:pid},function(){
 			$("#post_follow_pid_"+pid).load("triggers/post_follow_update.php",{pid:pid});
 		});
@@ -46,7 +46,7 @@ function commentsToggle(pid) {
 	}
 }
 function starRating(pid,rate) {
-	if (!$("#rate_"+rate+"_pid_"+pid).hasClass("not_belonged") && !$("#rate_"+rate+"_pid_"+pid).hasClass("is_admin")) {
+	if (!$("#rate_"+rate+"_pid_"+pid).hasClass("not_belonged") && !$("#rate_"+rate+"_pid_"+pid).hasClass("is_admin") || $("#rate_"+rate+"_pid_"+pid).hasClass("guest_mode")) {
 		$("#save_post_rate_pid_"+pid).load("triggers/post_rate.php",{pid:pid,rate:rate},function(){
 			$("#post_rate_pid_"+pid).load("triggers/post_rate_update.php",{pid:pid});
 			$("#average_post_rate_pid_"+pid).load("triggers/post_rate_average.php",{pid:pid});
@@ -58,7 +58,7 @@ function starRating(pid,rate) {
 	}
 }
 function commentLike(comid,pid) {
-	if (!$("#comments_pid_"+pid).hasClass("is_admin") && !$("#comments_pid_"+pid).hasClass("not_belonged")) {
+	if (!$("#comments_pid_"+pid).hasClass("is_admin") && !$("#comments_pid_"+pid).hasClass("not_belonged") || $("#comments_pid_"+pid).hasClass("guest_mode")) {
 		$("#save_comment_like_comid_"+comid).load("triggers/comment_like.php",{comid:comid},function(){
 			$("#comment_like_comid_"+comid).load("triggers/comment_like_update.php",{comid:comid});
 			$("#comment_dislike_comid_"+comid).load("triggers/comment_dislike_update.php",{comid:comid});
@@ -70,7 +70,7 @@ function commentLike(comid,pid) {
 	}
 }
 function commentDislike(comid,pid) {
-	if (!$("#comments_pid_"+pid).hasClass("is_admin") && !$("#comments_pid_"+pid).hasClass("not_belonged")) {
+	if (!$("#comments_pid_"+pid).hasClass("is_admin") && !$("#comments_pid_"+pid).hasClass("not_belonged") || $("#comments_pid_"+pid).hasClass("guest_mode")) {
 		$("#save_comment_dislike_comid_"+comid).load("triggers/comment_dislike.php",{comid:comid},function(){
 			$("#comment_dislike_comid_"+comid).load("triggers/comment_dislike_update.php",{comid:comid});
 			$("#comment_like_comid_"+comid).load("triggers/comment_like_update.php",{comid:comid});
@@ -105,7 +105,7 @@ function commentDeleteDialog(comid,pid) {
 	openEmptyWrap();
 }
 function commentCreate(pid) {
-	if (!$("#comments_pid_"+pid).hasClass("not_belonged") && !$("#comments_pid_"+pid).hasClass("is_admin")) {
+	if (!$("#comments_pid_"+pid).hasClass("not_belonged") && !$("#comments_pid_"+pid).hasClass("is_admin") || $("#comments_pid_"+pid).hasClass("guest_mode")) {
 		var body = $("textarea#textarea_body_comment_create_pid_"+pid).val();
 		var hide = $("input#input_hide_comment_create_pid_"+pid+":checked").val();
 		var uid = $("input#input_uid_comment_create_pid_"+pid).val();
