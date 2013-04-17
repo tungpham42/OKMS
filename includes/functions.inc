@@ -2390,6 +2390,7 @@ function ask_question($rid,$cid,$week) {
 							errors += "<p>Question body is empty.</p>";
 						}
 						if ($("#question_title").val() != "" && $("#question_url").val() != "" && $("#question_body").val() != "") {
+							appendDate();
 							$("#save_post").load("triggers/post_create.php",{cid:$("#question_cid").val(),week:$("#question_week").val(),title:$("#question_title").val(),url:$("#question_url").val(),body:$("#question_body").val(),answer:$("#question_answer").val(),hide:$("#question_hide:checked").val()}, function(data){
 								if (data == "URL_EXISTS") {
 									openWrap("Duplicated subject.");
@@ -2411,14 +2412,23 @@ function ask_question($rid,$cid,$week) {
 						openLogin();
 					}
 				});
-				function update_field(){
+				function updateField(){
 					var title = $("input#question_title").val();
 					var url = title.replace(/[<>""!?,.!@#$%^&*{};:()]+/g,"");
 					var url = url.toLowerCase();
 					var url = url.replace(/[^A-Za-z0-9-]+/g,"-");
 					$("input#question_url").val(url);
 				}
-				$("input#question_title").keyup(update_field).keydown(update_field);
+				function appendDate() {
+					var url = $("input#question_url").val();
+					var d = new Date();
+					var month = d.getMonth()+1;
+					var day = d.getDate();
+					var outputDate = d.getFullYear() + "-" + (month<10 ? "0" : "") + month + "-" + (day<10 ? "0" : "") + day;
+					var url = url + "-" + outputDate;
+					$("input#question_url").val(url);
+				}
+				$("input#question_title").keyup(updateField).keydown(updateField).change(updateField);
 				$("textarea#question_body, textarea#question_answer").keyup(function(){
 					limits($(this), 420);
 				}).keydown(function(){
