@@ -1,6 +1,6 @@
 <?php //Paging for profile pages
-require_once '../includes/functions.inc';
-require_once '../includes/admin.inc';
+require_once '../includes/functions.inc.php';
+require_once '../includes/admin.inc.php';
 $uid = (isset($_SESSION['uid'])) ? $_SESSION['uid']: 0;
 $count = (isset($_POST['count'])) ? $_POST['count']: '';
 $profile_uid = (isset($_POST['profile_uid'])) ? $_POST['profile_uid']: '';

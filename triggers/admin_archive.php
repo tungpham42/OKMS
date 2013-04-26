@@ -1,6 +1,6 @@
 <?php //List posts by courses
-require_once '../includes/functions.inc';
-require_once '../includes/admin.inc';
+require_once '../includes/functions.inc.php';
+require_once '../includes/admin.inc.php';
 $cid = (isset($_POST['cid'])) ? $_POST['cid']: 0;
 $count = (isset($_POST['count'])) ? $_POST['count']: 10;
 $page = (isset($_POST['page'])) ? $_POST['page']: 1;

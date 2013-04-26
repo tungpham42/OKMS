@@ -1,5 +1,5 @@
 <?php
-require_once 'database.inc';
+require_once 'database.inc.php';
 require 'libraries/class.phpmailer.php';
 // Include the pagination class
 require 'libraries/pagination.class.php';
@@ -512,8 +512,10 @@ function get_pid_from_url($p) { //Get post ID from page URL, for use in admin.in
 function get_cid_from_url($p) { //Get course ID from page URL, for use in admin.inc
 	$pos = strpos($p,'/',0);
 	$code = substr($p,$pos+1);
+	$pid = get_pid_from_url($p);
+	$post = post_load($pid);
 	$course = course_load_from_code($code);
-	return (isset($course)) ? $course['Course_ID']: 0;
+	return (isset($post)) ? $post['Course_ID']: ((isset($course)) ? $course['Course_ID']: 0);
 }
 function get_username_from_url($p) { //Get username from page URL
 	$start_pos = strpos($p,'/',0);
@@ -2861,6 +2863,9 @@ function search_question($query,$cid,$count,$page=1) { //Search questions by pos
 					$("#feeds").load("triggers/paging_search.php",{count:'.$count.',cid:'.$cid.',page:page,keyword:"'.$query.'"});
 				}
 				</script>';
+	if (count($posts) == 0) {
+		$output .= '<h3>There is no results for this search criteria.</h3>';
+	}
 	return $output;
 }
 // get current URL

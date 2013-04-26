@@ -1,5 +1,5 @@
 <?php //Repost
-require_once '../includes/functions.inc';
+require_once '../includes/functions.inc.php';
 $uid = (isset($_POST['uid'])) ? $_POST['uid']: '';
 $cid = (isset($_POST['cid'])) ? $_POST['cid']: '';
 $week = (isset($_POST['week'])) ? $_POST['week']: '';

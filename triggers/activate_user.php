@@ -1,6 +1,6 @@
 <?php //Activate or deactivate user
-require_once '../includes/functions.inc';
-require_once '../includes/admin.inc';
+require_once '../includes/functions.inc.php';
+require_once '../includes/admin.inc.php';
 if (isset($_POST['uid'])) {
 	$uid = $_POST['uid'];
 	$user = user_load($uid);

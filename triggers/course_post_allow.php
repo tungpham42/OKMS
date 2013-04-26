@@ -1,6 +1,6 @@
 <?php //Allow or disallow course post
-require_once '../includes/functions.inc';
-require_once '../includes/admin.inc';
+require_once '../includes/functions.inc.php';
+require_once '../includes/admin.inc.php';
 if (isset($_POST['cid'])) {
 	$cid = $_POST['cid'];
 	$course = course_load($cid);

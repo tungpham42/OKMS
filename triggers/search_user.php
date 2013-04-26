@@ -1,6 +1,6 @@
 <?php //Search suggestions for search box
-require_once '../includes/functions.inc';
-require_once '../includes/admin.inc';
+require_once '../includes/functions.inc.php';
+require_once '../includes/admin.inc.php';
 if (isset($_POST['keyword'])) {
 	$keyword = $_POST['keyword'];
 	$users = array();

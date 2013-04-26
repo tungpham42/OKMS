@@ -1,6 +1,6 @@
 <?php //Paging for course pages
-require_once '../includes/functions.inc';
-require_once '../includes/admin.inc';
+require_once '../includes/functions.inc.php';
+require_once '../includes/admin.inc.php';
 $uid = (isset($_SESSION['uid'])) ? $_SESSION['uid']: 0;
 $cid = (isset($_POST['cid'])) ? $_POST['cid']: '';
 $page = (isset($_POST['page'])) ? $_POST['page']: '';

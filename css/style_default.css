@@ -778,12 +778,8 @@ a#post_submit:hover {
 	color: #BE1E2D;
 	margin-top: 6px;
 }
-#question_bottom > .question_element > select {
+#question_bottom > .question_element > select, #question_bottom > .question_element > select > option {
 	margin: 3px;
-	background: #FDD7C8;
-	color: #939598;
-}
-#question_bottom > .question_element > select {
 	background: #BE1E2D;
 	color: white;
 }
@@ -1393,7 +1389,7 @@ body.admin table {
 	color: #BE1E2D;
 }
 #login a {
-	color: blue;
+	color: #BE1E2D;
 	text-decoration: underline;
 }
 #login table, #login table td {

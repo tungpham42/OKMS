@@ -1,6 +1,6 @@
 <?php //List users by role
-require_once '../includes/functions.inc';
-require_once '../includes/admin.inc';
+require_once '../includes/functions.inc.php';
+require_once '../includes/admin.inc.php';
 $rid = (isset($_POST['rid'])) ? $_POST['rid']: 0;
 $count = (isset($_POST['count'])) ? $_POST['count']: 10;
 $page = (isset($_POST['page'])) ? $_POST['page']: 1;

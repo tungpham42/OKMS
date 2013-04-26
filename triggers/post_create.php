@@ -1,6 +1,6 @@
 <?php //Create post
-require_once '../includes/functions.inc';
-require_once '../includes/admin.inc';
+require_once '../includes/functions.inc.php';
+require_once '../includes/admin.inc.php';
 $uid = $_SESSION['uid'];
 $cid = (isset($_POST['cid'])) ? $_POST['cid']: '';
 $week = (isset($_POST['week'])) ? $_POST['week']: '';

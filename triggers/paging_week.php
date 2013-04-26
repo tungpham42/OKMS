@@ -1,6 +1,6 @@
 <?php //Paging for week pages
-require_once '../includes/functions.inc';
-require_once '../includes/admin.inc';
+require_once '../includes/functions.inc.php';
+require_once '../includes/admin.inc.php';
 $uid = (isset($_SESSION['uid'])) ? $_SESSION['uid']: 0;
 $week = (isset($_POST['week'])) ? $_POST['week']: '';
 $count = (isset($_POST['count'])) ? $_POST['count']: '';

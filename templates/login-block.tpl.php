@@ -91,7 +91,7 @@ if(isset($_POST['header_login'])){
 		?>
 
 		<p id="nav">
-		<a href="<?php print currentURL(); ?>?p=user/create">Register</a> |
+		<a href="<?php print currentURL(); ?>?p=user/register">Register</a> |
 		<a href="<?php print currentURL(); ?>?p=user/password_reset" title="Password Lost and Found">Lost your password?</a>
 		</p>
 		</div>

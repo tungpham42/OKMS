@@ -1,5 +1,5 @@
 <?php //Create comment
-require_once '../includes/functions.inc';
+require_once '../includes/functions.inc.php';
 $pid = (isset($_POST['pid'])) ? $_POST['pid']: '';
 $uid = (isset($_POST['uid'])) ? $_POST['uid']: '';
 $body = (isset($_POST['body'])) ? $_POST['body']: '';

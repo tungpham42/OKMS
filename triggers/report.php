@@ -1,6 +1,6 @@
 <?php //Report
-require_once '../includes/functions.inc';
-require_once '../includes/admin.inc';
+require_once '../includes/functions.inc.php';
+require_once '../includes/admin.inc.php';
 if (isset($_POST['report_type'])) {
 	$report_type = $_POST['report_type'];
 	$cid = (isset($_POST['cid'])) ? $_POST['cid']: 0;

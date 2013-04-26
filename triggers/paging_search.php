@@ -1,6 +1,6 @@
 <?php //Paging for search results page
-require_once '../includes/functions.inc';
-require_once '../includes/admin.inc';
+require_once '../includes/functions.inc.php';
+require_once '../includes/admin.inc.php';
 if (isset($_POST['keyword'])) {
 	$query = str_replace("'","/",$_POST['keyword']);
 	$count = (isset($_POST['count'])) ? $_POST['count']: '';

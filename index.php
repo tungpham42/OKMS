@@ -1,8 +1,8 @@
 <?php
 header('Connection: keep-alive');
 //header('Content-Encoding: gzip');
-require 'includes/functions.inc';
-include('includes/admin.inc');
+require 'includes/functions.inc.php';
+include('includes/admin.inc.php');
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">

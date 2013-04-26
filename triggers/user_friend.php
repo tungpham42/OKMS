@@ -1,6 +1,6 @@
 <?php //Friend or unfriend user
-require_once '../includes/functions.inc';
-require_once '../includes/admin.inc';
+require_once '../includes/functions.inc.php';
+require_once '../includes/admin.inc.php';
 if (isset($_POST['friend_id']) && isset($_SESSION['uid'])) {
 	$uid = $_SESSION['uid'];
 	$friend_id = $_POST['friend_id'];

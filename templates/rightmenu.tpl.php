@@ -1,7 +1,7 @@
 <div id="search_bar">
 	<form action="?p=search" method="POST">
 		<input type="hidden" name="cid" value="<?php print $cid; ?>" />
-		<input id="search_box" type="text" name="keyword" title="Fill in your search query" size="20" placeholder="Search.." /><button type="submit" id="search_submit"></button>
+		<input id="search_box" type="text" name="keyword" title="Fill in your search query" size="20" placeholder="Search<?php print (isset($cid) && $cid != 0) ? ' in '.$course['Course_Code']: ''; ?>.." /><button type="submit" id="search_submit"></button>
 	</form>
 	<div style="display: none;" id="search_suggestion"></div>
 </div>

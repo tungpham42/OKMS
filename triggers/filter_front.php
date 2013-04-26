@@ -1,6 +1,6 @@
 <?php //Front page filter
-require_once '../includes/functions.inc';
-require_once '../includes/admin.inc';
+require_once '../includes/functions.inc.php';
+require_once '../includes/admin.inc.php';
 $uid = (isset($_SESSION['uid'])) ? $_SESSION['uid']: 0;
 $option = (isset($_POST['option'])) ? $_POST['option']: 'All courses';
 $page = (isset($_POST['page'])) ? $_POST['page']: 1;
