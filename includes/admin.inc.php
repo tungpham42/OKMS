@@ -54,7 +54,7 @@ if (!username_existed($_SESSION['username'])) {
 	session_start();
 }
 /* End Auth */
-$p = isset($_GET['p']) ? $_GET['p']: 'home';
+$p = isset($_GET['p']) ? rawurldecode($_GET['p']): 'home';
 
 $pid = get_pid_from_url($p);
 $uid = substr($p,5);
@@ -65,6 +65,7 @@ $cid = (isset($course_week)) ? $course_week['cid']: ((isset($_POST['cid'])) ? $_
 $cids = ($_SESSION['rid'] == 1) ? cids_load_all(): user_cids_load_all($_SESSION['uid']);
 $pids = user_pids_load_all($_SESSION['uid']);
 $user = user_load($_SESSION['uid']);
+$post = post_load($pid);
 $course = course_load($cid);
 $users = $db->array_load_all('USER');
 $user_paths = array();
@@ -486,3 +487,4 @@ if (isset($_SESSION['rid'])):
 else:
 	$site_name = 'Online KMS';
 endif;
+$meta_description = 'Online Knowledge Management System'.((isset($post)) ? ' - '.$post['Post_Title'].': '.$post['Post_Question']: ((isset($course)) ? ' - '.$course['Course_Code'].': '.$course['Course_Name']: ' - '.$title));

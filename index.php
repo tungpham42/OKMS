@@ -8,7 +8,7 @@ include('includes/admin.inc.php');
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta http-equiv="content-type" content="text/html;charset=utf-8">
-		<meta name="description" content="Custom built web content management system for managing knowledge" />
+		<meta name="description" content="<?php print $meta_description; ?>" />
 		<meta name="keywords" content="kms,cms,online_kms,knowledge management system" />
 		<meta name="author" content="Tung Pham" />
 		<title><?php print $site_name.(($p != 'home' && $p != '') ? ' - ': ' ').$title; ?></title>

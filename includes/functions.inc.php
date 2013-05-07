@@ -2337,14 +2337,14 @@ function ask_question($rid,$cid,$week) {
 	$course = course_load($cid);
 	$output .= '<div id="ask_question">';
 	$output .= '<div id="ask_label">Ask Question</div>';
-	$output .= '<div id="question_section" title="Ask question" class="'.(($rid == 0) ? 'not_loggedin': '').((!course_belonged($cid,$_SESSION['uid']) && $cid != 0 && $rid != 1) ? ' not_belonged': '').((isset($course['Course_Allowed']) && $course['Course_Allowed'] != 1 && $rid != 3) ? ' not_allowed': '').((isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? ' is_admin': '').((!is_enroled($_SESSION['uid'])) ? ' not_enroled': '').((!is_allowed($_SESSION['uid']) && $rid != 1 && $rid != 3) ? ' no_course': '').(($_SESSION['rid'] == 4) ? ' guest_mode': '').'">';
+	$output .= '<div id="question_section" title="Ask question" class="'.(($rid == 0) ? 'not_loggedin': '').((!course_belonged($cid,$_SESSION['uid']) && $cid != 0 && $rid != 1) ? ' not_belonged': '').((isset($course['Course_Allowed']) && $course['Course_Allowed'] != 1 && $rid != 3) ? ' not_allowed': '').((isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? ' is_admin': '').((!is_enroled($_SESSION['uid'])) ? ' not_enroled': '').((!is_allowed($_SESSION['uid']) && $rid != 1 && $rid != 3) ? ' no_course': '').(($rid == 4) ? ' guest_mode': '').'">';
 	$output .= '<span id="question_label">Type a question..</span>';
 	$output .= '<a id="question_close_button"></a>';
 	$output .= '<div class="question_element" style="margin-top: 5px;"><label for="question_title">Subject: </label><input class="element_input" id="question_title" name="question_title" type="text" size="30" /></div>';
 	$output .= '<input class="element_input" id="question_url" name="question_url" type="hidden" />';
 	$output .= '<div class="question_element"><label for="question_body">Type a question.. </label><br/><textarea style="resize: none; overflow: auto" class="element_textarea" id="question_body" name="question_body" rows="1"></textarea></div><br/>';
-	$output .= ($rid != 2) ? '<div class="question_element"><label for="question_answer">Type an answer.. </label><br/><textarea style="resize: none; overflow: auto" class="element_textarea" id="question_answer" name="question_answer" rows="1"></textarea></div><br/>': '<input type="hidden" id="question_answer" value="" />';
-	$output .= ($rid == 2) ? '<div class="question_element"><input style="float: left;width: 20px;margin-right: 0px;margin-top: 7px;" id="question_hide" type="checkbox" name="hide" value="1" /><label for="question_hide">Hide your username from others</label></div>': '<input id="question_hide" type="hidden" name="hide" value="0" />';
+	$output .= ($rid != 2 && $rid != 4) ? '<div class="question_element"><label for="question_answer">Type an answer.. </label><br/><textarea style="resize: none; overflow: auto" class="element_textarea" id="question_answer" name="question_answer" rows="1"></textarea></div><br/>': '<input type="hidden" id="question_answer" value="" />';
+	$output .= ($rid == 2 || $rid == 4) ? '<div class="question_element"><input style="float: left;width: 20px;margin-right: 0px;margin-top: 7px;" id="question_hide" type="checkbox" name="hide" value="1" /><label for="question_hide">Hide your username from others</label></div>': '<input id="question_hide" type="hidden" name="hide" value="0" />';
 	$output .= '<div id="question_bottom">';
 	$output .= '<div class="question_element week"><label for="question_week">Week: </label>'.(($week == 0) ? select_week('question_week'): select_week('question_week',$week)).'</div>';
 	$output .= ($cid == 0) ? '<div class="question_element course"><label for="question_cid">Course: </label>'.select_course('question_cid').'</div>': '<input type="hidden" id="question_cid" value="'.$cid.'" />';
@@ -2358,7 +2358,7 @@ function ask_question($rid,$cid,$week) {
 					if (!$(this).hasClass("not_loggedin") && !$(this).hasClass("not_belonged") && !$(this).hasClass("not_allowed") && !$(this).hasClass("is_admin") && !$(this).hasClass("not_enroled") && !$(this).hasClass("no_course") || $(this).hasClass("guest_mode")) {
 						$("#question_label").text("");
 						$("#question_section .question_element,#question_close_button,#question_bottom").css("display","block");
-						$(this).css("cursor","default").animate({height:"'.(($rid != 2) ? '140px': '125px').'"},240);
+						$(this).css("cursor","default").animate({height:"'.(($rid != 2 && $rid != 4) ? '140px': '125px').'"},240);
 					} else if ($(this).hasClass("not_loggedin")) {
 						openLogin();
 					} else if ($(this).hasClass("not_belonged")) {
@@ -2432,11 +2432,18 @@ function ask_question($rid,$cid,$week) {
 				}
 				$("input#question_title").keyup(updateField).keydown(updateField).change(updateField);
 				$("textarea#question_body, textarea#question_answer").keyup(function(){
-					limits($(this), 420);
+					limits($(this), 900);
 				}).keydown(function(){
-					limits($(this), 420);
+					limits($(this), 900);
 				}).change(function(){
-					limits($(this), 420);
+					limits($(this), 900);
+				});
+				$("input#question_title").keyup(function(){
+					limits($(this), 42);
+				}).keydown(function(){
+					limits($(this), 42);
+				}).change(function(){
+					limits($(this), 42);
 				});
 				</script>';
 	$output .= '</div>';
@@ -2504,7 +2511,7 @@ function list_comments($pid,$c=null) { //Return list of comments by post ID
 	$output .= '<div id="addCommentContainer">';
 	$output .= '<a class="author" href="?p=user/'.$current_user['User_Username'].'"><img src="'.$current_grav_url.'" width="30px"/></a>';
 	$output .= '<textarea placeholder="Leave a comment..." name="body" id="textarea_body_comment_create_pid_'.$pid.'" cols="20" rows="5"></textarea>';
-	$output .= '<input id="input_hide_comment_create_pid_'.$pid.'" type="checkbox" name="hide" value="1" /><label for="hide">Hide your username from others</label><br/>';
+	$output .= '<input id="input_hide_comment_create_pid_'.$pid.'" type="checkbox" name="hide" value="1" /><label for="hide" style="position: relative; top: -2px;">Hide your username from others</label><br/>';
 	$output .= '<input id="input_uid_comment_create_pid_'.$pid.'" type="hidden" value="'.$_SESSION['uid'].'" />';
 	$output .= '<a style="float: right; position: relative; left: -6px; bottom: 23px;" class="button" id="submit_comment_create_pid_'.$pid.'">Create comment</a>';
 	$output .= '</div>';

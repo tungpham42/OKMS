@@ -67,11 +67,11 @@ if ((isset($_POST['submit']) && count($err) > 0) || !isset($_POST['submit'])):
 		?>
 		<tr>
 			<td><label for="name">Username:</label></td>
-			<td><input id="name" type="text" name="name" size="30" maxlength="128" class="required" value="<?php print $old_name; ?>" /><br/><div style="display: none" id="username_check"></div><span id="username_check_label"></span><br/></td>
+			<td><input id="name" type="text" name="name" size="30" maxlength="128" class="required" value="<?php print $old_name; ?>" /><br/><div style="display: none" id="username_check"></div><span id="username_check_label"></span></td>
 		</tr>
 		<tr>
 			<td width="30%"><label for="mail">Email:</label></td>
-			<td><input id="mail" type="text" name="mail" size="30" maxlength="128" class="required email" value="<?php print $old_mail; ?>" /><input id="alias" type="hidden" name="alias" size="30" maxlength="128" /></td>
+			<td><input id="mail" type="text" name="mail" size="30" maxlength="128" class="required email" value="<?php print $old_mail; ?>" /><br/><div style="display: none" id="email_check"></div><span id="email_check_label"></span></td>
 		</tr>
 		<tr>
 			<td><label for="fullname">Fullname:</label></td>
@@ -128,7 +128,20 @@ function checkUsername() {
 		}
 	});
 }
+function checkEmail() {
+	var email = $("input#mail").val();
+	$("#email_check").load("triggers/email_check.php",{email:email},function(data){
+		if (data == "EMAIL_EXISTS") {
+			$("span#email_check_label").css("color","red").text("Email Exists");
+		} else if ($("input#mail").val() != "" && data == "EMAIL_AVAILABLE") {
+			$("span#email_check_label").css("color","green").text("Email Available");
+		} else if ($("input#mail").val() == "") {
+			$("span#email_check_label").css("color","red").text("Email Empty");
+		}
+	});
+}
 $("input#name").keyup(checkUsername).keydown(checkUsername).change(checkUsername);
+$("input#mail").keyup(checkEmail).keydown(checkEmail).change(checkEmail);
 </script>
 <?php
 	endif;
