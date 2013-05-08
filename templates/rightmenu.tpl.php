@@ -19,7 +19,7 @@ if ($("input#search_box").val() == '') {
 }
 </script>
 <?php
-print (isset($_SESSION['uid'])) ? friends_list($_SESSION['uid']): '';
+print (isset($_SESSION['uid'])) ? following_list($_SESSION['uid']): '';
 print latest_questions(3);
 print most_commented(3);
 ?>

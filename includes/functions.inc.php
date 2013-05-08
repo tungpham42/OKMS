@@ -1,14 +1,15 @@
 <?php
-require_once 'database.inc.php';
-require 'libraries/class.phpmailer.php';
+require('database.inc.php');
+require('libraries/class.phpmailer.php');
 // Include the pagination class
-require 'libraries/pagination.class.php';
+require('libraries/pagination.class.php');
 //PHPExcel Class
-require_once('libraries/PHPExcel/PHPExcel.php');
-require_once('libraries/PHPExcel/PHPExcel/IOFactory.php');
+require('libraries/PHPExcel/PHPExcel.php');
+require('libraries/PHPExcel/PHPExcel/IOFactory.php');
 define('PREFIX', 'OKMS_');
 define('DEFAULT_AVATAR', 'http://tungpham42.info/okms/images/avatar.jpg');
 /* General Functions */
+global $db;
 function table_row_class($id) { //Identify the table row class based on counter
 	$output = '';
 	if ((($id+1) % 2) == 1) {
@@ -69,6 +70,28 @@ function user_load_from_mail($mail) { //Load user array from email
 	$users = $db->array_load('USER','User_Mail',$mail);
 	sort($users);
 	return $users[0];
+}
+function followees_load_by_uid($uid) { //Load followees array from user ID
+	global $db;
+	$followees = $db->array_load('USER_FOLLOW','User_ID',$uid);
+	sort($followees);
+	return $followees;
+}
+function followee_ids_load_by_uid($uid) { //Load followee IDs array from user ID
+	$followee_ids = array();
+	$followees = followees_load_by_uid($uid);
+	sort($followees);
+	foreach ($followees as $followee) {
+		$followee_ids[] = $followee['Followee_ID'];
+	}
+	sort($followee_ids);
+	return $followee_ids;
+}
+function user_follow_load($uid,$followee_id) { //Load followee array from user ID and followee ID
+	global $db;
+	$followees = $db->array_load_with_two_identifier('USER_FOLLOW','User_ID',$uid,'Followee_ID',$followee_id);
+	sort($followees);
+	return $followees[0];
 }
 function role_load($rid) { //Load role array from role ID
 	global $db;
@@ -262,28 +285,6 @@ function post_rate_load($pid,$uid) { //Load post rate array from post ID and use
 	$post_rates = $db->array_load_with_two_identifier('POST_RATE','Post_ID',$pid,'User_ID',$uid);
 	sort($post_rates);
 	return $post_rates[0];
-}
-function friends_load_by_uid($uid) { //Load friends array from user ID
-	global $db;
-	$friends = $db->array_load('FRIEND','User_ID',$uid);
-	sort($friends);
-	return $friends;
-}
-function friend_ids_load_by_uid($uid) { //Load friend IDs array from user ID
-	$friend_ids = array();
-	$friends = friends_load_by_uid($uid);
-	sort($friends);
-	foreach ($friends as $friend) {
-		$friend_ids[] = $friend['Friend_ID'];
-	}
-	sort($friend_ids);
-	return $friend_ids;
-}
-function friend_load($uid,$friend_id) { //Load friend array from user ID and friend ID
-	global $db;
-	$friends = $db->array_load_with_two_identifier('FRIEND','User_ID',$uid,'Friend_ID',$friend_id);
-	sort($friends);
-	return $friends[0];
 }
 function count_posts_from_cid($cid) { //Return total number of posts by course ID
 	$posts = posts_load_from_cid($cid);
@@ -591,13 +592,13 @@ function send_mail($to,$subject,$body,$from) //Send mail with SMTP authenticatio
 	$mail = new PHPMailer(false);
 
 	$mail->IsSMTP();                                      // set mailer to use SMTP
-	$mail->Host = "smtp.gmail.com";  // specify main and backup server
+	$mail->Host = getenv('MAILGUN_SMTP_SERVER');  // specify main and backup server
 	$mail->SMTPAuth = true;     // turn on SMTP authentication
-	$mail->Port = 587;
+	$mail->Port = getenv('MAILGUN_SMTP_PORT');
 	$mail->SMTPSecure = "tls";
-	$mail->SMTPDebug = 0;
-	$mail->Username = "okms.vietnam@gmail.com";  // SMTP username
-	$mail->Password = "OKMSpa$$1"; // SMTP password
+	$mail->SMTPDebug = 1;
+	$mail->Username = getenv('MAILGUN_SMTP_LOGIN');  // SMTP username
+	$mail->Password = getenv('MAILGUN_SMTP_PASSWORD'); // SMTP password
 	
 	$mail->From = $from;
 	$mail->FromName = "Online KMS";
@@ -1024,6 +1025,77 @@ function username_existed($name) { //Check if username existed
 		return false;
 	}
 }
+/* User Follow Functions */
+function following_box($followee_id) { //Friend box
+	$output = '';
+	$output .= '<div class="following_box">';
+	$output .= ($followee_id != $_SESSION['uid']) ? '<a id="user_followee_id_'.$followee_id.'" class="button'.((is_followee($_SESSION['uid'],$followee_id)) ? ' user_unfollow': ' user_follow').'">'.((is_followee($_SESSION['uid'],$followee_id)) ? 'Followed': 'Follow').'</a>': '';
+	$output .= '<div style="display: none" id="save_user_follow_id_'.$followee_id.'"></div>';
+	$output .= '<script>
+				$(".following_box > .button.user_unfollow").mouseenter(function(){
+					$(this).text("Unfollow");
+				}).mouseleave(function(){
+					$(this).text("Followed");
+				});
+				$("#user_followee_id_'.$followee_id.'").click(function(){
+					$("#save_user_follow_id_'.$followee_id.'").load("triggers/user_follow.php",{followee_id:'.$followee_id.'},function(){
+						location.reload();
+					});
+				});
+				</script>';
+	$output .= '</div>';
+	return $output;
+}
+function following_list($uid) { //Friend list
+	$output = '';
+	$default = DEFAULT_AVATAR;
+	$size = 40;
+	$followee_ids = followee_ids_load_by_uid($uid);
+	sort($followee_ids);
+	$output .= '<div class="heading">Following</div>';
+	$output .= '<div id="following_list">';
+	if (count($followee_ids) > 0) {
+		for ($i = 0; $i < count($followee_ids); $i++) {
+			$user = user_load($followee_ids[$i]);
+			$email = $user['User_Mail'];
+			$grav_url = "http://0.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=".$default."&s=" . $size;
+			$output .= '<div class="post '.(($i == 0) ? 'first': '').'">';
+			$output .= '<a class="author" href="?p=user/'.$user['User_Username'].'"><img src="'.$grav_url.'" width="40px"/></a>';
+			$output .= '<div class="post_right_detail">';
+			$output .= '<span class="author_name"><a href="?p=user/'.$user['User_Username'].'">'.$user['User_Fullname'].'</a></span><br/>';
+			$output .= '</div>';
+			$output .= '</div>';
+		}
+	} else {
+		$output .= '<div>No followees yet</div>';
+	}
+	$output .= '</div>';
+	return $output;
+}
+function is_followee($uid,$followee_id) {
+	$followee = user_follow_load($uid,$followee_id);
+	if (isset($followee)) {
+		return true;
+	} else {
+		return false;
+	}
+}
+function follow_user($uid,$followee_id) { //Create new record in table course_users
+	global $db;
+	$array = array(
+				'User_ID' => $uid,
+				'Followee_ID' => $followee_id
+			);
+	$db->insert_record($array,'USER_FOLLOW');
+}
+function unfollow_user($uid,$followee_id) { //Delete record in table course_users
+	global $db;
+	$db->delete_record_with_two_identifier('User_ID',$uid,'Followee_ID',$followee_id,'USER_FOLLOW');
+}
+function delete_all_followees($uid) { //Delete all records in table course_users by user ID
+	global $db;
+	$db->delete_record('User_ID',$uid,'USER_FOLLOW');
+}
 /* Role Functions */
 function select_role($name,$rid = null) { //Return select element of role IDs
 	global $db;
@@ -1084,7 +1156,7 @@ function create_role($name) { //Create new role
 			);
 	$db->insert_record($array,'ROLE');
 }
-function edit_role($rid,$new) { //Edit role detail including role name
+function edit_role($rid,$name) { //Edit role detail including role name
 	global $db;
 	$array = array(
 				'Role_Name' => $name
@@ -1789,7 +1861,7 @@ function unfollow_post($uid,$pid) { //Unfollow a post
 	global $db;
 	$db->delete_record_with_two_identifier('User_ID',$uid,'Post_ID',$pid,'POST_FOLLOW');
 }
-function notify($pid,$commenter_name,$comment) { //Send notification emails to followers for every new comment
+function follow_notify($pid,$commenter_name,$comment) { //Send notification emails to followers for every new comment
 	$uids = array();
 	$post_follows = post_follows_load_by_pid($pid);
 	foreach ($post_follows as $follower) {
@@ -1799,13 +1871,13 @@ function notify($pid,$commenter_name,$comment) { //Send notification emails to f
 		$post = post_load($pid);
 		$user = user_load($uid);
 		$to = $user['User_Mail'];
-		$subject = 'Norification for the post "'.$post['Post_Title'].'"';
-		$from = 'okms@tungpham42.info';
+		$subject = 'Notification for the post "'.$post['Post_Title'].'"';
+		$from = 'okms.vietnam@gmail.com';
 		send_mail($to,$subject,'
 <table style="border: 1px solid black;">
 	<tr style="border: 1px solid black;">
 		<td>
-			<img src="http://tungpham42.info/okms/images/banner_email.png" width="480" height="80" />
+			<img src="http://okms.vn.ee/images/banner_email.png" width="480" height="80" />
 		</td>
 	</tr>
 	<tr style="border: 1px solid black;">
@@ -1813,7 +1885,7 @@ function notify($pid,$commenter_name,$comment) { //Send notification emails to f
 			<p>Hi <b>'.$user['User_Fullname'].'</b></p>
 			<p>'.$commenter_name.' commented on the post that you have followed</p>
 			<p>'.$commenter_name.' wrote: "'.$comment.'"</p>
-			<p><a href="http://tungpham42.info/okms/?p=question/'.$post['Post_URL'].'">Go to comments</a> now</p>
+			<p><a href="http://okms.vn.ee/?p=question/'.$post['Post_URL'].'">Go to comments</a> now</p>
 		</td>
 	</tr>
 </table>
@@ -2057,77 +2129,6 @@ function delete_post_rate_from_pid($pid) { //Delete rating of post
 	global $db;
 	$db->delete_record('Post_ID',$pid,'POST_RATE');
 }
-/* Friend Functions */
-function friend_box($friend_id) { //Friend box
-	$output = '';
-	$output .= '<div class="friend_box">';
-	$output .= ($friend_id != $_SESSION['uid']) ? '<a id="user_friend_id_'.$friend_id.'" class="button'.((is_friend($_SESSION['uid'],$friend_id)) ? ' unfriend': ' friend').'">'.((is_friend($_SESSION['uid'],$friend_id)) ? 'Friend': 'Add friend').'</a>': '';
-	$output .= '<div style="display: none" id="save_user_friend_id_'.$friend_id.'"></div>';
-	$output .= '<script>
-				$(".friend_box > .button.unfriend").mouseenter(function(){
-					$(this).text("Unfriend");
-				}).mouseleave(function(){
-					$(this).text("Friend");
-				});
-				$("#user_friend_id_'.$friend_id.'").click(function(){
-					$("#save_user_friend_id_'.$friend_id.'").load("triggers/user_friend.php",{friend_id:'.$friend_id.'},function(){
-						location.reload();
-					});
-				});
-				</script>';
-	$output .= '</div>';
-	return $output;
-}
-function friends_list($uid) { //Friend list
-	$output = '';
-	$default = DEFAULT_AVATAR;
-	$size = 40;
-	$friend_ids = friend_ids_load_by_uid($uid);
-	sort($friend_ids);
-	$output .= '<div class="heading">Friends List</div>';
-	$output .= '<div id="friend_list">';
-	if (count($friend_ids) > 0) {
-		for ($i = 0; $i < count($friend_ids); $i++) {
-			$user = user_load($friend_ids[$i]);
-			$email = $user['User_Mail'];
-			$grav_url = "http://0.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=".$default."&s=" . $size;
-			$output .= '<div class="post '.(($i == 0) ? 'first': '').'">';
-			$output .= '<a class="author" href="?p=user/'.$user['User_Username'].'"><img src="'.$grav_url.'" width="40px"/></a>';
-			$output .= '<div class="post_right_detail">';
-			$output .= '<span class="author_name"><a href="?p=user/'.$user['User_Username'].'">'.$user['User_Fullname'].'</a></span><br/>';
-			$output .= '</div>';
-			$output .= '</div>';
-		}
-	} else {
-		$output .= '<div>No friends yet</div>';
-	}
-	$output .= '</div>';
-	return $output;
-}
-function is_friend($uid,$friend_id) {
-	$friend = friend_load($uid,$friend_id);
-	if (isset($friend)) {
-		return true;
-	} else {
-		return false;
-	}
-}
-function friend_user($uid,$friend_id) { //Create new record in table course_users
-	global $db;
-	$array = array(
-				'User_ID' => $uid,
-				'Friend_ID' => $friend_id
-			);
-	$db->insert_record($array,'FRIEND');
-}
-function unfriend_user($uid,$friend_id) { //Delete record in table course_users
-	global $db;
-	$db->delete_record_with_two_identifier('User_ID',$uid,'Friend_ID',$friend_id,'FRIEND');
-}
-function delete_all_friends($uid) { //Delete all records in table course_users by user ID
-	global $db;
-	$db->delete_record('User_ID',$uid,'FRIEND');
-}
 /* Front page listing functions */
 function front_page_listing($count,$uid,$sort_type,$option,$page=1) { //Return list of posts on front page
 	global $db;
@@ -2334,6 +2335,16 @@ function view_course_week($cid,$week,$count,$uid,$sort_type,$page=1) { //Return 
 /* Ask Question Function */
 function ask_question($rid,$cid,$week) {
 	$output = '';
+	$feeds_type = '';
+	if ($cid == 0 && $week == 0) {
+		$feeds_type = 'front';
+	} elseif ($cid != 0 && $week == 0) {
+		$feeds_type = 'course';
+	} elseif ($cid != 0 && $week != 0) {
+		$feeds_type = 'course_week';
+	} elseif ($cid == 0 && $week != 0) {
+		$feeds_type = 'week';
+	}
 	$course = course_load($cid);
 	$output .= '<div id="ask_question">';
 	$output .= '<div id="ask_label">Ask Question</div>';
@@ -2401,8 +2412,11 @@ function ask_question($rid,$cid,$week) {
 									$("#question_section .question_element,#question_close_button,#question_bottom").css("display","none");
 									$("#question_section").css("height","27px");
 									$("#follow_post").load("triggers/latest_post_follow.php",function(){
-										location.reload();
-										openWrap("Post created");
+										$("#feeds").load("triggers/feeds_update.php",{feeds_type:"'.$feeds_type.'"},function(){
+											$("#rightmenu").load("templates/rightmenu.tpl.php",function(){
+												openWrap("Post created");
+											});
+										});
 									});
 								}
 							});
@@ -3351,4 +3365,120 @@ function parse_excel_column_to_custom_array($filename,$column,$starting_cell_row
 function anti_sql($sql) {
     $sql = str_replace(sql_regcase("/(from|select|insert|delete|where|drop table|show tables|#|*|--|\)/"),"",$sql);
     return trim(strip_tags(addslashes($sql))); #strtolower()
+}
+/* Triggers */
+function comment_like($comid,$uid) {
+	global $db;
+	$vote_sql = mysql_query("SELECT * FROM ".$db->db_prefix."COMMENT_VOTE WHERE Comment_ID='".$comid."' AND User_ID='".$uid."'");
+	$votes = $db->array_load_with_two_identifier('COMMENT_VOTE','Comment_ID',$comid,'User_ID',$uid);
+	sort($votes);
+	$vote = $votes[0];
+	$count = mysql_num_rows($vote_sql);
+	if ($count == 0) {
+		$sql_in = "INSERT INTO ".$db->db_prefix."COMMENT_VOTE(User_ID,Comment_ID,CommentVote_Like,CommentVote_Dislike) VALUES('".$uid."','".$comid."','1','0')";
+		mysql_query($sql_in);
+	} elseif ($count == 1 && $vote['CommentVote_Like'] == 1 && $vote['CommentVote_Dislike'] == 0) {
+		mysql_query("UPDATE ".$db->db_prefix."COMMENT_VOTE c SET c.CommentVote_Like = 0 WHERE c.Comment_ID='".$comid."' AND c.User_ID='".$uid."'");
+	} elseif ($count == 1 && $vote['CommentVote_Like'] == 0 && $vote['CommentVote_Dislike'] == 0) {
+		mysql_query("UPDATE ".$db->db_prefix."COMMENT_VOTE c SET c.CommentVote_Like = 1 WHERE c.Comment_ID='".$comid."' AND c.User_ID='".$uid."'");
+		mysql_query("UPDATE ".$db->db_prefix."COMMENT_VOTE c SET c.CommentVote_Dislike = 0 WHERE c.Comment_ID='".$comid."' AND c.User_ID='".$uid."'");
+	} elseif ($count == 1 && $vote['CommentVote_Like'] == 0 && $vote['CommentVote_Dislike'] == 1) {
+		mysql_query("UPDATE ".$db->db_prefix."COMMENT_VOTE c SET c.CommentVote_Like = 1 WHERE c.Comment_ID='".$comid."' AND c.User_ID='".$uid."'");
+		mysql_query("UPDATE ".$db->db_prefix."COMMENT_VOTE c SET c.CommentVote_Dislike = 0 WHERE c.Comment_ID='".$comid."' AND c.User_ID='".$uid."'");
+	}
+}
+function comment_dislike($comid,$uid) {
+	global $db;
+	$vote_sql = mysql_query("SELECT * FROM ".$db->db_prefix."COMMENT_VOTE WHERE Comment_ID='".$comid."' AND User_ID='".$uid."'");
+	$votes = $db->array_load_with_two_identifier('COMMENT_VOTE','Comment_ID',$comid,'User_ID',$uid);
+	sort($votes);
+	$vote = $votes[0];
+	$count = mysql_num_rows($vote_sql);
+	if ($count == 0) {
+		$sql_in = "INSERT INTO ".$db->db_prefix."COMMENT_VOTE(User_ID,Comment_ID,CommentVote_Dislike,CommentVote_Like) VALUES('".$uid."','".$comid."','1','0')";
+		mysql_query($sql_in);
+	} elseif ($count == 1 && $vote['CommentVote_Dislike'] == 1 && $vote['CommentVote_Like'] == 0) {
+		mysql_query("UPDATE ".$db->db_prefix."COMMENT_VOTE c SET c.CommentVote_Dislike = 0 WHERE c.Comment_ID='".$comid."' AND c.User_ID='".$uid."'");
+	} elseif ($count == 1 && $vote['CommentVote_Dislike'] == 0 && $vote['CommentVote_Like'] == 0) {
+		mysql_query("UPDATE ".$db->db_prefix."COMMENT_VOTE c SET c.CommentVote_Dislike = 1 WHERE c.Comment_ID='".$comid."' AND c.User_ID='".$uid."'");
+		mysql_query("UPDATE ".$db->db_prefix."COMMENT_VOTE c SET c.CommentVote_Like = 0 WHERE c.Comment_ID='".$comid."' AND c.User_ID='".$uid."'");
+	} elseif ($count == 1 && $vote['CommentVote_Dislike'] == 0 && $vote['CommentVote_Like'] == 1) {
+		mysql_query("UPDATE ".$db->db_prefix."COMMENT_VOTE c SET c.CommentVote_Dislike = 1 WHERE c.Comment_ID='".$comid."' AND c.User_ID='".$uid."'");
+		mysql_query("UPDATE ".$db->db_prefix."COMMENT_VOTE c SET c.CommentVote_Like = 0 WHERE c.Comment_ID='".$comid."' AND c.User_ID='".$uid."'");
+	}
+}
+function latest_post_follow($pid,$uid) {
+	global $db;
+	$follows = $db->array_load_with_two_identifier('POST_FOLLOW','Post_ID',$pid,'User_ID',$uid);
+	sort($follows);
+	$follow = $follows[0];
+	$count = count($follows);
+	if ($count == 0) {
+		follow_post($uid,$pid);
+	}
+}
+function post_like($pid,$uid) {
+	global $db;
+	$vote_sql = mysql_query("SELECT * FROM ".$db->db_prefix."POST_VOTE WHERE Post_ID='".$pid."' AND User_ID='".$uid."'");
+	$votes = $db->array_load_with_two_identifier('POST_VOTE','Post_ID',$pid,'User_ID',$uid);
+	sort($votes);
+	$vote = $votes[0];
+	$count = mysql_num_rows($vote_sql);
+	if ($count == 0) {
+		$sql_in = "INSERT INTO ".$db->db_prefix."POST_VOTE(User_ID,Post_ID,PostVote_Like,PostVote_Dislike) VALUES('".$uid."','".$pid."','1','0')";
+		mysql_query($sql_in);
+	} elseif ($count == 1 && $vote['PostVote_Like'] == 1 && $vote['PostVote_Dislike'] == 0) {
+		mysql_query("UPDATE ".$db->db_prefix."POST_VOTE p SET p.PostVote_Like = 0 WHERE p.Post_ID='".$pid."' AND p.User_ID='".$uid."'");
+	} elseif ($count == 1 && $vote['PostVote_Like'] == 0 && $vote['PostVote_Dislike'] == 0) {
+		mysql_query("UPDATE ".$db->db_prefix."POST_VOTE p SET p.PostVote_Like = 1 WHERE p.Post_ID='".$pid."' AND p.User_ID='".$uid."'");
+		mysql_query("UPDATE ".$db->db_prefix."POST_VOTE p SET p.PostVote_Dislike = 0 WHERE p.Post_ID='".$pid."' AND p.User_ID='".$uid."'");
+	} elseif ($count == 1 && $vote['PostVote_Like'] == 0 && $vote['PostVote_Dislike'] == 1) {
+		mysql_query("UPDATE ".$db->db_prefix."POST_VOTE p SET p.PostVote_Like = 1 WHERE p.Post_ID='".$pid."' AND p.User_ID='".$uid."'");
+		mysql_query("UPDATE ".$db->db_prefix."POST_VOTE p SET p.PostVote_Dislike = 0 WHERE p.Post_ID='".$pid."' AND p.User_ID='".$uid."'");
+	}
+}
+function post_dislike($pid,$uid) {
+	global $db;
+	$vote_sql = mysql_query("SELECT * FROM ".$db->db_prefix."POST_VOTE WHERE Post_ID='".$pid."' AND User_ID='".$uid."'");
+	$votes = $db->array_load_with_two_identifier('POST_VOTE','Post_ID',$pid,'User_ID',$uid);
+	sort($votes);
+	$vote = $votes[0];
+	$count = mysql_num_rows($vote_sql);
+	if ($count == 0) {
+		$sql_in = "INSERT INTO ".$db->db_prefix."POST_VOTE(User_ID,Post_ID,PostVote_Dislike,PostVote_Like) VALUES('".$uid."','".$pid."','1','0')";
+		mysql_query($sql_in);
+	} elseif ($count == 1 && $vote['PostVote_Dislike'] == 1 && $vote['PostVote_Like'] == 0) {
+		mysql_query("UPDATE ".$db->db_prefix."POST_VOTE p SET p.PostVote_Dislike = 0 WHERE p.Post_ID='".$pid."' AND p.User_ID='".$uid."'");
+	} elseif ($count == 1 && $vote['PostVote_Dislike'] == 0 && $vote['PostVote_Like'] == 0) {
+		mysql_query("UPDATE ".$db->db_prefix."POST_VOTE p SET p.PostVote_Dislike = 1 WHERE p.Post_ID='".$pid."' AND p.User_ID='".$uid."'");
+		mysql_query("UPDATE ".$db->db_prefix."POST_VOTE p SET p.PostVote_Like = 0 WHERE p.Post_ID='".$pid."' AND p.User_ID='".$uid."'");
+	} elseif ($count == 1 && $vote['PostVote_Dislike'] == 0 && $vote['PostVote_Like'] == 1) {
+		mysql_query("UPDATE ".$db->db_prefix."POST_VOTE p SET p.PostVote_Dislike = 1 WHERE p.Post_ID='".$pid."' AND p.User_ID='".$uid."'");
+		mysql_query("UPDATE ".$db->db_prefix."POST_VOTE p SET p.PostVote_Like = 0 WHERE p.Post_ID='".$pid."' AND p.User_ID='".$uid."'");
+	}
+}
+function post_follow($pid,$uid) {
+	global $db;
+	$follows = $db->array_load_with_two_identifier('POST_FOLLOW','Post_ID',$pid,'User_ID',$uid);
+	sort($follows);
+	$follow = $follows[0];
+	$count = count($follows);
+	if ($count == 0) {
+		unfollow_post($uid,$pid);
+		follow_post($uid,$pid);
+	} elseif ($count == 1) {
+		unfollow_post($uid,$pid);
+	}
+}
+function user_follow($uid,$followee_id) {
+	global $db;
+	$user_follows = $db->array_load_with_two_identifier('USER_FOLLOW','User_ID',$uid,'Followee_ID',$followee_id);
+	sort($user_follows);
+	$count = count($user_follows);
+	if ($count == 0) {
+		unfollow_user($uid,$followee_id);
+		follow_user($uid,$followee_id);
+	} elseif ($count == 1) {
+		unfollow_user($uid,$followee_id);
+	}
 }

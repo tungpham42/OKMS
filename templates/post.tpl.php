@@ -6,3 +6,8 @@ else:
 	print view_post($pid,$uid,1);
 endif;
 ?>
+<script>
+setInterval(function(){
+	$("#feeds").load("triggers/feeds_update.php",{feeds_type:"post"});
+},1000*60*5);
+</script>

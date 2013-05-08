@@ -32,7 +32,7 @@ if (isset($_POST['submit']) && $pass == $pass1):
 	</tr>
 </table>
 ',
-					'okms@tungpham42.info');
+					'okms.vietnam@gmail.com');
 		print '
 		<table>
 			<tr><th style="text-transform: none; text-align: left;">Notice from the system</th></tr>
@@ -71,7 +71,7 @@ if ((isset($_POST['submit']) && count($err) > 0) || !isset($_POST['submit'])):
 		</tr>
 		<tr>
 			<td width="30%"><label for="mail">Email:</label></td>
-			<td><input id="mail" type="text" name="mail" size="30" maxlength="128" class="required email" value="<?php print $old_mail; ?>" /><br/><div style="display: none" id="email_check"></div><span id="email_check_label"></span></td>
+			<td><input id="mail" type="text" name="mail" size="30" maxlength="128" class="required" value="<?php print $old_mail; ?>" /><br/><div style="display: none" id="email_check"></div><span id="email_check_label"></span></td>
 		</tr>
 		<tr>
 			<td><label for="fullname">Fullname:</label></td>
@@ -86,17 +86,13 @@ if ((isset($_POST['submit']) && count($err) > 0) || !isset($_POST['submit'])):
 			<td><input type="password" name="pass1" size="30" maxlength="128" class="required" /><span style="display: none;" id="check_pass"></span></td>
 		</tr>
 		<tr>
-			<td><label for="rid">Role:</label></td>
-			<td>Guest</td>
-		</tr>
-		<tr>
 			<td colspan="2">
 				<input name="has_agreed" type="checkbox" value="1" />
 				<label style="position: relative;top: -4px;" for="has_agreed">I have read, and agree to abide by the <a style="position: relative;top: -2px;" target="_blank" href="?p=terms-and-conditions">Terms and Conditions</a></label>
 			</td>
 		</tr>
 		<tr>
-			<td><input onclick="checkPass();" type="submit" name="submit" value="Submit" /></td>
+			<td><input onclick="checkPass();" type="submit" name="submit" value="Register" /></td>
 			<td><input type="reset" value="Reset" /></td>
 		</tr>
 	</table>
@@ -120,11 +116,11 @@ function checkUsername() {
 	var username = $("input#name").val();
 	$("#username_check").load("triggers/username_check.php",{username:username},function(data){
 		if (data == "USERNAME_EXISTS") {
-			$("span#username_check_label").css("color","red").text("Username Exists");
+			$("span#username_check_label").css("color","red").text("Username exists");
 		} else if ($("input#name").val() != "" && data == "USERNAME_AVAILABLE") {
-			$("span#username_check_label").css("color","green").text("Username Available");
+			$("span#username_check_label").css("color","green").text("Username is available");
 		} else if ($("input#name").val() == "") {
-			$("span#username_check_label").css("color","red").text("Username Empty");
+			$("span#username_check_label").css("color","red").text("Username is empty");
 		}
 	});
 }
@@ -132,11 +128,11 @@ function checkEmail() {
 	var email = $("input#mail").val();
 	$("#email_check").load("triggers/email_check.php",{email:email},function(data){
 		if (data == "EMAIL_EXISTS") {
-			$("span#email_check_label").css("color","red").text("Email Exists");
+			$("span#email_check_label").css("color","red").text("Email exists");
 		} else if ($("input#mail").val() != "" && data == "EMAIL_AVAILABLE") {
-			$("span#email_check_label").css("color","green").text("Email Available");
+			$("span#email_check_label").css("color","green").text("Email is available");
 		} else if ($("input#mail").val() == "") {
-			$("span#email_check_label").css("color","red").text("Email Empty");
+			$("span#email_check_label").css("color","red").text("Email is empty");
 		}
 	});
 }

@@ -1,11 +1,11 @@
 <?php
 $user = user_load($_SESSION['uid']);
 $uid = isset($_POST['uid']) ? $_POST['uid']: '';
-$old_name = isset($_POST['old_name']) ? $_POST['old_name']: '';
-$old_fullname = isset($_POST['old_fullname']) ? $_POST['old_fullname']: '';
-$old_mail = isset($_POST['old_mail']) ? $_POST['old_mail']: '';
-$old_rid = isset($_POST['old_rid']) ? $_POST['old_rid']: '';
-$rid = isset($_POST['rid']) ? $_POST['rid']: '';
+$old_name = isset($_POST['old_name']) ? $_POST['old_name']: $user['User_Username'];
+$old_fullname = isset($_POST['old_fullname']) ? $_POST['old_fullname']: $user['User_Fullname'];
+$old_mail = isset($_POST['old_mail']) ? $_POST['old_mail']: $user['User_Mail'];
+$old_rid = isset($_POST['old_rid']) ? $_POST['old_rid']: $user['Role_ID'];
+$rid = isset($_POST['rid']) ? $_POST['rid']: $old_rid;
 $name = isset($_POST['name']) ? $_POST['name']: '';
 $fullname = isset($_POST['fullname']) ? $_POST['fullname']: '';
 $current_pass = isset($_POST['current_pass']) ? $_POST['current_pass']: '';
@@ -38,7 +38,7 @@ if (isset($_POST['submit'])):
 		</td>
 	</tr>
 </table>',
-						'okms@tungpham42.info');
+						'okms.vietnam@gmail.com');
 			print '<br/>User edited. Click <a href="?p=home">here</a> to go to home page<br/>';
 			print 'We sent you an email with your changed account information!';
 		}
@@ -47,10 +47,10 @@ if (isset($_POST['submit'])):
 		//else print 'This username or email is already taken!';
 	} else {
 		print '<span style="color: red;">'.implode('<br />',$err).'<br/></span>';
-		$old_name = isset($_POST['name']) ? $_POST['name']: '';
-		$old_fullname = isset($_POST['fullname']) ? $_POST['fullname']: '';
-		$old_mail = isset($_POST['mail']) ? $_POST['mail']: '';
-		$old_rid = isset($_POST['rid']) ? $_POST['rid']: '';
+		$old_name = isset($_POST['name']) ? $_POST['name']: $user['User_Username'];
+		$old_fullname = isset($_POST['fullname']) ? $_POST['fullname']: $user['User_Fullname'];
+		$old_mail = isset($_POST['mail']) ? $_POST['mail']: $user['User_Mail'];
+		$old_rid = isset($_POST['rid']) ? $_POST['rid']: $user['Role_ID'];
 	}
 endif;
 ?>
@@ -83,14 +83,14 @@ endif;
 		</tr>
 		<tr>
 			<td><label for="rid">Role:</label></td>
-			<td><?php if (isset($_SESSION['rid']) && $_SESSION['rid'] == 1) {print select_role('rid',$old_rid);} elseif (isset($_SESSION['rid']) && $_SESSION['rid'] != 1) { print load_name_from_rid($old_rid).'<input type="hidden" name="rid" value="'.$old_rid.'" />'; }?></td>
+			<td><?php if (isset($_SESSION['rid']) && $_SESSION['rid'] == 1) {print select_role('rid',$old_rid);} elseif (isset($_SESSION['rid']) && $_SESSION['rid'] != 1) { print load_name_from_rid($old_rid); }?></td>
 		</tr>
 		<tr>
 			<td>Belonged courses:</td>
 			<td><?php print view_user_courses($uid); ?></td>
 		</tr>
 		<tr>
-			<td><input onclick="checkPass();" type="submit" name="submit" value="Edit" /></td>
+			<td><input onclick="checkPass();" type="submit" name="submit" value="Save" /></td>
 			<td><a class="button" href="?p=user">Cancel</a></td>
 		</tr>
 	</table>

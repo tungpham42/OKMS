@@ -5,7 +5,9 @@ $email = (isset($_POST['email'])) ? $_POST['email']: '';
 $rows = mysql_query("SELECT * FROM ".PREFIX."USER WHERE User_Mail='".$email."'");
 if(mysql_num_rows($rows) == 0)
 {
-	echo('EMAIL_AVAILABLE');
+	if (check_mail($email)) {
+		echo('EMAIL_AVAILABLE');
+	}
 }
 else
 {

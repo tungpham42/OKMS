@@ -7,3 +7,8 @@ print '<div id="feeds">';
 print front_page_listing(10,$uid,'sort_post_date_descend','All courses');
 print '</div>';
 ?>
+<script>
+setInterval(function(){
+	$("#feeds").load("triggers/feeds_update.php",{feeds_type:"front"});
+},1000*60*5);
+</script>
