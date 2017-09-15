@@ -5,7 +5,7 @@ $alias = (isset($_POST['alias'])) ? $_POST['alias']: '';
 $pass = (isset($_POST['pass'])) ? $_POST['pass']: '';
 $pass1 = (isset($_POST['pass1'])) ? $_POST['pass1']: '';
 $mail = (isset($_POST['mail'])) ? $_POST['mail']: '';
-$rid = 4;
+$rid = 2;
 $has_agreed = (isset($_POST['has_agreed'])) ? $_POST['has_agreed']: 0;
 $hash = md5(rand(0,1000));
 $err = auth_guest_error_array($name,$fullname,$pass,$mail,$rid,$pass1,$has_agreed);
@@ -50,7 +50,7 @@ if (isset($_POST['submit']) && $pass == $pass1):
 		$old_fullname = (isset($_POST['fullname'])) ? $_POST['fullname']: '';
 		$old_alias = (isset($_POST['alias'])) ? $_POST['alias']: '';
 		$old_mail = (isset($_POST['mail'])) ? $_POST['mail']: '';
-		$old_rid = (isset($_POST['rid'])) ? $_POST['rid']: 4;		
+		$old_rid = (isset($_POST['rid'])) ? $_POST['rid']: 2;		
 	endif;
 endif;
 ?>
@@ -131,13 +131,11 @@ function checkEmail() {
 			$("span#email_check_label").css("color","red").text("Email exists");
 		} else if ($("input#mail").val() != "" && data == "EMAIL_AVAILABLE") {
 			$("span#email_check_label").css("color","green").text("Email is available");
-		} else if ($("input#mail").val() == "") {
-			$("span#email_check_label").css("color","red").text("Email is empty");
 		}
 	});
 }
-$("input#name").keyup(checkUsername).keydown(checkUsername).change(checkUsername);
-$("input#mail").keyup(checkEmail).keydown(checkEmail).change(checkEmail);
+$("input#name").on('keyup change input', checkUsername);
+$("input#mail").on('keyup change input', checkEmail);
 </script>
 <?php
 	endif;

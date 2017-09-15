@@ -1,6 +1,8 @@
 <?php
-header('Connection: keep-alive');
+//header('Connection: keep-alive');
 //header('Content-Encoding: gzip');
+//error_reporting(-1);
+//ini_set('display_errors', 'On');
 require 'includes/functions.inc.php';
 include('includes/admin.inc.php');
 ?>
@@ -52,7 +54,10 @@ include('includes/admin.inc.php');
 			<div>For a better experience on KMS Online, enable JavaScript in your browser</div>
 		</div>
 	</noscript>
+<!--
 	<script type="text/javascript" src="js/jquery.js"></script>
+-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
 	<script type="text/javascript" src="js/animation.js"></script>
 	<script type="text/javascript" src="js/scripts.js"></script>
 	<script type="text/javascript" src="js/jquery.qtip.min.js"></script>

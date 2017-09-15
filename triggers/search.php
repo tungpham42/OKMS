@@ -6,12 +6,12 @@ if (isset($_POST['keyword'])) {
 	$cid = (isset($_POST['cid'])) ? $_POST['cid']: 0;
 	$posts = array();
 	if (isset($_SESSION['rid']) && $_SESSION['rid'] != 2) {
-		$result = mysql_query("SELECT * FROM ".PREFIX."POST WHERE (Post_Title LIKE '%".$keyword."%' OR Post_Question LIKE '%".$keyword."%' OR Post_Answer LIKE '%".$keyword."%' OR Post_URL LIKE '%".$keyword."%')");
+		$result = mysqli_query($db->link, "SELECT * FROM ".PREFIX."POST WHERE (Post_Title LIKE '%".$keyword."%' OR Post_Question LIKE '%".$keyword."%' OR Post_Answer LIKE '%".$keyword."%' OR Post_URL LIKE '%".$keyword."%')");
 	} elseif (!isset($_SESSION['rid']) || $_SESSION['rid'] == 2) {
-		$result = mysql_query("SELECT * FROM ".PREFIX."POST WHERE Post_Current=1 AND (Post_Title LIKE '%".$keyword."%' OR Post_Question LIKE '%".$keyword."%' OR Post_Answer LIKE '%".$keyword."%' OR Post_URL LIKE '%".$keyword."%')");
+		$result = mysqli_query($db->link, "SELECT * FROM ".PREFIX."POST WHERE Post_Current=1 AND (Post_Title LIKE '%".$keyword."%' OR Post_Question LIKE '%".$keyword."%' OR Post_Answer LIKE '%".$keyword."%' OR Post_URL LIKE '%".$keyword."%')");
 	}
 	if ($result) {
-		while($row = mysql_fetch_assoc($result)) {
+		while($row = mysqli_fetch_assoc($result)) {
 			$posts[] = $row;
 		}
 	}

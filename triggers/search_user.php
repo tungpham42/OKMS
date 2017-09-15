@@ -4,9 +4,9 @@ require_once '../includes/admin.inc.php';
 if (isset($_POST['keyword'])) {
 	$keyword = $_POST['keyword'];
 	$users = array();
-	$result = mysql_query("SELECT * FROM ".PREFIX."USER WHERE (User_Username LIKE '%".$keyword."%' OR User_Fullname LIKE '%".$keyword."%' OR User_Mail LIKE '%".$keyword."%')");
+	$result = mysqli_query($db->link, "SELECT * FROM ".PREFIX."USER WHERE (User_Username LIKE '%".$keyword."%' OR User_Fullname LIKE '%".$keyword."%' OR User_Mail LIKE '%".$keyword."%')");
 	if ($result) {
-		while($row = mysql_fetch_assoc($result)) {
+		while($row = mysqli_fetch_assoc($result)) {
 			$users[] = $row;
 		}
 	}

@@ -210,7 +210,7 @@ CREATE TABLE IF NOT EXISTS `OKMS_SEMESTER` (
   `Semester_End_Date` int(11) NOT NULL DEFAULT '0',
   `Semester_Current` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`Semester_ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `OKMS_SEMESTER`

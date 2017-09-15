@@ -15,11 +15,11 @@ if(isset($_POST['header_login']) || isset($_POST['wrap_login'])){
 		$err[] = 'All the fields must be filled in!';
 	if(!count($err))
 	{
-		$_POST['username'] = mysql_real_escape_string($_POST['username']);
-		$_POST['password'] = mysql_real_escape_string($_POST['password']);
+		$_POST['username'] = mysqli_real_escape_string($db->link, $_POST['username']);
+		$_POST['password'] = mysqli_real_escape_string($db->link, $_POST['password']);
 		$_POST['rememberMe'] = (int)$_POST['rememberMe'];
 		// Escaping all input data
-		$row = mysql_fetch_assoc(mysql_query("SELECT User_ID,User_Username,Role_ID,User_Status,User_Alias FROM ".PREFIX."USER WHERE (User_Username='{$_POST['username']}' OR User_Alias='{$_POST['username']}') AND User_Password='".md5($_POST['password'])."'"));
+		$row = mysqli_fetch_assoc(mysqli_query($db->link, "SELECT User_ID,User_Username,Role_ID,User_Status,User_Alias FROM ".PREFIX."USER WHERE (User_Username='{$_POST['username']}' OR User_Alias='{$_POST['username']}') AND User_Password='".md5($_POST['password'])."'"));
 		if((isset($row['User_Username']) || isset($row['User_Alias'])) && $row['User_Status'] == 1)
 		{
 			// If everything is OK login
@@ -32,7 +32,7 @@ if(isset($_POST['header_login']) || isset($_POST['wrap_login'])){
 			if (isset($_POST['header_login'])) {
 				header('Location: ./');
 			} elseif (isset($_POST['wrap_login'])) {
-				header('Location: '.$_SERVER['HTTP_REFERER'].'');
+				header('Location: '.$_SERVER['HTTP_REFERER']."");
 			}
 		}
 		elseif(isset($row['User_Username']) && $row['User_Status'] == 0)
@@ -115,10 +115,10 @@ elseif (!isset($_SESSION['rid']) && $_GET['p'] == 'user/password_reset'):
 elseif (!isset($_SESSION['rid']) && $_GET['p'] == 'user/verify'):
 	$title = 'User verification';
 elseif (!isset($_GET['p']) || $_GET['p'] == 'home'):
-	$title = '';
+	$title = "";
 	$body_class = 'front';
 elseif ($p == 'search'):
-	$title = (isset($_POST['keyword']) && $_POST['keyword'] != '') ? 'Search results for "'.$_POST['keyword'].'"'.(($cid != 0) ? ' in '.$course['Course_Code']: ''): 'Search results';
+	$title = (isset($_POST['keyword']) && $_POST['keyword'] != "") ? 'Search results for "'.$_POST['keyword'].'"'.(($cid != 0) ? ' in '.$course['Course_Code']: ""): 'Search results';
 	$body_class = 'search';
 elseif ($p == 'option'):
 	if (isset($_SESSION['rid']) && $_SESSION['rid'] == 1):
@@ -456,12 +456,12 @@ elseif (in_array($p,$week_paths)):
 	$body_class = 'week week-'.$week;
 elseif (in_array($p,$course_paths)):
 	$course = course_load($cid);
-	$title = $course['Course_Code'].': '.$course['Course_Name'].((isset($_SESSION['uid']) && $course['User_ID'] == $_SESSION['uid']) ? ' - You are coordinator': '');
+	$title = $course['Course_Code'].': '.$course['Course_Name'].((isset($_SESSION['uid']) && $course['User_ID'] == $_SESSION['uid']) ? ' - You are coordinator': "");
 	$body_class = 'course';
 elseif (in_array($p,$course_week_paths)):
 	$cid = $course_week['cid'];
 	$course = course_load($cid);
-	$title = $course['Course_Code'].': '.$course['Course_Name'].((isset($_SESSION['uid']) && $course['User_ID'] == $_SESSION['uid']) ? ' - You are coordinator': '').' - Week '.$course_week['week'];
+	$title = $course['Course_Code'].': '.$course['Course_Name'].((isset($_SESSION['uid']) && $course['User_ID'] == $_SESSION['uid']) ? ' - You are coordinator': "").' - Week '.$course_week['week'];
 	$body_class = 'course week';
 elseif ($p == 'sitemap'):
 	$title = 'Sitemap';

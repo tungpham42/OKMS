@@ -12,7 +12,7 @@ $err = auth_error_array($name,$fullname,$pass,$mail,$rid,$pass1,$has_agreed);
 if (isset($_POST['submit']) && $pass == $pass1):
 	if (!count($err)):
 		create_user($rid,$name,$fullname,$alias,$pass,$mail,$hash);
-		if(mysql_affected_rows($link)==1)
+		if(mysqli_affected_rows($link)==1)
 		{
 			send_mail(	$mail,
 					'Online KMS Registration System - Your New Account',

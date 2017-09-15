@@ -15,8 +15,8 @@ if (isset($_POST['submit'])) {
 	}
     // Lets see if the email exists
     $sql = "SELECT COUNT(*) FROM ".PREFIX."USER WHERE User_Mail = '$forgotpassword'";
-    $result = mysql_query($sql)or die('Could not find member: ' . mysql_error());
-    if (!mysql_result($result,0,0)>0) {
+    $result = mysqli_query($db->link, $sql)or die('Could not find member: ' . mysqli_error());
+    if (!mysqli_result($result,0,0)>0) {
         error('Email Not Found!');
     }
 	$user = user_load_from_mail($forgotpassword);
@@ -39,7 +39,7 @@ if (isset($_POST['submit'])) {
 			</td>
 		</tr>
 	</table>';
-	if (check_email_address($_POST['forgotpassword']) && mysql_result($result,0,0)>0):
+	if (check_email_address($_POST['forgotpassword']) && mysqli_result($result,0,0)>0):
 		send_mail($forgotpassword, $subject, $message,  's3230273@rmit.edu.vn');
 		print '
 			<table>
@@ -53,8 +53,8 @@ if (isset($_POST['submit'])) {
 }
 if(isset($_GET['email']) && !empty($_GET['email']) && isset($_GET['hash']) && !empty($_GET['hash'])){
 	// Verify data
-	$email = mysql_escape_string($_GET['email']); // Set email variable
-	$hash = mysql_escape_string($_GET['hash']); // Set hash variable
+	$email = mysqli_escape_string($db->link, $_GET['email']); // Set email variable
+	$hash = mysqli_escape_string($db->link, $_GET['hash']); // Set hash variable
 
 	//Generate a RANDOM MD5 Hash for a password
 	$random_password=md5(uniqid(rand()));
@@ -65,14 +65,14 @@ if(isset($_GET['email']) && !empty($_GET['email']) && isset($_GET['hash']) && !e
 	//Encrypt $emailpassword in MD5 format for the database
 	$newpassword = md5($emailpassword);
 	
-	$search = mysql_query("SELECT User_Mail, User_Hash FROM ".PREFIX."USER WHERE User_Mail='".$email."' AND User_Hash='".$hash."'") or die(mysql_error());
-	$match  = mysql_num_rows($search);
+	$search = mysqli_query($db->link, "SELECT User_Mail, User_Hash FROM ".PREFIX."USER WHERE User_Mail='".$email."' AND User_Hash='".$hash."'") or die(mysqli_error());
+	$match  = mysqli_num_rows($search);
 	if($match > 0){
 		// Make a safe query
 		$query = sprintf("UPDATE `".PREFIX."USER` SET `User_Password` = '%s' 
 						  WHERE `User_Mail` = '$email'",
-						mysql_real_escape_string($newpassword));
-		mysql_query($query)or die('Could not update members: ' . mysql_error());
+						mysqli_real_escape_string($db->link, $newpassword));
+		mysqli_query($db->link, $query)or die('Could not update members: ' . mysqli_error());
 
 		//Email out the infromation
 		$subject = 'Online KMS - Your New Password';
