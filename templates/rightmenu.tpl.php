@@ -18,6 +18,15 @@ if ($("input#search_box").val() == '') {
 	$("#search_suggestion").css("display","none");
 }
 </script>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- okms_160x600 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:160px;height:600px"
+     data-ad-client="ca-pub-3585118770961536"
+     data-ad-slot="1959714789"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 <?php
 print (isset($_SESSION['uid'])) ? following_list($_SESSION['uid']): '';
 print latest_questions(3);
