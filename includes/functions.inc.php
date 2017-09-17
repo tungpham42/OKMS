@@ -591,17 +591,17 @@ function send_mail($to,$subject,$body,$from) //Send mail with SMTP authenticatio
 {
 	$boundary = uniqid('np');
 	$headers = "";
-	$headers .= "Organization: \"Nhip Sinh Hoc . VN\"".PHP_EOL;
+	$headers .= "Organization: \"OKMS\"".PHP_EOL;
 	$headers  = "MIME-Version: 1.0".PHP_EOL;
 	$headers .= "X-Priority: 1 (Highest)".PHP_EOL;
 	$headers .= "Importance: High".PHP_EOL;
 	$headers .= "X-Mailer: PHP/". phpversion().PHP_EOL;
 	$headers .= "Content-Transfer-Encoding: 8bit".PHP_EOL;
-	$headers .= "From: \"Nhip Sinh Hoc . VN\" <noreply@nhipsinhhoc.vn>".PHP_EOL;
-	$headers .= "Sender: <noreply@nhipsinhhoc.vn>".PHP_EOL;
-	$headers .= "Reply-To: \"Nhip Sinh Hoc . VN\" <admin@nhipsinhhoc.vn>".PHP_EOL;
-	$headers .= "Return-Path: \"Nhip Sinh Hoc . VN\" <admin@nhipsinhhoc.vn>".PHP_EOL;
-	$headers .= "List-Unsubscribe: <mailto:admin@nhipsinhhoc.vn?subject=Unsubscribe me out of Nhip Sinh Hoc . VN mailing list&body=Please unsubscribe my email&cc=tung.42@gmail.com>".PHP_EOL;
+	$headers .= "From: \"OKMS\" <noreply@okms.com>".PHP_EOL;
+	$headers .= "Sender: <noreply@okms.com>".PHP_EOL;
+	$headers .= "Reply-To: \"OKMS\" <admin@okms.com>".PHP_EOL;
+	$headers .= "Return-Path: \"OKMS\" <admin@okms.com>".PHP_EOL;
+	$headers .= "List-Unsubscribe: <mailto:admin@okms.com?subject=Unsubscribe me out of OKMS mailing list&body=Please unsubscribe my email&cc=tung.42@gmail.com>".PHP_EOL;
 	$headers .= "Content-Type: text/html; charset=UTF-8".PHP_EOL;
 	mail("<".strtolower($to).">", '=?utf-8?B?'.base64_encode('☺ '.$subject).'?=', $body, $headers);
 }
