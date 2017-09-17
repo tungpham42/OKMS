@@ -19,12 +19,13 @@ if ($("input#search_box").val() == '') {
 }
 </script>
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- okms_res -->
-<ins class="adsbygoogle"
-     style="display:block"
+<!-- okms_200x200 -->
+<center>
+	<ins class="adsbygoogle"
+     style="display:inline-block;width:200px;height:200px"
      data-ad-client="ca-pub-3585118770961536"
-     data-ad-slot="5158268359"
-     data-ad-format="auto"></ins>
+     data-ad-slot="8174603499"></ins>
+ </center>
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
