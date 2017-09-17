@@ -8,7 +8,7 @@ if (isset($_POST['submit'])):
 	header('location: '.currentURL().'?p=semester');
 endif;
 ?>
-<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/ui-lightness/jquery-ui.css" type="text/css" media="all" />
+<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/ui-lightness/jquery-ui.css" type="text/css" media="all" />
 <form id="form" method="post" action="">
 	<table>
 		<tr>
