@@ -597,7 +597,7 @@ function send_mail($to,$subject,$body,$from) //Send mail with SMTP authenticatio
 	$mail->Username = 'okms.vn@gmail.com';                // SMTP username
 	$mail->Password = '0km$v0d0i';                        // SMTP password
 	$mail->SMTPSecure = 'tls';                            // Enable encryption, 'ssl' also accepted
-	$mail->SMTPDebug = 2;
+//	$mail->SMTPDebug = 2;
 	$mail->From = $from;
 	$mail->FromName = 'OKMS';
 	$mail->AddAddress($to);  // Add a recipient
