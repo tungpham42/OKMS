@@ -775,13 +775,14 @@ function list_users($rid=0,$count,$page=1) { //Return users list, for admin use
 		$users = array_filter($users, array(new Filter($rid), 'filter_rid'));
 	}
 	usort($users,'sort_user_ascend');
+	$user_count = count($users);
 	$pagination = new pagination($users,$page,$count,5);
 	$pagination->setShowFirstAndLast(true);
 	$pagination->setMainSeperator("");
 	$users = $pagination->getResults();
 	//$output .= '<a class="button" href="?p=user/csv">User CSV Importer</a>';
 	$output .= '<a class="button" href="?p=user/create">Create user</a>';
-	$output .= '<span class="count" colspan="7">'.count($users).' user'.((count($users) > 1) ? 's': "").' to display.</span>';
+	$output .= '<span class="count" colspan="7">'.$user_count.' user'.(($user_count > 1) ? 's': "").' to display.</span>';
 	$output .= '<div class="paging">'.$pagination->getLinks().'</div>';
 	$output .= '<table>';
 	$output .= '<tr><th>Username</th><th>Full name</th><th>Mail</th><th>Role</th><th>Created time</th><th colspan="3">Operations</th></tr>';
