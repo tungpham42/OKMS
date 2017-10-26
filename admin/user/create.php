@@ -30,7 +30,7 @@ if (isset($_POST['submit']) && $pass == $pass1):
 	</tr>
 </table>
 ',
-					'okms@tungpham42.info');
+					'okms.vn@gmail.com');
 			//sleep(1);
 			//header('location: '.currentURL().'?p=home');
 			print '<br/>User created. Click <a href="?p=home">here</a> to go to home page<br/>';
