@@ -68,6 +68,7 @@ CREATE TABLE IF NOT EXISTS `OKMS_COURSE` (
   `Course_Name` varchar(255) NOT NULL DEFAULT '' COMMENT 'Course Name',
   `Course_Code` varchar(255) NOT NULL DEFAULT '' COMMENT 'Course Code',
   `Course_Allowed` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Allow students to post questions?',
+  `Course_For_Guest` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Allow guests to post questions?',
   PRIMARY KEY (`Course_ID`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=38 ;
 
@@ -265,6 +266,22 @@ CREATE TABLE IF NOT EXISTS `OKMS_USER_COURSE` (
 
 --
 -- Dumping data for table `OKMS_USER_COURSE`
+
+---- --------------------------------------------------------
+
+--
+-- Table structure for table `OKMS_USER_FOLLOW`
+--
+
+CREATE TABLE IF NOT EXISTS `OKMS_USER_FOLLOW` (
+  `User_ID` int(10) unsigned NOT NULL COMMENT 'User ID',
+  `Followee_ID` int(10) unsigned NOT NULL COMMENT 'Followee ID',
+  KEY `User_ID` (`User_ID`),
+  KEY `Followee_ID` (`Followee_ID`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `OKMS_USER_FOLLOW`
 --
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
