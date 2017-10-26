@@ -603,7 +603,6 @@ function send_mail($to,$subject,$body,$from) //Send mail with SMTP authenticatio
 	echo $response->statusCode();
 	echo $response->headers();
 	echo $response->body();
-	$mail = new PHPMailer;
 }
 function auth_error_array($name,$fullname,$pass,$mail,$rid,$pass1,$has_agreed) { //Return errors array from user name, password, email and role ID
 	$err = array();
