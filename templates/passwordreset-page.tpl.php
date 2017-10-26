@@ -40,7 +40,7 @@ if (isset($_POST['submit'])) {
 		</tr>
 	</table>';
 	if (check_email_address($_POST['forgotpassword']) && mysqli_result($result,0,0)>0):
-		send_mail($forgotpassword, $subject, $message,  's3230273@rmit.edu.vn');
+		send_mail($forgotpassword, $subject, $message,  'okms.vn@gmail.com');
 		print '
 			<table>
 				<tr><th style="text-transform: none; text-align: left;">Notice from the system</th></tr>
@@ -92,7 +92,7 @@ if(isset($_GET['email']) && !empty($_GET['email']) && isset($_GET['hash']) && !e
 				</td>
 			</tr>
 		</table>';
-		send_mail($email, $subject, $message,  's3230273@rmit.edu.vn');
+		send_mail($email, $subject, $message,  'okms.vn@gmail.com');
 		print '
 			<table>
 				<tr><th style="text-transform: none; text-align: left;">Notice from the system</th></tr>
