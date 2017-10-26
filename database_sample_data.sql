@@ -80,6 +80,7 @@ CREATE TABLE IF NOT EXISTS `OKMS_COURSE` (
   `Course_Name` varchar(255) NOT NULL DEFAULT '' COMMENT 'Course Name',
   `Course_Code` varchar(255) NOT NULL DEFAULT '' COMMENT 'Course Code',
   `Course_Allowed` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Allow students to post questions?',
+  `Course_For_Guest` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Allow guests to post questions?',
   PRIMARY KEY (`Course_ID`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=38 ;
 
