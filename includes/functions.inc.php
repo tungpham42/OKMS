@@ -592,11 +592,11 @@ function send_mail($to,$subject,$body,$from) //Send mail with SMTP authenticatio
 	$mail = new PHPMailer;
 	$mail->IsSMTP();                                      // Set mailer to use SMTP
 	$mail->Host = 'smtp.gmail.com';                       // Specify main and backup server
-	$mail->Port = 587;                                    // Set the SMTP port
+	$mail->Port = 25;                                     // Set the SMTP port
 	$mail->SMTPAuth = true;                               // Enable SMTP authentication
 	$mail->Username = 'okms.vn@gmail.com';                // SMTP username
 	$mail->Password = '0km$v0d0i';                        // SMTP password
-	$mail->SMTPSecure = 'tls';                            // Enable encryption, 'ssl' also accepted
+//	$mail->SMTPSecure = 'none';                           // Enable encryption, 'ssl' also accepted
 
 	$mail->From = $from;
 	$mail->FromName = 'OKMS';
