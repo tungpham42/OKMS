@@ -589,21 +589,31 @@ function check_mail($str) //Check email format
 }
 function send_mail($to,$subject,$body,$from) //Send mail with SMTP authentication
 {
-	$boundary = uniqid('np');
-	$headers = "";
-	$headers .= "Organization: \"OKMS\"".PHP_EOL;
-	$headers  = "MIME-Version: 1.0".PHP_EOL;
-	$headers .= "X-Priority: 1 (Highest)".PHP_EOL;
-	$headers .= "Importance: High".PHP_EOL;
-	$headers .= "X-Mailer: PHP/". phpversion().PHP_EOL;
-	$headers .= "Content-Transfer-Encoding: 8bit".PHP_EOL;
-	$headers .= "From: \"OKMS\" <noreply@okms.com>".PHP_EOL;
-	$headers .= "Sender: <noreply@okms.com>".PHP_EOL;
-	$headers .= "Reply-To: \"OKMS\" <admin@okms.com>".PHP_EOL;
-	$headers .= "Return-Path: \"OKMS\" <admin@okms.com>".PHP_EOL;
-	$headers .= "List-Unsubscribe: <mailto:admin@okms.com?subject=Unsubscribe me out of OKMS mailing list&body=Please unsubscribe my email&cc=tung.42@gmail.com>".PHP_EOL;
-	$headers .= "Content-Type: text/html; charset=UTF-8".PHP_EOL;
-	mail("<".strtolower($to).">", '=?utf-8?B?'.base64_encode('☺ '.$subject).'?=', $body, $headers);
+	$mail = new PHPMailer;
+	$mail->IsSMTP();                                      // Set mailer to use SMTP
+	$mail->Host = 'smtp.sendgrid.net';                 // Specify main and backup server
+	$mail->Port = 587;                                    // Set the SMTP port
+	$mail->SMTPAuth = true;                               // Enable SMTP authentication
+	$mail->Username = 'app15499860@heroku.com';                // SMTP username
+	$mail->Password = 'deahcjsj8103';                  // SMTP password
+	$mail->SMTPSecure = 'tls';                            // Enable encryption, 'ssl' also accepted
+
+	$mail->From = $from;
+	$mail->FromName = 'OKMS';
+	$mail->AddAddress($to);  // Add a recipient
+
+	$mail->IsHTML(true);                                  // Set email format to HTML
+
+	$mail->Subject = $subject;
+	$mail->Body    = $body;
+
+	if(!$mail->Send()) {
+	   echo 'Message could not be sent.';
+	   echo 'Mailer Error: ' . $mail->ErrorInfo;
+	   exit;
+	}
+
+	echo 'Message has been sent';
 }
 function auth_error_array($name,$fullname,$pass,$mail,$rid,$pass1,$has_agreed) { //Return errors array from user name, password, email and role ID
 	$err = array();
