@@ -1,6 +1,5 @@
 <?php
 require('database.inc.php');
-require('libraries/sendgrid/sendgrid-php.php');
 require('libraries/class.phpmailer.php');
 // Include the pagination class
 require('libraries/pagination.class.php');
@@ -590,19 +589,31 @@ function check_mail($str) //Check email format
 }
 function send_mail($to,$subject,$body,$from) //Send mail with SMTP authentication
 {
-	$from = new SendGrid\Email(null, $from);
-	$subject = $subject;
-	$to = new SendGrid\Email(null, $to);
-	$content = new SendGrid\Content("text/html", $body);
-	$mail = new SendGrid\Mail($from, $subject, $to, $content);
+	$mail = new PHPMailer;
+	$mail->IsSMTP();                                      // Set mailer to use SMTP
+	$mail->Host = 'smtp.gmail.com';                       // Specify main and backup server
+	$mail->Port = 25;                                     // Set the SMTP port
+	$mail->SMTPAuth = true;                               // Enable SMTP authentication
+	$mail->Username = 'okms.vn@gmail.com';                // SMTP username
+	$mail->Password = '0km$v0d0i';                        // SMTP password
+//	$mail->SMTPSecure = 'none';                           // Enable encryption, 'ssl' also accepted
 
-	$apiKey = getenv('SENDGRID_API_KEY');
-	$sg = new \SendGrid($apiKey);
+	$mail->From = $from;
+	$mail->FromName = 'OKMS';
+	$mail->AddAddress($to);  // Add a recipient
 
-	$response = $sg->client->mail()->send()->post($mail);
-	echo $response->statusCode();
-	echo $response->headers();
-	echo $response->body();
+	$mail->IsHTML(true);                                  // Set email format to HTML
+
+	$mail->Subject = $subject;
+	$mail->Body    = $body;
+
+	if(!$mail->Send()) {
+	   echo 'Message could not be sent.';
+	   echo 'Mailer Error: ' . $mail->ErrorInfo;
+	   exit;
+	}
+
+	echo 'Message has been sent';
 }
 function auth_error_array($name,$fullname,$pass,$mail,$rid,$pass1,$has_agreed) { //Return errors array from user name, password, email and role ID
 	$err = array();
