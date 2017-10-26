@@ -2366,7 +2366,7 @@ function ask_question($rid,$cid,$week) {
 						openWrap("You do not belong to this course");
 					} else if ($(this).hasClass("not_allowed")) {
 						openWrap("The course(s) not allow posting");
-					} else if ($(this).hasClass("no_course")) {
+					} else if ($(this).hasClass("no_course") && !$(this).hasClass("guest_mode")) {
 						openWrap("You do not belong to any course");
 					} else if ($(this).hasClass("is_admin")) {
 						openWrap("Admin cannot post question");
