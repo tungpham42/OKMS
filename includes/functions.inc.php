@@ -1683,7 +1683,7 @@ function select_course($name,$cid = null) { //Return select element of course ID
 	$output .= '<select id="'.$name.'" name="'.$name.'">';
 	$output .= ($_GET['p'] == 'post' || $_GET['p'] == 'post/archive' || (isset($_POST['report_type']) && ($_POST['report_type'] == 'Number of questions per week' || $_POST['report_type'] == 'Most popular questions' || $_POST['report_type'] == 'Most difficult questions'))) ? '<option value="0">All courses</option>': "";
 	for ($i = 0; $i < count($courses); $i++) {
-		if (($_SESSION['rid'] == 2 && course_belonged($courses[$i]['Course_ID'],$_SESSION['uid']) && $courses[$i]['Course_Allowed'] == 1) || ($_SESSION['rid'] == 3 && course_belonged($courses[$i]['Course_ID'],$_SESSION['uid'])) || ($courses[$i]['Course_For_Guest'] == 1) || $_SESSION['rid'] == 1) {
+		if (($_SESSION['rid'] == 2 && course_belonged($courses[$i]['Course_ID'],$_SESSION['uid']) && $courses[$i]['Course_Allowed'] == 1) || ($_SESSION['rid'] == 3 && course_belonged($courses[$i]['Course_ID'],$_SESSION['uid'])) || (isset($_SESSION['rid']) && $courses[$i]['Course_For_Guest'] == 1) || $_SESSION['rid'] == 1) {
 			$selected = ($cid != null && $cid == $courses[$i]['Course_ID']) ? 'selected': "";
 			$output .= '<option '.$selected.' value="'.$courses[$i]['Course_ID'].'">'.$courses[$i]['Course_Code'].' - '.$courses[$i]['Course_Name'].'</option>';
 		}
