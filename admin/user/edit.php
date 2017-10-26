@@ -38,7 +38,7 @@ if (isset($_POST['submit'])):
 		</td>
 	</tr>
 </table>',
-						'okms.vietnam@gmail.com');
+						'okms.vn@gmail.com');
 			print '<br/>User edited. Click <a href="?p=home">here</a> to go to home page<br/>';
 			print 'We sent you an email with your changed account information!';
 		}
