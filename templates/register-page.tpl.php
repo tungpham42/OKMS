@@ -34,7 +34,7 @@ if (isset($_POST['submit']) && $pass == $pass1):
 	</tr>
 </table>
 ',
-					'okms@tungpham42.info');
+					'okms.vn@gmail.com');
 			print '
 			<table>
 				<tr><th style="text-transform: none; text-align: left;">Notice from the system</th></tr>
