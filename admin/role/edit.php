@@ -6,7 +6,7 @@ if (isset($_POST['submit'])):
 	edit_role($_POST['rid'],$new);
 	sleep(1);
 	header('location: '.currentURL().'?p=role');
-	print 'Role edited. Click <a href="?p=role">here</a> to view created roles';
+	print 'Role edited. Click <a href="/?p=role">here</a> to view created roles';
 endif;
 ?>
 <form id="form" method="post" action="">

@@ -11,7 +11,7 @@ $cid = (isset($_POST['cid'])) ? $_POST['cid']: 0;
 
 <tr>
 <td><input type="submit" name="submit" /></td>
-<td colspan="3"><a class="button" href="?p=course">Cancel</a></td>
+<td colspan="3"><a class="button" href="/?p=course">Cancel</a></td>
 </tr>
 <input type="hidden" name="cid" value="<?php print $cid; ?>" />
 </form>

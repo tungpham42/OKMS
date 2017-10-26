@@ -19,7 +19,7 @@ if (isset($_POST['submit'])):
 		edit_post($_POST['pid'],$cid,$week,$title,$url,$body,$answer);
 		sleep(1);
 		header('location: '.currentURL().'?p=question/'.$url);
-		print 'Post edited. Click <a href="?p=post">here</a> to view posts';
+		print 'Post edited. Click <a href="/?p=post">here</a> to view posts';
 	else:
 		print 'Not authorized';
 	endif;
@@ -67,7 +67,7 @@ $(document).ready(function()	{
 		?>
 		<tr>
 			<td><input type="submit" name="submit" value="Edit" /></td>
-			<td><a class="button" href="?p=question/<?php print $post['Post_URL']; ?>">Cancel</a></td>
+			<td><a class="button" href="/?p=question/<?php print $post['Post_URL']; ?>">Cancel</a></td>
 		</tr>
 	</table>
 </form>

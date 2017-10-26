@@ -8,7 +8,7 @@ if (isset($_POST['submit'])):
 	edit_course($_POST['cid'],$new_code,$new_name);
 	sleep(1);
 	header('location: '.currentURL().'?p=course');
-	print 'Course edited. Click <a href="?p=course">here</a> to view created courses';
+	print 'Course edited. Click <a href="/?p=course">here</a> to view created courses';
 endif;
 ?>
 <form id="form" method="post" action="">

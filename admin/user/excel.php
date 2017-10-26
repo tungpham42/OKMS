@@ -47,7 +47,7 @@ Query:
 </tr>
 <tr>
 <td><input type="submit" name="submit" /></td>
-<td colspan="3"><a class="button" href="?p=user">Cancel</a></td>
+<td colspan="3"><a class="button" href="/?p=user">Cancel</a></td>
 </tr>
 
 </form>

@@ -39,7 +39,7 @@ if (isset($_POST['submit'])):
 	</tr>
 </table>',
 						'okms.vn@gmail.com');
-			print '<br/>User edited. Click <a href="?p=home">here</a> to go to home page<br/>';
+			print '<br/>User edited. Click <a href="/?p=home">here</a> to go to home page<br/>';
 			print 'We sent you an email with your changed account information!';
 		}
 		sleep(3);
@@ -91,7 +91,7 @@ endif;
 		</tr>
 		<tr>
 			<td><input onclick="checkPass();" type="submit" name="submit" value="Save" /></td>
-			<td><a class="button" href="?p=user">Cancel</a></td>
+			<td><a class="button" href="/?p=user">Cancel</a></td>
 		</tr>
 	</table>
 </form>

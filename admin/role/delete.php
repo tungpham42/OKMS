@@ -5,7 +5,7 @@ if (isset($_POST['submit'])):
 	delete_role($_POST['id']);
 	sleep(1);
 	header('location: '.currentURL().'?p=role');
-	print 'Role deleted. Click <a href="?p=role">here</a> to view created roles';
+	print 'Role deleted. Click <a href="/?p=role">here</a> to view created roles';
 endif;
 ?>
 <h3>Do you want to delete the role "<?php print $role['Role_Name']; ?>"?</h3>

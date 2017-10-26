@@ -14,7 +14,7 @@ if (isset($_POST['submit'])):
 	{
 		sleep(1);
 		header('location: '.currentURL().'?p=post');
-		print 'Post created. Click <a href="?p=post">here</a> to view created posts';
+		print 'Post created. Click <a href="/?p=post">here</a> to view created posts';
 	}
 		else print 'Post not created';
 endif;

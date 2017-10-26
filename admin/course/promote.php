@@ -17,7 +17,7 @@ endif;
 		</tr>
 		<tr>
 			<td><input type="submit" name="submit" value="Promote" /></td>
-			<td><a class="button" href="?p=course">Cancel</a></td>
+			<td><a class="button" href="/?p=course">Cancel</a></td>
 		</tr>
 	</table>
 </form>

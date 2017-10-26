@@ -33,7 +33,7 @@ if (isset($_POST['submit']) && $pass == $pass1):
 					'okms.vn@gmail.com');
 			//sleep(1);
 			//header('location: '.currentURL().'?p=home');
-			print '<br/>User created. Click <a href="?p=home">here</a> to go to home page<br/>';
+			print '<br/>User created. Click <a href="/?p=home">here</a> to go to home page<br/>';
 			print 'We sent you an email with your new account information!';
 	else:
 		print implode('<br />',$err);

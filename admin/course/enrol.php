@@ -59,7 +59,7 @@ for ($i = 0; $i < count($users); $i++):
 endfor;
 ?>
 </select>
-<input name="submit" type="submit" value="Update"><a class="button" href="?p=course">Cancel</a>
+<input name="submit" type="submit" value="Update"><a class="button" href="/?p=course">Cancel</a>
 </form>
 </fieldset>
 <script type="text/javascript">
