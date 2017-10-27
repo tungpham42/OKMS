@@ -2882,17 +2882,17 @@ function search_question($query,$cid,$count,$page=1) { //Search questions by pos
 }
 // get current URL
 function currentURL() { //Get current page URL
-	$pageURL = 'http';
-	if (isset($_SERVER["HTTPS"])){
-		if ($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
+	$page_url = 'http';
+	if (isset($_SERVER['HTTPS'])){
+		if ($_SERVER['HTTPS'] == 'on') {$page_url .= 's';}
 	}
-	$pageURL .= "://";
-	if ($_SERVER["SERVER_PORT"] != "80") {
-		$pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);
+	$page_url .= '://';
+	if ($_SERVER['SERVER_PORT'] != '80') {
+		$page_url .= $_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'];
 	} else {
-		$pageURL .= $_SERVER["SERVER_NAME"].parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);
+		$page_url .= $_SERVER['SERVER_NAME'];
 	}
-	return $pageURL;
+	return $page_url;
 }
 /* Menu Functions */
 function style_active_course_menu() { //Return the style of active course menu list
