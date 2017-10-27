@@ -26,6 +26,15 @@ include('includes/admin.inc.php');
 		<!--<script src="http://yui.yahooapis.com/3.6.0/build/yui/yui-min.js"></script>-->
 		<script type="text/javascript" src="js/yui/yui/yui-min.js"></script>
 		<link rel="shortcut icon" href="images/favicon.ico" />
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-108831421-1"></script>
+		<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'UA-108831421-1');
+		</script>
 	</head>
 	<body class="<?php echo $body_class; ?>">
 	<noscript>
