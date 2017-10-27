@@ -8,6 +8,6 @@ print '</div>';
 ?>
 <script>
 setInterval(function(){
-	$("#feeds").load("triggers/feeds_update.php",{feeds_type:"week"});
+	$("#feeds").load("/triggers/feeds_update.php",{feeds_type:"week"});
 },1000*60*5);
 </script>

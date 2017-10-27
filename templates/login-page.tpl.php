@@ -53,8 +53,8 @@ if($_SESSION['username'])
 ?>
 
 <p id="nav">
-<a href="?p=user/create">Register</a> |
-<a href="?p=user/password_reset" title="Password Lost and Found">Lost your password?</a>
+<a href="/?p=user/create">Register</a> |
+<a href="/?p=user/password_reset" title="Password Lost and Found">Lost your password?</a>
 </p>
 </div>
 <div class="clear"></div>

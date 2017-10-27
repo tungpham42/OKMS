@@ -8,7 +8,7 @@
 <script type="text/javascript">
 function searchSuggestion() {
 	if ($("input#search_box").val() != '') {
-		$("#search_suggestion").delay(200).load("triggers/search.php",{keyword:$("input#search_box").val(),cid:<?php print $cid; ?>}).slideDown();
+		$("#search_suggestion").delay(200).load("/triggers/search.php",{keyword:$("input#search_box").val(),cid:<?php print $cid; ?>}).slideDown();
 	} else if ($("input#search_box").val() == '') {
 		$("#search_suggestion").css("display","none");
 	}

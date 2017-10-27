@@ -10,6 +10,6 @@ print '</div>';
 ?>
 <script>
 setInterval(function(){
-	$("#feeds").load("triggers/feeds_update.php",{feeds_type:"profile"});
+	$("#feeds").load("/triggers/feeds_update.php",{feeds_type:"profile"});
 },1000*60*5);
 </script>

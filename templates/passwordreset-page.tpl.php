@@ -27,14 +27,14 @@ if (isset($_POST['submit'])) {
 	<table style="border: 1px solid black;">
 		<tr style="border: 1px solid black;">
 			<td>
-				<img src="'.currentURL().'images/banner_email.png" width="480" height="80" />
+				<img src="'.currentURL().'/images/banner_email.png" width="480" height="80" />
 			</td>
 		</tr>
 		<tr style="border: 1px solid black;">
 			<td>
 				<p>Hi <b>'.$fullname.'</b></p>
 				<p>Online KMS received a request to reset password for your account</p>
-				<p>Please click <a href="'.currentURL().'?p=user/password_reset&email='.$forgotpassword.'&hash='.$hash.'">here</a> to reset your password.</p>
+				<p>Please click <a href="'.currentURL().'/?p=user/password_reset&email='.$forgotpassword.'&hash='.$hash.'">here</a> to reset your password.</p>
 				<p>If you did not want to reset your password, please ignore this email.</p>
 			</td>
 		</tr>
@@ -80,7 +80,7 @@ if(isset($_GET['email']) && !empty($_GET['email']) && isset($_GET['hash']) && !e
 		<table style="border: 1px solid black;">
 			<tr style="border: 1px solid black;">
 				<td>
-					<img src="'.currentURL().'images/banner_email.png" width="480" height="80" />
+					<img src="'.currentURL().'/images/banner_email.png" width="480" height="80" />
 				</td>
 			</tr>
 			<tr style="border: 1px solid black;">

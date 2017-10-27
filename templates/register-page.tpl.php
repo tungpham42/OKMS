@@ -20,7 +20,7 @@ if (isset($_POST['submit']) && $pass == $pass1):
 <table style="border: 1px solid black;">
 	<tr style="border: 1px solid black;">
 		<td>
-			<img src="'.currentURL().'images/banner_email.png" width="480" height="80" />
+			<img src="'.currentURL().'/images/banner_email.png" width="480" height="80" />
 		</td>
 	</tr>
 	<tr style="border: 1px solid black;">
@@ -29,7 +29,7 @@ if (isset($_POST['submit']) && $pass == $pass1):
 			<p>You have just registered an account on Online Knowledge Management system</p>
 			<p>Your ID: '.$name.'</p>
 			<p>Your Password: '.substr($pass,0,3).'***</p>
-			<p>Please click <a href="'.currentURL().'?p=user/verify&email='.$mail.'&hash='.$hash.'">here</a> to activate your account now.</p>
+			<p>Please click <a href="'.currentURL().'/?p=user/verify&email='.$mail.'&hash='.$hash.'">here</a> to activate your account now.</p>
 		</td>
 	</tr>
 </table>
@@ -46,7 +46,7 @@ if (isset($_POST['submit']) && $pass == $pass1):
 				</td></tr>
 			</table>';
 			//sleep(5);
-			//header('location: '.currentURL().'?p=home');
+			//header('location: '.currentURL().'/?p=home');
 		}
 		else
 		{
@@ -168,7 +168,7 @@ function updateAlias() {
 }
 function checkUsername() {
 	var username = $("input#name").val();
-	$("#username_check").load("triggers/username_check.php",{username:username},function(data){
+	$("#username_check").load("/triggers/username_check.php",{username:username},function(data){
 		if (data == "USERNAME_EXISTS") {
 			$("span#username_check_label").css("color","red").text("Username Exists");
 		} else if ($("input#name").val() != "" && data == "USERNAME_AVAILABLE") {

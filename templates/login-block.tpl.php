@@ -19,7 +19,7 @@ if(!$_SESSION['username'])
 			<input name="rememberMe" id="rememberMe" type="checkbox" checked="checked" value="1" /> &nbsp;Remember me
 		</div>
 		<div class="login-bottom">
-			<a class="forgot" href="?p=user/password_reset">Forgot Password</a> | <a class="register" href="?p=user/register">Sign Up</a>
+			<a class="forgot" href="/?p=user/password_reset">Forgot Password</a> | <a class="register" href="/?p=user/register">Sign Up</a>
 		</div>
 	</form>
 </div>
@@ -91,8 +91,8 @@ if(isset($_POST['header_login'])){
 		?>
 
 		<p id="nav">
-		<a href="<?php print currentURL(); ?>?p=user/register">Register</a> |
-		<a href="<?php print currentURL(); ?>?p=user/password_reset" title="Password Lost and Found">Lost your password?</a>
+		<a href="<?php print currentURL(); ?>/?p=user/register">Register</a> |
+		<a href="<?php print currentURL(); ?>/?p=user/password_reset" title="Password Lost and Found">Lost your password?</a>
 		</p>
 		</div>
 		<div class="clear"></div>
@@ -113,13 +113,13 @@ if($_SESSION['username'])
 	$default = DEFAULT_AVATAR;
 ?>
 	<div id="header-login-form" class="logged_in">
-		<a class="avatar" href="?p=user/<?php print $_SESSION['uid']; ?>"><img src="<?php print "http://0.gravatar.com/avatar/".md5(strtolower(trim($email)))."?d=identicon&s=".$size; ?>" width="24px" /></a>
-		<a class="username" href="?p=user/<?php print $_SESSION['uid']; ?>"><?php print (isset($user['User_Fullname'])) ? $user['User_Fullname']: $user['User_Username']; ?></a>
+		<a class="avatar" href="/?p=user/<?php print $_SESSION['uid']; ?>"><img src="<?php print "http://0.gravatar.com/avatar/".md5(strtolower(trim($email)))."?d=identicon&s=".$size; ?>" width="24px" /></a>
+		<a class="username" href="/?p=user/<?php print $_SESSION['uid']; ?>"><?php print (isset($user['User_Fullname'])) ? $user['User_Fullname']: $user['User_Username']; ?></a>
 		<a class="front" href=".">Home</a>
 		<span id="user-toggle"></span>
 		<div id="user-panel" style="display: none;">
 			<ul>
-				<li><a href="./triggers/logout.php">Logout</a></li>
+				<li><a href="/triggers/logout.php">Logout</a></li>
 				<li><a href="#">Help</a></li>
 			</ul>
 		</div>
