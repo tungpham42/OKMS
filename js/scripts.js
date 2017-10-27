@@ -1,8 +1,8 @@
 function postLike(pid) {
 	if (!$("#post_like_pid_"+pid).hasClass("not_belonged") && !$("#post_like_pid_"+pid).hasClass("is_admin") || ($("#post_like_pid_"+pid).hasClass("guest_mode") && !$("#post_like_pid_"+pid).hasClass("is_admin"))) {
-		$("#save_post_like_pid_"+pid).load("triggers/post_like.php",{pid:pid},function(){
-			$("#post_like_pid_"+pid).load("triggers/post_like_update.php",{pid:pid});
-			$("#post_dislike_pid_"+pid).load("triggers/post_dislike_update.php",{pid:pid});
+		$("#save_post_like_pid_"+pid).load("/triggers/post_like.php",{pid:pid},function(){
+			$("#post_like_pid_"+pid).load("/triggers/post_like_update.php",{pid:pid});
+			$("#post_dislike_pid_"+pid).load("/triggers/post_dislike_update.php",{pid:pid});
 		});
 	} else if ($("#post_like_pid_"+pid).hasClass("not_belonged")) {
 		openWrap("You do not belong to this course");
@@ -12,9 +12,9 @@ function postLike(pid) {
 }
 function postDislike(pid) {
 	if (!$("#post_dislike_pid_"+pid).hasClass("not_belonged") && !$("#post_dislike_pid_"+pid).hasClass("is_admin") || ($("#post_dislike_pid_"+pid).hasClass("guest_mode") && !$("#post_dislike_pid_"+pid).hasClass("is_admin"))) {
-		$("#save_post_dislike_pid_"+pid).load("triggers/post_dislike.php",{pid:pid},function(){
-			$("#post_dislike_pid_"+pid).load("triggers/post_dislike_update.php",{pid:pid});
-			$("#post_like_pid_"+pid).load("triggers/post_like_update.php",{pid:pid});
+		$("#save_post_dislike_pid_"+pid).load("/triggers/post_dislike.php",{pid:pid},function(){
+			$("#post_dislike_pid_"+pid).load("/triggers/post_dislike_update.php",{pid:pid});
+			$("#post_like_pid_"+pid).load("/triggers/post_like_update.php",{pid:pid});
 		});
 	} else if ($("#post_dislike_pid_"+pid).hasClass("not_belonged")) {
 		openWrap("You do not belong to this course");
@@ -24,8 +24,8 @@ function postDislike(pid) {
 }
 function postFollow(pid) {
 	if (!$("#post_follow_pid_"+pid).hasClass("not_belonged") && !$("#post_follow_pid_"+pid).hasClass("is_admin") || ($("#post_follow_pid_"+pid).hasClass("guest_mode") && !$("#post_follow_pid_"+pid).hasClass("is_admin"))) {
-		$("#save_post_follow_pid_"+pid).load("triggers/post_follow.php",{pid:pid},function(){
-			$("#post_follow_pid_"+pid).load("triggers/post_follow_update.php",{pid:pid});
+		$("#save_post_follow_pid_"+pid).load("/triggers/post_follow.php",{pid:pid},function(){
+			$("#post_follow_pid_"+pid).load("/triggers/post_follow_update.php",{pid:pid});
 		});
 	} else if ($("#post_follow_pid_"+pid).hasClass("not_belonged")) {
 		openWrap("You do not belong to this course");
@@ -47,9 +47,9 @@ function commentsToggle(pid) {
 }
 function starRating(pid,rate) {
 	if (!$("#rate_"+rate+"_pid_"+pid).hasClass("not_belonged") && !$("#rate_"+rate+"_pid_"+pid).hasClass("is_admin") || ($("#rate_"+rate+"_pid_"+pid).hasClass("guest_mode") && !$("#rate_"+rate+"_pid_"+pid).hasClass("is_admin"))) {
-		$("#save_post_rate_pid_"+pid).load("triggers/post_rate.php",{pid:pid,rate:rate},function(){
-			$("#post_rate_pid_"+pid).load("triggers/post_rate_update.php",{pid:pid});
-			$("#average_post_rate_pid_"+pid).load("triggers/post_rate_average.php",{pid:pid});
+		$("#save_post_rate_pid_"+pid).load("/triggers/post_rate.php",{pid:pid,rate:rate},function(){
+			$("#post_rate_pid_"+pid).load("/triggers/post_rate_update.php",{pid:pid});
+			$("#average_post_rate_pid_"+pid).load("/triggers/post_rate_average.php",{pid:pid});
 		});
 	} else if($("#rate_"+rate+"_pid_"+pid).hasClass("not_belonged")) {
 		openWrap("You do not belong to this course");
@@ -59,9 +59,9 @@ function starRating(pid,rate) {
 }
 function commentLike(comid,pid) {
 	if (!$("#comments_pid_"+pid).hasClass("is_admin") && !$("#comments_pid_"+pid).hasClass("not_belonged") || ($("#comments_pid_"+pid).hasClass("guest_mode") && !$("#comments_pid_"+pid).hasClass("is_admin"))) {
-		$("#save_comment_like_comid_"+comid).load("triggers/comment_like.php",{comid:comid},function(){
-			$("#comment_like_comid_"+comid).load("triggers/comment_like_update.php",{comid:comid});
-			$("#comment_dislike_comid_"+comid).load("triggers/comment_dislike_update.php",{comid:comid});
+		$("#save_comment_like_comid_"+comid).load("/triggers/comment_like.php",{comid:comid},function(){
+			$("#comment_like_comid_"+comid).load("/triggers/comment_like_update.php",{comid:comid});
+			$("#comment_dislike_comid_"+comid).load("/triggers/comment_dislike_update.php",{comid:comid});
 		});
 	} else if ($("#comments_pid_"+pid).hasClass("not_belonged")) {
 		openWrap("You do not belong to this course");
@@ -71,9 +71,9 @@ function commentLike(comid,pid) {
 }
 function commentDislike(comid,pid) {
 	if (!$("#comments_pid_"+pid).hasClass("is_admin") && !$("#comments_pid_"+pid).hasClass("not_belonged") || ($("#comments_pid_"+pid).hasClass("guest_mode") && !$("#comments_pid_"+pid).hasClass("is_admin"))) {
-		$("#save_comment_dislike_comid_"+comid).load("triggers/comment_dislike.php",{comid:comid},function(){
-			$("#comment_dislike_comid_"+comid).load("triggers/comment_dislike_update.php",{comid:comid});
-			$("#comment_like_comid_"+comid).load("triggers/comment_like_update.php",{comid:comid});
+		$("#save_comment_dislike_comid_"+comid).load("/triggers/comment_dislike.php",{comid:comid},function(){
+			$("#comment_dislike_comid_"+comid).load("/triggers/comment_dislike_update.php",{comid:comid});
+			$("#comment_like_comid_"+comid).load("/triggers/comment_like_update.php",{comid:comid});
 		});
 	} else if ($("#comments_pid_"+pid).hasClass("not_belonged")) {
 		openWrap("You do not belong to this course");
@@ -84,8 +84,8 @@ function commentDislike(comid,pid) {
 function commentEdit(comid,pid) {
 	var body = $("textarea#textarea_body_comment_edit_comid_"+comid).val();
 	if (body != "") {
-		$("#save_comment_edit_comid_"+comid).load("triggers/comment_edit.php",{comid:comid,body:body},function(){
-			$("#comments_pid_"+pid).load("triggers/comments_update.php",{pid:pid});
+		$("#save_comment_edit_comid_"+comid).load("/triggers/comment_edit.php",{comid:comid,body:body},function(){
+			$("#comments_pid_"+pid).load("/triggers/comments_update.php",{pid:pid});
 		});
 	} else if ($("#comments_pid_"+pid).hasClass("not_belonged")) {
 		openWrap("You do not belong to this course");
@@ -94,14 +94,14 @@ function commentEdit(comid,pid) {
 	}
 }
 function commentDelete(comid,pid) {
-	$("#save_comment_delete_comid_"+comid).load("triggers/comment_delete.php",{comid:comid},function(){
-		$("#comments_pid_"+pid).load("triggers/comments_update.php",{pid:pid});
-		$("#comments_count_pid_"+pid).load("triggers/comments_count_update.php",{pid:pid});
+	$("#save_comment_delete_comid_"+comid).load("/triggers/comment_delete.php",{comid:comid},function(){
+		$("#comments_pid_"+pid).load("/triggers/comments_update.php",{pid:pid});
+		$("#comments_count_pid_"+pid).load("/triggers/comments_count_update.php",{pid:pid});
 		closeWrapBox();
 	});
 }
 function commentDeleteDialog(comid,pid) {
-	$("#wrap-content").load("triggers/comment_delete_dialog.php",{comid:comid,pid:pid});
+	$("#wrap-content").load("/triggers/comment_delete_dialog.php",{comid:comid,pid:pid});
 	openEmptyWrap();
 }
 function commentCreate(pid) {
@@ -110,9 +110,9 @@ function commentCreate(pid) {
 		var hide = $("input#input_hide_comment_create_pid_"+pid+":checked").val();
 		var uid = $("input#input_uid_comment_create_pid_"+pid).val();
 		if (body != "") {
-			$("#save_comment_create_pid_"+pid).load("triggers/comment_create.php",{pid:pid,uid:uid,body:body,hide:hide},function(){
-				$("#comments_pid_"+pid).load("triggers/comments_update.php",{pid:pid});
-				$("#comments_count_pid_"+pid).load("triggers/comments_count_update.php",{pid:pid});
+			$("#save_comment_create_pid_"+pid).load("/triggers/comment_create.php",{pid:pid,uid:uid,body:body,hide:hide},function(){
+				$("#comments_pid_"+pid).load("/triggers/comments_update.php",{pid:pid});
+				$("#comments_count_pid_"+pid).load("/triggers/comments_count_update.php",{pid:pid});
 			});
 		} else {
 			openWrap("Please fill in the comment body");

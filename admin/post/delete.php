@@ -5,7 +5,7 @@ $uid = $_SESSION['uid'];
 if (isset($_POST['submit'])):
 	delete_post($_POST['pid']);
 	sleep(1);
-	header('location: '.currentURL().'?p=post');
+	header('location: '.currentURL().'/?p=post');
 	print 'Post deleted. Click <a class="button" href="/?p=post">here</a> to view created posts';
 else:
 ?>

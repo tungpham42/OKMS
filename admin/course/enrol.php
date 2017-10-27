@@ -34,7 +34,7 @@ if (isset($_POST['submit'])):
 		}	
 	}
 	sleep(1);
-	header('location: '.currentURL().'?p=course');
+	header('location: '.currentURL().'/?p=course');
 endif;
 ?>
 <script type="text/javascript" src="js/multipleselect.js"></script>

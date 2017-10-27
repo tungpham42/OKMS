@@ -43,7 +43,7 @@ if (isset($_POST['submit'])):
 			print 'We sent you an email with your changed account information!';
 		}
 		sleep(3);
-		header('location: '.currentURL().'?p=home');
+		header('location: '.currentURL().'/?p=home');
 		//else print 'This username or email is already taken!';
 	} else {
 		print '<span style="color: red;">'.implode('<br />',$err).'<br/></span>';

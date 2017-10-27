@@ -25,14 +25,14 @@ if (isset($_POST['submit']) && $pass == $pass1):
 			<p>You have just registered an account on Online Knowledge Management system</p>
 			<p>Your ID: '.$name.'</p>
 			<p>Your Password: '.substr($pass,0,3).'***</p>
-			<p>Please click <a href="'.currentURL().'?p=user/verify&email='.$mail.'&hash='.$hash.'">here</a> to activate your account now.</p>
+			<p>Please click <a href="'.currentURL().'/?p=user/verify&email='.$mail.'&hash='.$hash.'">here</a> to activate your account now.</p>
 		</td>
 	</tr>
 </table>
 ',
 					'okms.vn@gmail.com');
 			//sleep(1);
-			//header('location: '.currentURL().'?p=home');
+			//header('location: '.currentURL().'/?p=home');
 			print '<br/>User created. Click <a href="/?p=home">here</a> to go to home page<br/>';
 			print 'We sent you an email with your new account information!';
 	else:

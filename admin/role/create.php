@@ -3,7 +3,7 @@ $role_name = (isset($_POST['role_name'])) ? $_POST['role_name']: '';
 if (isset($_POST['submit'])):
 	create_role($role_name);
 	sleep(1);
-	header('location: '.currentURL().'?p=role');
+	header('location: '.currentURL().'/?p=role');
 	print 'Role created. Click <a href="/?p=role">here</a> to view created roles';
 endif;
 ?>

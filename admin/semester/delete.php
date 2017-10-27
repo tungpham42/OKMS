@@ -4,7 +4,7 @@ $semester = semester_load($semid);
 if (isset($_POST['submit'])):
 	delete_role($_POST['id']);
 	sleep(1);
-	header('location: '.currentURL().'?p=semester');
+	header('location: '.currentURL().'/?p=semester');
 endif;
 ?>
 <h3>Do you want to delete the semester "<?php print $semester['Semester_Code']; ?>"?</h3>

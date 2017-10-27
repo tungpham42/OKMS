@@ -4,7 +4,7 @@ $user = user_load($uid);
 if (isset($_POST['submit'])):
 	delete_user($_POST['id']);
 	sleep(1);
-	header('location: '.currentURL().'?p=user');
+	header('location: '.currentURL().'/?p=user');
 	print 'User deleted. Click <a href="/?p=user">here</a> to view created users';
 endif;
 ?>

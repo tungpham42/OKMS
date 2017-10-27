@@ -4,7 +4,7 @@ $role = role_load($rid);
 if (isset($_POST['submit'])):
 	delete_role($_POST['id']);
 	sleep(1);
-	header('location: '.currentURL().'?p=role');
+	header('location: '.currentURL().'/?p=role');
 	print 'Role deleted. Click <a href="/?p=role">here</a> to view created roles';
 endif;
 ?>

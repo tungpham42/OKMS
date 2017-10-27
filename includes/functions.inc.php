@@ -1868,7 +1868,7 @@ function follow_notify($pid,$commenter_name,$comment) { //Send notification emai
 <table style="border: 1px solid black;">
 	<tr style="border: 1px solid black;">
 		<td>
-			<img src="'.currentURL().'images/banner_email.png" width="480" height="80" />
+			<img src="'.currentURL().'/images/banner_email.png" width="480" height="80" />
 		</td>
 	</tr>
 	<tr style="border: 1px solid black;">
@@ -1876,7 +1876,7 @@ function follow_notify($pid,$commenter_name,$comment) { //Send notification emai
 			<p>Hi <b>'.$user['User_Fullname'].'</b></p>
 			<p>'.$commenter_name.' commented on the post that you have followed</p>
 			<p>'.$commenter_name.' wrote: "'.$comment.'"</p>
-			<p><a href="'.currentURL().'?p=question/'.$post['Post_URL'].'">Go to comments</a> now</p>
+			<p><a href="'.currentURL().'/?p=question/'.$post['Post_URL'].'">Go to comments</a> now</p>
 		</td>
 	</tr>
 </table>

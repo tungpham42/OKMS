@@ -9,7 +9,7 @@ $semester_end_date = (isset($_POST['semester_end_date'])) ? strtotime($_POST['se
 if (isset($_POST['submit'])):
 	edit_semester($semid,$semester_code,$semester_start_date,$semester_end_date);
 	sleep(1);
-	header('location: '.currentURL().'?p=semester');
+	header('location: '.currentURL().'/?p=semester');
 endif;
 ?>
 <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/ui-lightness/jquery-ui.css" type="text/css" media="all" />

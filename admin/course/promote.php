@@ -5,7 +5,7 @@ $course = course_load($cid);
 if (isset($_POST['submit'])):
 	promote_user($coor_uid,$cid);
 	sleep(1);
-	header('location: '.currentURL().'?p=course');
+	header('location: '.currentURL().'/?p=course');
 endif;
 ?>
 <form id="form" method="post" action="">
