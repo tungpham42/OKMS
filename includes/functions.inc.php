@@ -2357,7 +2357,7 @@ function ask_question($rid,$cid,$week) {
 	$output .= '<div style="display:none" id="follow_post"></div>';
 	$output .= '<script>
 				$("#question_section").click(function(){
-					if (!$(this).hasClass("not_loggedin") && !$(this).hasClass("not_belonged") && !$(this).hasClass("not_allowed") && !$(this).hasClass("is_admin") && !$(this).hasClass("not_enroled") && !$(this).hasClass("no_course") || $(this).hasClass("guest_mode")) {
+					if (!$(this).hasClass("not_loggedin") && !$(this).hasClass("not_belonged") && !$(this).hasClass("not_allowed") && !$(this).hasClass("is_admin") && !$(this).hasClass("not_enroled") && !$(this).hasClass("no_course") || (!$(this).hasClass("not_loggedin") && !$(this).hasClass("not_belonged") && !$(this).hasClass("not_allowed") && !$(this).hasClass("is_admin") && !$(this).hasClass("not_enroled") && $(this).hasClass("guest_mode"))) {
 						$("#question_label").text("");
 						$("#question_section .question_element,#question_close_button,#question_bottom").css("display","block");
 						$(this).css("cursor","default").animate({height:"'.(($rid != 2 && $rid != 4) ? '140px': '125px').'"},240);
