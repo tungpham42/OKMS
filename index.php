@@ -3,8 +3,9 @@
 //header('Content-Encoding: gzip');
 //error_reporting(-1);
 //ini_set('display_errors', 'On');
+require 'includes/redirect.inc.php';
 require 'includes/functions.inc.php';
-include('includes/admin.inc.php');
+require 'includes/admin.inc.php';
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
