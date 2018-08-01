@@ -113,7 +113,7 @@ if($_SESSION['username'])
 	$default = DEFAULT_AVATAR;
 ?>
 	<div id="header-login-form" class="logged_in">
-		<a class="avatar" href="/?p=user/<?php print $_SESSION['uid']; ?>"><img src="<?php print "http://0.gravatar.com/avatar/".md5(strtolower(trim($email)))."?d=identicon&s=".$size; ?>" width="24px" /></a>
+		<a class="avatar" href="/?p=user/<?php print $_SESSION['uid']; ?>"><img src="<?php print "https://0.gravatar.com/avatar/".md5(strtolower(trim($email)))."?d=identicon&s=".$size; ?>" width="24px" /></a>
 		<a class="username" href="/?p=user/<?php print $_SESSION['uid']; ?>"><?php print (isset($user['User_Fullname'])) ? $user['User_Fullname']: $user['User_Username']; ?></a>
 		<a class="front" href=".">Home</a>
 		<span id="user-toggle"></span>

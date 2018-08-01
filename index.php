@@ -7,7 +7,7 @@ require 'includes/functions.inc.php';
 require 'includes/admin.inc.php';
 ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 	<head>
 		<meta http-equiv="content-type" content="text/html;charset=utf-8">
 		<meta name="description" content="<?php print $meta_description; ?>" />
