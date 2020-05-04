@@ -22,7 +22,7 @@ if(!$_SESSION['username'])
 			<?php
 			if(isset($_POST['login'])){
 				if($err)
-				print '<tr><td style="color: red" colspan="2">'.implode('<br />',$err).'</td></tr>';
+				echo '<tr><td style="color: red" colspan="2">'.implode('<br />',$err).'</td></tr>';
 			}
 			?>
 			<tr>
@@ -53,8 +53,8 @@ if($_SESSION['username'])
 ?>
 
 <p id="nav">
-<a href="/?p=user/create">Register</a> |
-<a href="/?p=user/password_reset" title="Password Lost and Found">Lost your password?</a>
+<a href="/user/create">Register</a> |
+<a href="/user/password_reset" title="Password Lost and Found">Lost your password?</a>
 </p>
 </div>
 <div class="clear"></div>

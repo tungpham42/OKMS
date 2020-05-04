@@ -8,10 +8,10 @@ if(isset($_GET['email']) && !empty($_GET['email']) AND isset($_GET['hash']) && !
 	if($match > 0){
 		// We have a match, activate the account
 		mysqli_query($db->link, "UPDATE ".PREFIX."USER SET User_Status='1' WHERE User_Mail='".$email."' AND User_Hash='".$hash."' AND User_Status='0'") or die(mysqli_error());  
-		echo '<h2>Your account has been activated, you can now <a href="?p=home">login</a></h2>';
+		echo '<h2>Your account has been activated, you can now <a href="/home">login</a></h2>';
 	}else{
 		// No match -> invalid url or account has already been activated.
-		echo '<h2>The url is either invalid or you already have activated your account. Go to login page <a href="?p=home">here</a></h2>';
+		echo '<h2>The url is either invalid or you already have activated your account. Go to login page <a href="/home">here</a></h2>';
 	}
 }else{
 	// Invalid approach  
