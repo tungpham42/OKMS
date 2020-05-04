@@ -34,14 +34,14 @@ if (isset($_POST['submit'])) {
 			<td>
 				<p>Hi <b>'.$fullname.'</b></p>
 				<p>Online KMS received a request to reset password for your account</p>
-				<p>Please click <a href="'.currentURL().'/user/password_reset&email='.$forgotpassword.'&hash='.$hash.'">here</a> to reset your password.</p>
+				<p>Please click <a href="'.currentURL().'/?p=user/password_reset&email='.$forgotpassword.'&hash='.$hash.'">here</a> to reset your password.</p>
 				<p>If you did not want to reset your password, please ignore this email.</p>
 			</td>
 		</tr>
 	</table>';
 	if (check_email_address($_POST['forgotpassword']) && mysqli_result($result,0,0)>0):
 		send_mail($forgotpassword, $subject, $message,  'okms.vn@gmail.com');
-		echo '
+		print '
 			<table>
 				<tr><th style="text-transform: none; text-align: left;">Notice from the system</th></tr>
 				<tr><td>
@@ -93,12 +93,12 @@ if(isset($_GET['email']) && !empty($_GET['email']) && isset($_GET['hash']) && !e
 			</tr>
 		</table>';
 		send_mail($email, $subject, $message,  'okms.vn@gmail.com');
-		echo '
+		print '
 			<table>
 				<tr><th style="text-transform: none; text-align: left;">Notice from the system</th></tr>
 				<tr><td>
 				<p>Hi. An email has been dispatched to <span style="font-weight: bold;position:relative;top:-2px;">'.$email.'</span> with details of your new password. </p>
-				<p>Please click <a style="position:relative;top:-2px;text-decoration:underline;" href="/home">here</a> to go to home page.</p>
+				<p>Please click <a style="position:relative;top:-2px;text-decoration:underline;" href="?p=home">here</a> to go to home page.</p>
 				<p>Thanks and best regards</p>
 				</td></tr>
 			</table>';

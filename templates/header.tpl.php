@@ -30,13 +30,13 @@ body.admin.post #toolbar ul.toolbar > li > a.admin.post,body.admin.user #toolbar
 #toolbar {width: 780px;}
 </style>
 <ul class="toolbar">
-<li><a class="admin post" title="Manage posts" href="/post">Manage posts</a></li>
-<li><a class="admin user" title="Manage users" href="/user">Manage users</a></li>
-<li><a class="admin role" title="Manage roles" href="/role">Manage roles</a></li>
-<li><a class="admin course" title="Manage courses" href="/course">Manage courses</a></li>
-<li><a class="admin semester" title="Manage semesters" href="/semester">Manage semesters</a></li>
-<li><a class="admin archive" title="Knowledge base" href="/post/archive">Knowledge base</a></li>
-<li><a class="admin report" title="Report" href="/report">Report</a></li>
+<li><a class="admin post" title="Manage posts" href="?p=post">Manage posts</a></li>
+<li><a class="admin user" title="Manage users" href="?p=user">Manage users</a></li>
+<li><a class="admin role" title="Manage roles" href="?p=role">Manage roles</a></li>
+<li><a class="admin course" title="Manage courses" href="?p=course">Manage courses</a></li>
+<li><a class="admin semester" title="Manage semesters" href="?p=semester">Manage semesters</a></li>
+<li><a class="admin archive" title="Knowledge base" href="?p=post/archive">Knowledge base</a></li>
+<li><a class="admin report" title="Report" href="?p=report">Report</a></li>
 </ul>
 </div>
 <?php
@@ -54,10 +54,10 @@ body.admin.post #toolbar ul.toolbar > li > a.admin.post, body.admin.course #tool
 #toolbar {width: 510px;}
 </style>
 <ul class="toolbar">
-<li><a class="admin post" title="Manage posts" href="/post">Manage posts</a></li>
-<li><a class="admin course" title="Manage courses" href="/course">Manage courses</a></li>
-<li><a class="admin archive" title="Knowledge base" href="/post/archive">Knowledge base</a></li>
-<li><a class="admin report" title="Report" href="/report">Report</a></li>
+<li><a class="admin post" title="Manage posts" href="?p=post">Manage posts</a></li>
+<li><a class="admin course" title="Manage courses" href="?p=course">Manage courses</a></li>
+<li><a class="admin archive" title="Knowledge base" href="?p=post/archive">Knowledge base</a></li>
+<li><a class="admin report" title="Report" href="?p=report">Report</a></li>
 </ul>
 </div>
 <?php

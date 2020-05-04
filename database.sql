@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `OKMS_COMMENT` (
   `Comment_Created` int(11) NOT NULL DEFAULT '0' COMMENT 'Date created timestamp',
   `Comment_Edited` int(11) NOT NULL DEFAULT '0' COMMENT 'Date updated timestamp',
   PRIMARY KEY (`Comment_ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=22 ;
 
 
 
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `OKMS_COMMENT_VOTE` (
   `CommentVote_Dislike` int(1) NOT NULL DEFAULT '0' COMMENT 'Dislike Token',
   KEY `User_ID` (`User_ID`),
   KEY `Comment_ID` (`Comment_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `OKMS_COMMENT_VOTE`
@@ -70,7 +70,37 @@ CREATE TABLE IF NOT EXISTS `OKMS_COURSE` (
   `Course_Allowed` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Allow students to post questions?',
   `Course_For_Guest` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Allow guests to post questions?',
   PRIMARY KEY (`Course_ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=38 ;
+
+--
+-- Dumping data for table `OKMS_COURSE`
+--
+
+INSERT INTO `OKMS_COURSE` (`Course_ID`, `User_ID`, `Course_Name`, `Course_Code`, `Course_Allowed`) VALUES
+(8, 4, 'BIS Strategy and Governance', 'ISYS2424', 1),
+(2, 6, 'Project Mgmt & Prof Practice for Info Systems', 'ISYS2131', 1),
+(1, 82, 'BIS Capstone Project', 'ISYS2132', 1),
+(3, 43, 'Business Computing', 'ISYS2109', 0),
+(5, 42, 'Internet for Business', 'ISYS2110', 0),
+(12, NULL, 'E-Business Systems', 'INTE2435', 1),
+(13, NULL, 'Bussiness Information System Analysis and Design 2', 'ISYS2117', 0),
+(14, 3, 'Business Info Systems Development 2', 'ISYS2119', 1),
+(15, 3, 'The Business IS Professional', 'ISYS3295', 0),
+(22, 43, 'Intro to BIS Development', 'ISYS2115', 1),
+(18, NULL, 'Client Management', 'COMM2384', 1),
+(19, NULL, 'Asian Cyber Culture', 'COMM2383', 0),
+(32, NULL, 'Visual Basic', 'ISYS2116', 0),
+(21, NULL, 'Marketing', 'MKTG1205', 1),
+(23, NULL, 'Networking in Business', 'INTE2432', 0),
+(31, NULL, ' Database Fundamental Demo', 'ISYS2222', 0),
+(30, 82, 'BIS Capstone Project Demo', 'ISYS2111', 1),
+(33, NULL, 'Business Info System Development 1', 'ISYS2116', 0),
+(34, NULL, 'Business Database 2', 'ISYS2423', 0),
+(35, 53, 'Internet for Business Saigon', 'ISYS2110S', 0),
+(36, 82, 'Test Course', 'ISYS2113', 0),
+(37, 82, 'ERP Systems', 'ISYS2426', 1);
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `OKMS_POST`
@@ -92,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `OKMS_POST` (
   `Post_Edited` int(11) NOT NULL DEFAULT '0' COMMENT 'Date updated timestamp',
   PRIMARY KEY (`Post_ID`),
   FULLTEXT KEY `SEARCH` (`Post_Title`,`Post_Question`,`Post_Answer`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=154 ;
 
 --
 -- Dumping data for table `OKMS_POST`
@@ -108,7 +138,7 @@ CREATE TABLE IF NOT EXISTS `OKMS_POST_FOLLOW` (
   `User_ID` int(10) unsigned NOT NULL COMMENT 'User ID',
   `Post_ID` int(10) unsigned NOT NULL COMMENT 'Post ID',
   KEY `User_ID` (`User_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `OKMS_POST_FOLLOW`
@@ -123,7 +153,7 @@ CREATE TABLE IF NOT EXISTS `OKMS_POST_RATE` (
   `Post_ID` int(10) unsigned NOT NULL COMMENT 'Post ID',
   `PostRate` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Rate Token',
   KEY `User_ID` (`User_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `OKMS_POST_RATE`
@@ -141,7 +171,7 @@ CREATE TABLE IF NOT EXISTS `OKMS_POST_VOTE` (
   `PostVote_Like` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Like Token',
   `PostVote_Dislike` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Dislike Token',
   KEY `User_ID` (`User_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `OKMS_POST_VOTE`
@@ -157,7 +187,7 @@ CREATE TABLE IF NOT EXISTS `OKMS_ROLE` (
   `Role_ID` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Role ID',
   `Role_Name` varchar(60) NOT NULL DEFAULT '' COMMENT 'Role Name',
   PRIMARY KEY (`Role_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `OKMS_ROLE`
@@ -181,7 +211,7 @@ CREATE TABLE IF NOT EXISTS `OKMS_SEMESTER` (
   `Semester_End_Date` int(11) NOT NULL DEFAULT '0',
   `Semester_Current` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`Semester_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `OKMS_SEMESTER`
@@ -212,7 +242,7 @@ CREATE TABLE IF NOT EXISTS `OKMS_USER` (
   PRIMARY KEY (`User_ID`),
   UNIQUE KEY `User_Username` (`User_Username`),
   UNIQUE KEY `User_Mail` (`User_Mail`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=88 ;
 
 --
 -- Dumping data for table `OKMS_USER`
@@ -232,7 +262,7 @@ CREATE TABLE IF NOT EXISTS `OKMS_USER_COURSE` (
   `User_ID` int(10) unsigned NOT NULL COMMENT 'User ID',
   KEY `Course_ID` (`Course_ID`),
   KEY `User_ID` (`User_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `OKMS_USER_COURSE`
@@ -248,7 +278,7 @@ CREATE TABLE IF NOT EXISTS `OKMS_USER_FOLLOW` (
   `Followee_ID` int(10) unsigned NOT NULL COMMENT 'Followee ID',
   KEY `User_ID` (`User_ID`),
   KEY `Followee_ID` (`Followee_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `OKMS_USER_FOLLOW`

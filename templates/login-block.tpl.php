@@ -19,7 +19,7 @@ if(!$_SESSION['username'])
 			<input name="rememberMe" id="rememberMe" type="checkbox" checked="checked" value="1" /> &nbsp;Remember me
 		</div>
 		<div class="login-bottom">
-			<a class="forgot" href="/user/password_reset">Forgot Password</a> | <a class="register" href="/user/register">Sign Up</a>
+			<a class="forgot" href="/?p=user/password_reset">Forgot Password</a> | <a class="register" href="/?p=user/register">Sign Up</a>
 		</div>
 	</form>
 </div>
@@ -29,7 +29,7 @@ if(isset($_POST['header_login'])){
 ?>
 	<script type="text/javascript">
 	$(document).ready(function(){
-		openWrap('<?php echo implode('<br />',$err); ?>');
+		openWrap('<?php print implode('<br />',$err); ?>');
 	});
 	</script>
 <?php
@@ -51,7 +51,7 @@ if(isset($_POST['header_login'])){
 					<?php
 					if(isset($_POST['wrap_login'])){
 						if($err) {
-							echo '<tr><td style="color: red" colspan="2">'.implode('<br />',$err).'</td></tr>';
+							print '<tr><td style="color: red" colspan="2">'.implode('<br />',$err).'</td></tr>';
 					?>
 						<script type="text/javascript">
 						$(document).ready(function(){
@@ -91,8 +91,8 @@ if(isset($_POST['header_login'])){
 		?>
 
 		<p id="nav">
-		<a href="<?php echo currentURL(); ?>/user/register">Register</a> |
-		<a href="<?php echo currentURL(); ?>/user/password_reset" title="Password Lost and Found">Lost your password?</a>
+		<a href="<?php print currentURL(); ?>/?p=user/register">Register</a> |
+		<a href="<?php print currentURL(); ?>/?p=user/password_reset" title="Password Lost and Found">Lost your password?</a>
 		</p>
 		</div>
 		<div class="clear"></div>
@@ -113,8 +113,8 @@ if($_SESSION['username'])
 	$default = DEFAULT_AVATAR;
 ?>
 	<div id="header-login-form" class="logged_in">
-		<a class="avatar" href="/user/<?php echo $_SESSION['uid']; ?>"><img src="<?php echo "https://0.gravatar.com/avatar/".md5(strtolower(trim($email)))."?d=identicon&s=".$size; ?>" width="24px" /></a>
-		<a class="username" href="/user/<?php echo $_SESSION['uid']; ?>"><?php echo (isset($user['User_Fullname'])) ? $user['User_Fullname']: $user['User_Username']; ?></a>
+		<a class="avatar" href="/?p=user/<?php print $_SESSION['uid']; ?>"><img src="<?php print "https://0.gravatar.com/avatar/".md5(strtolower(trim($email)))."?d=identicon&s=".$size; ?>" width="24px" /></a>
+		<a class="username" href="/?p=user/<?php print $_SESSION['uid']; ?>"><?php print (isset($user['User_Fullname'])) ? $user['User_Fullname']: $user['User_Username']; ?></a>
 		<a class="front" href=".">Home</a>
 		<span id="user-toggle"></span>
 		<div id="user-panel" style="display: none;">
