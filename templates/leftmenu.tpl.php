@@ -4,7 +4,7 @@ if (isset($_SESSION['uid'])):
 	$email = $user['User_Mail'];
 	$default = DEFAULT_AVATAR;
 	$grav_url = "http://0.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=identicon&s=40";
-	print '<a class="author" href="/?p=user/'.$user['User_Username'].'"><img src="'.$grav_url.'" width="40px"/><div class="name">'.((isset($user['User_Fullname'])) ? $user['User_Fullname']: $user['User_Username']).'</div></a>'
+	print '<a class="author" href="/user/'.$user['User_Username'].'"><img src="'.$grav_url.'" width="40px"/><div class="name">'.((isset($user['User_Fullname'])) ? $user['User_Fullname']: $user['User_Username']).'</div></a>'
 ?>
 <?php
 endif;
@@ -17,8 +17,8 @@ endif;
 </div>
 <?php
 print style_active_course_menu();
-print view_courses_by_uid($_SESSION['uid']);
-print view_other_courses_by_uid($_SESSION['uid']);
+print isset($_SESSION['uid']) ? view_courses_by_uid($_SESSION['uid']) : view_courses_by_uid(0);
+print isset($_SESSION['uid']) ? view_other_courses_by_uid($_SESSION['uid']) : view_other_courses_by_uid(0);
 ?>
 <div class="clear"></div>
 <script src="/js/animation.js" type="text/javascript"></script>

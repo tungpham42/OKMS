@@ -13,8 +13,8 @@ if (isset($_POST['submit'])):
 	if(mysql_affected_rows($link)==1)
 	{
 		sleep(1);
-		header('location: '.currentURL().'/?p=post');
-		print 'Post created. Click <a href="/?p=post">here</a> to view created posts';
+		header('location: '.currentURL().'/post');
+		print 'Post created. Click <a href="/post">here</a> to view created posts';
 	}
 		else print 'Post not created';
 endif;

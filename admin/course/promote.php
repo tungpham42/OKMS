@@ -5,7 +5,7 @@ $course = course_load($cid);
 if (isset($_POST['submit'])):
 	promote_user($coor_uid,$cid);
 	sleep(1);
-	header('location: '.currentURL().'/?p=course');
+	header('location: '.currentURL().'/course');
 endif;
 ?>
 <form id="form" method="post" action="">
@@ -17,7 +17,7 @@ endif;
 		</tr>
 		<tr>
 			<td><input type="submit" name="submit" value="Promote" /></td>
-			<td><a class="button" href="/?p=course">Cancel</a></td>
+			<td><a class="button" href="/course">Cancel</a></td>
 		</tr>
 	</table>
 </form>

@@ -46,11 +46,11 @@ if(isset($_POST['header_login']) || isset($_POST['wrap_login'])){
 	}
 }
 if (!username_existed($_SESSION['username'])) {
-	session_name('kms');
+	// session_name('okms');
 	session_unset();
 	session_destroy();
 } elseif (username_existed($_SESSION['username'])) {
-	session_name('kms');
+	session_name('okms');
 	session_start();
 }
 /* End Auth */
@@ -62,9 +62,9 @@ $username = get_username_from_url($p);
 $week = get_week_from_url($p);
 $course_week = get_course_week_from_url($p);
 $cid = (isset($course_week)) ? $course_week['cid']: ((isset($_POST['cid'])) ? $_POST['cid']: get_cid_from_url($p));
-$cids = ($_SESSION['rid'] == 1) ? cids_load_all(): user_cids_load_all($_SESSION['uid']);
-$pids = user_pids_load_all($_SESSION['uid']);
-$user = user_load($_SESSION['uid']);
+$cids = isset($_SESSION['rid']) ? ($_SESSION['rid'] == 1) ? cids_load_all(): user_cids_load_all($_SESSION['uid']) : null;
+$pids = isset($_SESSION['uid']) ? user_pids_load_all($_SESSION['uid']) : null;
+$user = isset($_SESSION['uid']) ? user_load($_SESSION['uid']) : null;
 $post = post_load($pid);
 $course = course_load($cid);
 $users = $db->array_load_all('USER');
@@ -108,11 +108,11 @@ for ($i = 0; $i < count($courses); $i++) {
 	}
 }
 /* Title */
-if (!isset($_SESSION['rid']) && ($_GET['p'] == 'user/create' || $_GET['p'] == 'user/register')):
+if (!isset($_SESSION['rid']) && isset($_GET['p']) && ($_GET['p'] == 'user/create' || $_GET['p'] == 'user/register')):
 	$title = 'Register new account';
-elseif (!isset($_SESSION['rid']) && $_GET['p'] == 'user/password_reset'):
+elseif (!isset($_SESSION['rid']) && isset($_GET['p']) && $_GET['p'] == 'user/password_reset'):
 	$title = 'Lost your password?';
-elseif (!isset($_SESSION['rid']) && $_GET['p'] == 'user/verify'):
+elseif (!isset($_SESSION['rid']) && isset($_GET['p']) && $_GET['p'] == 'user/verify'):
 	$title = 'User verification';
 elseif (!isset($_GET['p']) || $_GET['p'] == 'home'):
 	$title = "";

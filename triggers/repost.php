@@ -9,5 +9,5 @@ $body = (isset($_POST['body'])) ? $_POST['body']: '';
 $answer = (isset($_POST['answer'])) ? $_POST['answer']: '';
 $repostid = (isset($_POST['repostid'])) ? $_POST['repostid']: '';
 repost($uid,$cid,$week,$title,$url,$body,$answer,$repostid);
-header('location: ../?p=post');
+header('location: /post');
 ?>

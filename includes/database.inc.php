@@ -1,7 +1,8 @@
 <?php
 require 'libraries/class.database.php';
 /* Database config */
-$url = getenv('JAWSDB_URL');
+// $url = getenv('JAWSDB_URL');
+$url = 'mysql://cungrao_okms:OKMSv0d0i@localhost:3306/cungrao_okms';
 $dbparts = parse_url($url);
 $hostname = $dbparts['host'];
 $username = $dbparts['user'];

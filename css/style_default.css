@@ -232,7 +232,7 @@ h1.title {color: #BE1E2D;}
 	height: 132px;
 	z-index: 98;
 	width: 100%;
-	background: #414042 url('images/banner_over.png') no-repeat;
+	background: #414042 url('/images/banner_over.png') no-repeat;
 	position: fixed;
 	border-bottom: 28px solid #414042;
 }
@@ -250,10 +250,10 @@ h1.title {color: #BE1E2D;}
 	width: 448px;
 	height: 116px;
 	float: left;
-	background-image: url('images/LOGO.png');
+	background-image: url('/images/LOGO.png');
 }
 #header-login-form button.login-button {
-	background: transparent url('images/login_button.png') no-repeat;
+	background: transparent url('/images/login_button.png') no-repeat;
 	background-position: 0px 0px;
 	border: 0px;
 	width: 41px;
@@ -320,7 +320,7 @@ h1.title {color: #BE1E2D;}
 	float: left;
 	width: 18px;
 	height: 16px;
-	background: transparent url('images/arrow.png') no-repeat;
+	background: transparent url('/images/arrow.png') no-repeat;
 	cursor: pointer;
 	position: relative;
 	top: 4px;
@@ -330,7 +330,7 @@ h1.title {color: #BE1E2D;}
 	height: 16px;
 	border: 1px solid black;
 	border-bottom: 0px;
-	background: #A7A9AB url('images/arrow_click.png') no-repeat;
+	background: #A7A9AB url('/images/arrow_click.png') no-repeat;
 }
 #header-login-form.logged_in a {
 	float: left;
@@ -508,7 +508,7 @@ ul#weeks_bar > li > a:hover {
 	display: inline;
 	float: left;
 	padding-left: 20px;
-	background-image: url('images/link_icon.png') !important;
+	background-image: url('/images/link_icon.png') !important;
 	background-repeat: no-repeat !important;
 	background-position: 0px 0px;
 	padding-bottom: 1px;
@@ -658,7 +658,7 @@ padding: 0px 7px;
 	font-size: 12px;
 	font-weight: bold;
 	color: black;
-	background: url('images/ask_question.png') no-repeat;
+	background: url('/images/ask_question.png') no-repeat;
 	padding-left: 18px;
 }
 #ask_question {
@@ -689,7 +689,7 @@ padding: 0px 7px;
 	cursor: pointer;
 	height: 15px;
 	width: 15px;
-	background: url('images/close_button.png') no-repeat;
+	background: url('/images/close_button.png') no-repeat;
 }
 #question_close_button:hover, .close_button:hover, #search_bar button#search_submit.close_button:hover {
 	background-position: 0px -16px;
@@ -953,7 +953,7 @@ a.button.like:active, a.button.dislike:active, a.button.follow:active, a.button.
 	margin: 4px 0px;
 }
 .footer_divider {
-	background: url('images/footer_divider.png') repeat-y;
+	background: url('/images/footer_divider.png') repeat-y;
 	width: 2px;
 	height: 130px;
 	position: relative;
@@ -967,16 +967,16 @@ a.button.like:active, a.button.dislike:active, a.button.follow:active, a.button.
 	float: left;
 }
 .footer_icon.facebook {
-	background: url('images/facebook_icon.jpg') no-repeat;
+	background: url('/images/facebook_icon.jpg') no-repeat;
 }
 .footer_icon.linkedin {
-	background: url('images/linkedin_icon.jpg') no-repeat;
+	background: url('/images/linkedin_icon.jpg') no-repeat;
 }
 .footer_icon.skype {
-	background: url('images/skype_icon.jpg') no-repeat;
+	background: url('/images/skype_icon.jpg') no-repeat;
 }
 .footer_icon.twitter {
-	background: url('images/twitter_icon.jpg') no-repeat;
+	background: url('/images/twitter_icon.jpg') no-repeat;
 }
 .course_title {
 	position: relative;
@@ -1008,42 +1008,42 @@ a.button.like:active, a.button.dislike:active, a.button.follow:active, a.button.
 	top: -25px;
 }
 .course_section_top_left {
-	background: url('images/course_top_left.gif') no-repeat;
+	background: url('/images/course_top_left.gif') no-repeat;
 	height: 50px;
 	width: 150px;
 	float: left;
 	position: relative;
 }
 .course_section_top_center {
-	background: url('images/course_top_center.gif') repeat-x;
+	background: url('/images/course_top_center.gif') repeat-x;
 	height: 50px;
 	width: 367px;
 	float: left;
 	position: relative;
 }
 .course_section_top_right {
-	background: url('images/course_top_right.gif') repeat-x;
+	background: url('/images/course_top_right.gif') repeat-x;
 	height: 50px;
 	width: 23px;
 	float: right;
 	position: relative;
 }
 .course_section_bottom_left {
-	background: url('images/course_bottom_left.gif') no-repeat;
+	background: url('/images/course_bottom_left.gif') no-repeat;
 	height: 37px;
 	width: 34px;
 	float: left;
 	position: relative;
 }
 .course_section_bottom_center {
-	background: url('images/course_bottom_center.gif') repeat-x;
+	background: url('/images/course_bottom_center.gif') repeat-x;
 	height: 37px;
 	width: 466px;
 	float: left;
 	position: relative;
 }
 .course_section_bottom_right {
-	background: url('images/course_bottom_right.gif') repeat-x;
+	background: url('/images/course_bottom_right.gif') repeat-x;
 	height: 37px;
 	width: 40px;
 	float: right;
@@ -1051,7 +1051,7 @@ a.button.like:active, a.button.dislike:active, a.button.follow:active, a.button.
 }
 .course_section_center {
 	position: relative;
-	background: #F7F2EE url('images/course.png') repeat-y;
+	background: #F7F2EE url('/images/course.png') repeat-y;
 	min-height: 42px;
 	height: auto !important;
 	top: -11px;
@@ -1139,7 +1139,7 @@ td.count {
 	left:-70px;
 	position:absolute;
 	width:50px;
-	background:url('img/default_avatar.gif') no-repeat #fcfcfc;
+	background:url('/img/default_avatar.gif') no-repeat #fcfcfc;
 	
 	/* Centering it vertically: */
 	
@@ -1359,7 +1359,7 @@ body.admin table {
 	top: -12px;
 	position: absolute;
 	cursor: pointer;
-	background: url('images/close.png') no-repeat left top;
+	background: url('/images/close.png') no-repeat left top;
 }
 #login-wrap, #wrap {
 	width: 360px;
@@ -1503,7 +1503,7 @@ body.admin #leftmenu, body.admin #rightmenu, body.admin #footer {
 	margin-left: 200px;
 }
 .ratings_stars {
-    background: url('images/star_no_rating.png') no-repeat;
+    background: url('/images/star_no_rating.png') no-repeat;
     float: left;
     height: 16px;
     padding: 2px;
@@ -1511,14 +1511,14 @@ body.admin #leftmenu, body.admin #rightmenu, body.admin #footer {
 	cursor: pointer;
 }
 .ratings_vote, .ratings_over {
-    background: url('images/star_rating.png') no-repeat;
+    background: url('/images/star_rating.png') no-repeat;
     float: left;
     height: 16px;
     padding: 2px;
     width: 16px;
 }
 .average_ratings_stars {
-    background: url('images/star_no_rating_average.png') no-repeat;
+    background: url('/images/star_no_rating_average.png') no-repeat;
     float: left;
     height: 16px;
     padding: 2px;
@@ -1526,7 +1526,7 @@ body.admin #leftmenu, body.admin #rightmenu, body.admin #footer {
 	cursor: pointer;
 }
 .average_ratings_vote {
-    background: url('images/star_rating_average.png') no-repeat;
+    background: url('/images/star_rating_average.png') no-repeat;
     float: left;
     height: 16px;
     padding: 2px;
@@ -1579,7 +1579,7 @@ body.admin.user.list #search_bar input#search_user_box {
 #search_bar button#search_submit {
 	float: left;
 	border: 1px solid #BE1E2D;
-	background: transparent url('images/search_button.png') no-repeat;
+	background: transparent url('/images/search_button.png') no-repeat;
 	height: 27px;
 	width: 27px;
 	margin: 0px;
@@ -1685,57 +1685,57 @@ input[name=post_edit], input[name=post_archive], input[name=post_delete], input[
 	background-repeat: no-repeat !important;
 }
 input[name=post_edit], input[name=user_edit], input[name=role_edit], input[name=course_edit], input[name=semester_edit] {
-	background-image: url('images/icon_edit.png') !important;
+	background-image: url('/images/icon_edit.png') !important;
 	width: 16px;
 	height: 17px;
 }
 input[name=post_archive] {
-	background-image: url('images/icon_archive.png') !important;
+	background-image: url('/images/icon_archive.png') !important;
 	width: 15px;
 	height: 16px;
 }
 input[name=post_delete], input[name=user_delete], input[name=role_delete], input[name=course_delete], input[name=semester_delete] {
-	background-image: url('images/icon_delete.png') !important;
+	background-image: url('/images/icon_delete.png') !important;
 	width: 15px;
 	height: 16px;
 }
 input[name=user_activate], input[name=course_allow], input[name=course_guest_on] {
-	background-image: url('images/icon_activate.png') !important;
+	background-image: url('/images/icon_activate.png') !important;
 	width: 16px;
 	height: 16px;
 }
 input[name=user_deactivate], input[name=course_not_allow], input[name=course_guest_off] {
-	background-image: url('images/icon_deactivate.png') !important;
+	background-image: url('/images/icon_deactivate.png') !important;
 	width: 16px;
 	height: 16px;
 }
 input[name=course_assign] {
-	background-image: url('images/icon_addlecturer.png') !important;
+	background-image: url('/images/icon_addlecturer.png') !important;
 	width: 23px;
 	height: 15px;
 }
 input[name=course_enrol] {
-	background-image: url('images/icon_addstudent.png') !important;
+	background-image: url('/images/icon_addstudent.png') !important;
 	width: 23px;
 	height: 15px;
 }
 input[name=course_promote] {
-	background-image: url('images/icon_promotecoordinator.png') !important;
+	background-image: url('/images/icon_promotecoordinator.png') !important;
 	width: 22px;
 	height: 17px;
 }
 input[name=course_csv] {
-	background-image: url('images/icon_csv.png') !important;
+	background-image: url('/images/icon_csv.png') !important;
 	width: 23px;
 	height: 15px;
 }
 input[name=repost] {
-	background-image: url('images/icon_repost.png') !important;
+	background-image: url('/images/icon_repost.png') !important;
 	width: 17px;
 	height: 14px;
 }
 input[name=post_restore] {
-	background-image: url('images/icon_restore.png') !important;
+	background-image: url('/images/icon_restore.png') !important;
 	width: 15px;
 	height: 16px;
 }

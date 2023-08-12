@@ -30,7 +30,7 @@ if (isset($_POST['keyword'])) {
 		for ($i = 0; $i < $count; $i++) {
 			if (isset($posts[$i]['Post_ID'])) {
 				$user = user_load($posts[$i]['User_ID']);
-				print '<li class="suggestion'.(($i == 0) ? ' first': '').'"><a class="post_title'.(($i == 0) ? ' first': '').'" href="?p=question/'.$posts[$i]['Post_URL'].'">'.$posts[$i]['Post_Title'].'</a><br/><span class=post_author>'.((isset($posts[$i]['Post_Hide_Name']) && $posts[$i]['Post_Hide_Name'] == 1 || !user_existed($posts[$i]['User_ID'])) ? 'Anonymous': ((isset($user['User_Fullname'])) ? $user['User_Fullname']: $user['User_Username'])).'</span></li>';
+				print '<li class="suggestion'.(($i == 0) ? ' first': '').'"><a class="post_title'.(($i == 0) ? ' first': '').'" href="/question/'.$posts[$i]['Post_URL'].'">'.$posts[$i]['Post_Title'].'</a><br/><span class=post_author>'.((isset($posts[$i]['Post_Hide_Name']) && $posts[$i]['Post_Hide_Name'] == 1 || !user_existed($posts[$i]['User_ID'])) ? 'Anonymous': ((isset($user['User_Fullname'])) ? $user['User_Fullname']: $user['User_Username'])).'</span></li>';
 			}
 		}
 		print (count($posts) > 5) ? '<li class="suggestion"><a id="all_results">Show all results</a></li>': '';

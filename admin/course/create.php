@@ -4,8 +4,8 @@ $course_name = (isset($_POST['course_name'])) ? $_POST['course_name']: '';
 if (isset($_POST['submit'])):
 	create_course($course_code,$course_name);
 	sleep(1);
-	header('location: '.currentURL().'/?p=course/'.$course_code);
-	print 'Course created. Click <a href="/?p=course">here</a> to view created courses';
+	header('location: '.currentURL().'/course/'.$course_code);
+	print 'Course created. Click <a href="/course">here</a> to view created courses';
 endif;
 ?>
 <form id="form" method="post" action="">

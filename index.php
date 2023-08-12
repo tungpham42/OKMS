@@ -1,8 +1,8 @@
 <?php
 //header('Connection: keep-alive');
 //header('Content-Encoding: gzip');
-//error_reporting(-1);
-//ini_set('display_errors', 'On');
+// error_reporting(-1);
+// ini_set('display_errors', 'On');
 require 'includes/functions.inc.php';
 require 'includes/admin.inc.php';
 ?>
@@ -14,18 +14,18 @@ require 'includes/admin.inc.php';
 		<meta name="keywords" content="kms,cms,online_kms,knowledge management system" />
 		<meta name="author" content="Tung Pham" />
 		<title><?php print $site_name.(($p != 'home' && $p != '') ? ' - ': ' ').$title; ?></title>
-		<link rel="stylesheet" href="css/style_<?php print (isset($_SESSION['theme'])) ? $_SESSION['theme']: 'default'; ?>.css" type="text/css" media="screen" />
+		<link rel="stylesheet" href="/css/style_<?php print (isset($_SESSION['theme'])) ? $_SESSION['theme']: 'default'; ?>.css" type="text/css" media="screen" />
 		<!--[if IE]>
-		<link type="text/css" rel="stylesheet" media="all" href="css/ie.css" />
+		<link type="text/css" rel="stylesheet" media="all" href="/css/ie.css" />
 		<![endif]-->
 		<script>
 		if (navigator.appName == 'Microsoft Internet Explorer') {
-			document.write('<link type="text/css" rel="stylesheet" media="all" href="css/ie.css" />');
+			document.write('<link type="text/css" rel="stylesheet" media="all" href="/css/ie.css" />');
 		}
 		</script>
 		<!--<script src="http://yui.yahooapis.com/3.6.0/build/yui/yui-min.js"></script>-->
-		<script type="text/javascript" src="js/yui/yui/yui-min.js"></script>
-		<link rel="shortcut icon" href="images/favicon.ico" />
+		<script type="text/javascript" src="/js/yui/yui/yui-min.js"></script>
+		<link rel="shortcut icon" href="/images/favicon.ico" />
 		<!-- Global site tag (gtag.js) - Google Analytics -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-108831421-1"></script>
 		<script>
@@ -64,12 +64,12 @@ require 'includes/admin.inc.php';
 		</div>
 	</noscript>
 <!--
-	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="/js/jquery.js"></script>
 -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
-	<script type="text/javascript" src="js/animation.js"></script>
-	<script type="text/javascript" src="js/scripts.js"></script>
-	<script type="text/javascript" src="js/jquery.qtip.min.js"></script>
+	<script type="text/javascript" src="/js/animation.js"></script>
+	<script type="text/javascript" src="/js/scripts.js"></script>
+	<script type="text/javascript" src="/js/jquery.qtip.min.js"></script>
 	<!-- Start Header -->
 	<div id="header">
 		<div id="inner_header">
@@ -87,13 +87,13 @@ require 'includes/admin.inc.php';
 				<div id="inner_content">
 					<h1 class="title"><?php print $title; ?></h1>
 					<?php
-					if (!isset($_SESSION['rid']) && $_GET['p'] == 'user/create'):
+					if (!isset($_SESSION['rid']) && isset($_GET['p']) && $_GET['p'] == 'user/create'):
 						include('templates/register-page.tpl.php');
-					elseif (!isset($_SESSION['rid']) && $_GET['p'] == 'user/register'):
+					elseif (!isset($_SESSION['rid']) && isset($_GET['p']) && $_GET['p'] == 'user/register'):
 						include('templates/register-guest-page.tpl.php');
-					elseif (!isset($_SESSION['rid']) && $_GET['p'] == 'user/password_reset'):
+					elseif (!isset($_SESSION['rid']) && isset($_GET['p']) && $_GET['p'] == 'user/password_reset'):
 						include('templates/passwordreset-page.tpl.php');
-					elseif (!isset($_SESSION['rid']) && $_GET['p'] == 'user/verify'):
+					elseif (!isset($_SESSION['rid']) && isset($_GET['p']) && $_GET['p'] == 'user/verify'):
 						include('templates/verify-page.tpl.php');
 					elseif (!isset($_GET['p']) || $_GET['p'] == 'home'):
 						include('templates/front.tpl.php');
@@ -363,7 +363,7 @@ require 'includes/admin.inc.php';
 			<div id="rightmenu">
 				<?php include('templates/rightmenu.tpl.php'); ?>
 			</div>
-		<script type="text/javascript" src="js/jquery.validate.js"></script>
+		<script type="text/javascript" src="/js/jquery.validate.js"></script>
 		<script type="text/javascript">
 		var windowHeight = $(window).height();
 		$("body.admin #content").css("height",(windowHeight - 160) + "px");

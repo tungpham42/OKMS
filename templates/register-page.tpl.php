@@ -29,24 +29,24 @@ if (isset($_POST['submit']) && $pass == $pass1):
 			<p>You have just registered an account on Online Knowledge Management system</p>
 			<p>Your ID: '.$name.'</p>
 			<p>Your Password: '.substr($pass,0,3).'***</p>
-			<p>Please click <a href="'.currentURL().'/?p=user/verify&email='.$mail.'&hash='.$hash.'">here</a> to activate your account now.</p>
+			<p>Please click <a href="'.currentURL().'/user/verify&email='.$mail.'&hash='.$hash.'">here</a> to activate your account now.</p>
 		</td>
 	</tr>
 </table>
 ',
-					'okms.vn@gmail.com');
+					'tung.42@gmail.com');
 			print '
 			<table>
 				<tr><th style="text-transform: none; text-align: left;">Notice from the system</th></tr>
 				<tr><td>
 				<p>Thank you for registering, <span style="font-weight: bold;position:relative;top:-2px;">'.$fullname.'</span>. An email has been dispatched to <span style="font-weight: bold;position:relative;top:-2px;">'.$mail.'</span> with details on how to activate your account. </p>
 				<p>You MUST follow the link in that email before you can post on these forums. Until you do that, you will be told that you do not have permission to post.</p>
-				<p>Please click <a style="position:relative;top:-2px;text-decoration:underline;" href="?p=home">here</a> to go to home page.</p>
+				<p>Please click <a style="position:relative;top:-2px;text-decoration:underline;" href="/home">here</a> to go to home page.</p>
 				<p>Thanks and best regards</p>
 				</td></tr>
 			</table>';
 			//sleep(5);
-			//header('location: '.currentURL().'/?p=home');
+			//header('location: '.currentURL().'/home');
 		}
 		else
 		{
@@ -104,7 +104,7 @@ if ((isset($_POST['submit']) && count($err) > 0) || !isset($_POST['submit'])):
 		<tr>
 			<td colspan="2">
 				<input name="has_agreed" type="checkbox" value="1" />
-				<label style="position: relative;top: -4px;" for="has_agreed">I have read, and agree to abide by the <a style="position: relative;top: -2px;" target="_blank" href="?p=terms-and-conditions">Terms and Conditions</a></label>
+				<label style="position: relative;top: -4px;" for="has_agreed">I have read, and agree to abide by the <a style="position: relative;top: -2px;" target="_blank" href="/terms-and-conditions">Terms and Conditions</a></label>
 			</td>
 		</tr>
 		<tr>

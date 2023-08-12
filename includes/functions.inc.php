@@ -1,4 +1,10 @@
 <?php
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+require __DIR__.'/../vendor/autoload.php';
 require('database.inc.php');
 require('libraries/class.phpmailer.php');
 // Include the pagination class
@@ -35,7 +41,7 @@ function post_load($pid) { //Load post array from post ID
 	global $db;
 	$posts = $db->array_load('POST','Post_ID',$pid);
 	sort($posts);
-	return $posts[0];
+	return isset($posts[0]) ? $posts[0]: null;
 }
 function posts_load_from_cid($cid) { //Load posts array from course ID
 	global $db;
@@ -47,7 +53,7 @@ function latest_post_load() { //Load latest post array
 	global $db;
 	$posts = $db->array_load_all('POST');
 	usort($posts,'sort_post_date_descend');
-	return $posts[0];
+	return isset($posts[0]) ? $posts[0]: null;
 }
 function latest_pid_load() { //Load latest pid
 	$post = latest_post_load();
@@ -57,19 +63,19 @@ function user_load($uid) { //Load user array from user ID
 	global $db;
 	$users = $db->array_load('USER','User_ID',$uid);
 	sort($users);
-	return $users[0];
+	return isset($users[0]) ? $users[0] : null;
 }
 function user_load_from_name($name) { //Load user array from username
 	global $db;
 	$users = $db->array_load('USER','User_Username',$name);
 	sort($users);
-	return $users[0];
+	return isset($users[0]) ? $users[0] : null;
 }
 function user_load_from_mail($mail) { //Load user array from email
 	global $db;
 	$users = $db->array_load('USER','User_Mail',$mail);
 	sort($users);
-	return $users[0];
+	return isset($users[0]) ? $users[0] : null;
 }
 function followees_load_by_uid($uid) { //Load followees array from user ID
 	global $db;
@@ -91,31 +97,31 @@ function user_follow_load($uid,$followee_id) { //Load followee array from user I
 	global $db;
 	$followees = $db->array_load_with_two_identifier('USER_FOLLOW','User_ID',$uid,'Followee_ID',$followee_id);
 	sort($followees);
-	return $followees[0];
+	return isset($followees[0]) ? $followees[0] : null;
 }
 function role_load($rid) { //Load role array from role ID
 	global $db;
 	$roles = $db->array_load('ROLE','Role_ID',$rid);
 	sort($roles);
-	return $roles[0];
+	return isset($roles[0]) ? $roles[0] : null;
 }
 function semester_load($semid) { //Load semester array from semester ID
 	global $db;
 	$semesters = $db->array_load('SEMESTER','Semester_ID',$semid);
 	sort($semesters);
-	return $semesters[0];
+	return isset($semesters[0]) ? $semesters[0] : null;
 }
 function course_load($cid) { //Load course array from course ID
 	global $db;
 	$courses = $db->array_load('COURSE','Course_ID',$cid);
 	sort($courses);
-	return $courses[0];
+	return isset($courses[0]) ? $courses[0] : null;
 }
 function course_load_from_code($code) { //Load course array from course code
 	global $db;
 	$courses = $db->array_load('COURSE','Course_Code',$code);
 	sort($courses);
-	return $courses[0];
+	return isset($courses[0]) ? $courses[0] : null;
 }
 function course_users_load($uid) { //Load array from table course_users with user ID
 	global $db;
@@ -210,7 +216,7 @@ function comment_load($comid) { //Load comment array from comment ID
 	global $db;
 	$comments = $db->array_load('COMMENT','Comment_ID',$comid);
 	sort($comments);
-	return $comments[0];
+	return isset($comments[0]) ? $comments[0]: null;
 }
 function comments_load_by_pid($pid) { //Load comments array from post ID
 	global $db;
@@ -222,7 +228,7 @@ function post_vote_load($pid,$uid) { //Load post vote array from post ID and use
 	global $db;
 	$post_votes = $db->array_load_with_two_identifier('POST_VOTE','Post_ID',$pid,'User_ID',$uid);
 	sort($post_votes);
-	return $post_votes[0];
+	return isset($post_votes[0]) ? $post_votes[0]: null;
 }
 function post_votes_load_by_pid($pid) { //Load post votes array from post ID
 	global $db;
@@ -250,7 +256,7 @@ function comment_vote_load($comid,$uid) { //Load comment vote array from comment
 	global $db;
 	$comment_votes = $db->array_load_with_two_identifier('COMMENT_VOTE','Comment_ID',$comid,'User_ID',$uid);
 	sort($comment_votes);
-	return $comment_votes[0];
+	return isset($comment_votes[0]) ? $comment_votes[0]: null;
 }
 function post_follows_load_by_pid($pid) { //Load post follows array from post ID
 	global $db;
@@ -278,13 +284,13 @@ function post_follow_load($pid,$uid) { //Load post follow array from post ID and
 	global $db;
 	$post_follows = $db->array_load_with_two_identifier('POST_FOLLOW','Post_ID',$pid,'User_ID',$uid);
 	sort($post_follows);
-	return $post_follows[0];
+	return isset($post_follows[0]) ? $post_follows[0]: null;
 }
 function post_rate_load($pid,$uid) { //Load post rate array from post ID and user ID
 	global $db;
 	$post_rates = $db->array_load_with_two_identifier('POST_RATE','Post_ID',$pid,'User_ID',$uid);
 	sort($post_rates);
-	return $post_rates[0];
+	return isset($post_rates[0]) ? $post_rates[0]: null;
 }
 function count_posts_from_cid($cid) { //Return total number of posts by course ID
 	$posts = posts_load_from_cid($cid);
@@ -508,7 +514,7 @@ function get_pid_from_url($p) { //Get post ID from page URL, for use in admin.in
 	$pos = strpos($p,'/',0);
 	$url = substr($p,$pos+1);
 	$post = post_load_from_url_alias($url);
-	return $post['Post_ID'];
+	return isset($post['Post_ID']) ? $post['Post_ID']: null;
 }
 function get_cid_from_url($p) { //Get course ID from page URL, for use in admin.inc
 	$pos = strpos($p,'/',0);
@@ -538,7 +544,7 @@ function get_course_week_from_url($p) { //Get week number and course code from p
 	$course_code = substr($p,$course_start_pos+1,$course_code_length);
 	$week = substr($p,$week_start_pos+1);
 	$course = course_load_from_code($course_code);
-	$cid = $course['Course_ID'];
+	$cid = isset($course['Course_ID']) ? $course['Course_ID']: 0;
 	$course_week = array(
 					'cid' => $cid,
 					'week' => $week
@@ -589,13 +595,13 @@ function check_mail($str) //Check email format
 }
 function send_mail($to,$subject,$body,$from) //Send mail with SMTP authentication
 {
-	$mail = new PHPMailer;
+	$mail = new PHPMailer(true);
 	$mail->IsSMTP();                                      // Set mailer to use SMTP
 	$mail->Host = 'smtp.gmail.com';                       // Specify main and backup server
 	$mail->Port = 587;                                    // Set the SMTP port
 	$mail->SMTPAuth = true;                               // Enable SMTP authentication
-	$mail->Username = 'okms.vn@gmail.com';                // SMTP username
-	$mail->Password = '0km$v0d0i';                        // SMTP password
+	$mail->Username = 'tung.42@gmail.com';                // SMTP username
+	$mail->Password = 'cftyaokgtoumhmfp';                 // SMTP password
 	$mail->SMTPSecure = 'tls';                            // Enable encryption, 'ssl' also accepted
 //	$mail->SMTPDebug = 2;
 	$mail->From = $from;
@@ -767,8 +773,10 @@ function pass_error_array($uid,$current_pass,$pass,$pass1) { //Return error mees
 	return $err;
 }
 /* User Functions */
-function list_users($rid=0,$count,$page=1) { //Return users list, for admin use
+function list_users($rid=0,$count=0,$page=1) { //Return users list, for admin use
 	global $db;
+	$rid = 0;
+	$page = 1;
 	$output = "";
 	$users = $db->array_load_all('USER');
 	if ($rid != 0) {
@@ -780,8 +788,8 @@ function list_users($rid=0,$count,$page=1) { //Return users list, for admin use
 	$pagination->setShowFirstAndLast(true);
 	$pagination->setMainSeperator("");
 	$users = $pagination->getResults();
-	//$output .= '<a class="button" href="/?p=user/csv">User CSV Importer</a>';
-	$output .= '<a class="button" href="/?p=user/create">Create user</a>';
+	//$output .= '<a class="button" href="/user/csv">User CSV Importer</a>';
+	$output .= '<a class="button" href="/user/create">Create user</a>';
 	$output .= '<span class="count" colspan="7">'.$user_count.' user'.(($user_count > 1) ? 's': "").' to display.</span>';
 	$output .= '<div class="paging">'.$pagination->getLinks().'</div>';
 	$output .= '<table>';
@@ -792,14 +800,14 @@ function list_users($rid=0,$count,$page=1) { //Return users list, for admin use
 			$class = 'class="'.table_row_class($i).'"';
 			$course_users = course_users_load($users[$i]['User_ID']);
 			$output .= '<tr '.$class.'>';
-			$output .= '<td class="center"><a href="/?p=user/'.$users[$i]['User_Username'].'">'.$users[$i]['User_Username'].'</a></td>';
+			$output .= '<td class="center"><a href="/user/'.$users[$i]['User_Username'].'">'.$users[$i]['User_Username'].'</a></td>';
 			$output .= '<td>'.$users[$i]['User_Fullname'].'</td>';
 			$output .= '<td>'.$users[$i]['User_Mail'].'</td>';
 			$output .= '<td class="center">'.$role['Role_Name'].'</td>';
 			$output .= '<td class="center">'.date('d-m-Y',$users[$i]['User_Created']).'</td>';
 			$output .= '<td class="center"><form method="POST" action="/triggers/activate_user.php"><input type="hidden" name="uid" value="'.$users[$i]['User_ID'].'" /><input name="'.(($users[$i]['User_Status'] == 1) ? 'user_activate': 'user_deactivate').'" type="submit" title="'.(($users[$i]['User_Status'] == 0) ? 'Activate': 'Deactivate').' user" value="'.(($users[$i]['User_Status'] == 0) ? 'Activate': 'Deactivate').' user"/></form></td>';
-			$output .= '<td class="center"><form method="POST" action="/?p=user/edit"><input type="hidden" name="uid" value="'.$users[$i]['User_ID'].'" /><input type="hidden" name="old_name" value="'.$users[$i]['User_Username'].'" /><input type="hidden" name="old_fullname" value="'.$users[$i]['User_Fullname'].'" /><input type="hidden" name="old_mail" value="'.$users[$i]['User_Mail'].'" /><input type="hidden" name="old_rid" value="'.$users[$i]['Role_ID'].'" /><input name="user_edit" type="submit" title="Edit" value="Edit"/></form></td>';
-			$output .= '<td class="center"><form method="POST" action="/?p=user/delete"><input type="hidden" name="uid" value="'.$users[$i]['User_ID'].'" /><input name="user_delete" type="submit" title="Delete" value="Delete"/></form></td>';
+			$output .= '<td class="center"><form method="POST" action="/user/edit"><input type="hidden" name="uid" value="'.$users[$i]['User_ID'].'" /><input type="hidden" name="old_name" value="'.$users[$i]['User_Username'].'" /><input type="hidden" name="old_fullname" value="'.$users[$i]['User_Fullname'].'" /><input type="hidden" name="old_mail" value="'.$users[$i]['User_Mail'].'" /><input type="hidden" name="old_rid" value="'.$users[$i]['Role_ID'].'" /><input name="user_edit" type="submit" title="Edit" value="Edit"/></form></td>';
+			$output .= '<td class="center"><form method="POST" action="/user/delete"><input type="hidden" name="uid" value="'.$users[$i]['User_ID'].'" /><input name="user_delete" type="submit" title="Delete" value="Delete"/></form></td>';
 			$output .= '</tr>';
 		}
 	}
@@ -904,8 +912,8 @@ function view_user($uid) { //Return user account, for every authenticated user's
 	$output .= '<td>'.$user['User_Mail'].'</td>';
 	$output .= '<td>'.load_name_from_rid($user['Role_ID']).'</td>';
 	$output .= '<td>'.view_user_courses($user['User_ID']).'</td>';
-	$output .= '<td class="center"><form method="POST" action="/?p=user/edit"><input type="hidden" name="uid" value="'.$user['User_ID'].'" /><input type="hidden" name="old_name" value="'.$user['User_Username'].'" /><input type="hidden" name="old_fullname" value="'.$user['User_Fullname'].'" /><input type="hidden" name="old_mail" value="'.$user['User_Mail'].'" /><input type="hidden" name="old_rid" value="'.$user['Role_ID'].'" /><input name="user_edit" type="submit" value="Edit"/></form></td>';
-	$output .= ($_SESSION['rid'] != 2 && $_SESSION['rid'] != 3) ? '<td class="center"><form method="POST" action="/?p=user/delete"><input type="hidden" name="uid" value="'.$user['User_ID'].'" /><input name="user_delete" type="submit" value="Delete"/></form></td>': '<td class="empty"></td>';
+	$output .= '<td class="center"><form method="POST" action="/user/edit"><input type="hidden" name="uid" value="'.$user['User_ID'].'" /><input type="hidden" name="old_name" value="'.$user['User_Username'].'" /><input type="hidden" name="old_fullname" value="'.$user['User_Fullname'].'" /><input type="hidden" name="old_mail" value="'.$user['User_Mail'].'" /><input type="hidden" name="old_rid" value="'.$user['Role_ID'].'" /><input name="user_edit" type="submit" value="Edit"/></form></td>';
+	$output .= ($_SESSION['rid'] != 2 && $_SESSION['rid'] != 3) ? '<td class="center"><form method="POST" action="/user/delete"><input type="hidden" name="uid" value="'.$user['User_ID'].'" /><input name="user_delete" type="submit" value="Delete"/></form></td>': '<td class="empty"></td>';
 	$output .= '</tr>';
 	$output .= '</table>';
 	return $output;
@@ -1053,9 +1061,9 @@ function following_list($uid) { //Friend list
 			$email = $user['User_Mail'];
 			$grav_url = "https://0.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=identicon&s=" . $size;
 			$output .= '<div class="post '.(($i == 0) ? 'first': "").'">';
-			$output .= '<a class="author" href="/?p=user/'.$user['User_Username'].'"><img src="'.$grav_url.'" width="40px"/></a>';
+			$output .= '<a class="author" href="/user/'.$user['User_Username'].'"><img src="'.$grav_url.'" width="40px"/></a>';
 			$output .= '<div class="post_right_detail">';
-			$output .= '<span class="author_name"><a href="/?p=user/'.$user['User_Username'].'">'.$user['User_Fullname'].'</a></span><br/>';
+			$output .= '<span class="author_name"><a href="/user/'.$user['User_Username'].'">'.$user['User_Fullname'].'</a></span><br/>';
 			$output .= '</div>';
 			$output .= '</div>';
 		}
@@ -1124,7 +1132,7 @@ function list_roles() { //Return list of roles, for admin use
 	global $db;
 	$output = "";
 	$roles = $db->array_load_all('ROLE');
-	$output .= '<a class="button" href="/?p=role/create">Create role</a>';
+	$output .= '<a class="button" href="/role/create">Create role</a>';
 	$output .= '<span class="count" colspan="4">'.count($roles).' role'.((count($roles) > 1) ? 's': "").' to display.</span>';
 	$output .= '<table>';
 	$output .= '<tr><th>Role ID</th><th>Role name</th><th colspan="2">Operations</th></tr>';
@@ -1133,8 +1141,8 @@ function list_roles() { //Return list of roles, for admin use
 		$output .= '<tr '.$class.'>';
 		$output .= '<td class="center">'.$roles[$i]['Role_ID'].'</td>';
 		$output .= '<td class="center">'.$roles[$i]['Role_Name'].'</td>';
-		$output .= '<td class="center"><form method="POST" action="/?p=role/edit"><input type="hidden" name="rid" value="'.$roles[$i]['Role_ID'].'" /><input type="hidden" name="name" value="'.$roles[$i]['Role_Name'].'" /><input name="role_edit" type="submit" title="Edit" value="Edit"/></form></td>';
-		$output .= '<td class="center"><form method="POST" action="/?p=role/delete"><input type="hidden" name="rid" value="'.$roles[$i]['Role_ID'].'" /><input name="role_delete" type="submit" title="Delete" value="Delete"/></form></td>';
+		$output .= '<td class="center"><form method="POST" action="/role/edit"><input type="hidden" name="rid" value="'.$roles[$i]['Role_ID'].'" /><input type="hidden" name="name" value="'.$roles[$i]['Role_Name'].'" /><input name="role_edit" type="submit" title="Edit" value="Edit"/></form></td>';
+		$output .= '<td class="center"><form method="POST" action="/role/delete"><input type="hidden" name="rid" value="'.$roles[$i]['Role_ID'].'" /><input name="role_delete" type="submit" title="Delete" value="Delete"/></form></td>';
 		$output .= '</tr>';
 	}
 	$output .= '</table>';
@@ -1163,7 +1171,7 @@ function current_semester_load() { //Load array of current semester
 	global $db;
 	$semesters = $db->array_load('SEMESTER','Semester_Current','1');
 	sort($semesters);
-	return $semesters[0];
+	return isset($semesters[0]) ? $semesters[0]: null;
 }
 function list_semesters() { //Return list of roles, for admin use
 	global $db;
@@ -1171,7 +1179,7 @@ function list_semesters() { //Return list of roles, for admin use
 	$current_semester = current_semester_load();
 	$semesters = $db->array_load_all('SEMESTER');
 	usort($semesters,'sort_semester_start_date_ascend');
-	$output .= '<a class="button" href="/?p=semester/create">Create semester</a>';
+	$output .= '<a class="button" href="/semester/create">Create semester</a>';
 	$output .= '<span class="count" colspan="6">'.count($semesters).' semester'.((count($semesters) > 1) ? 's': "").' to display.</span>';
 	$output .= '<table>';
 	$output .= '<tr><th>Current</th><th>Semester Code</th><th>Semester start date</th><th>Semester end date</th><th colspan="2">Operations</th></tr>';
@@ -1182,8 +1190,8 @@ function list_semesters() { //Return list of roles, for admin use
 		$output .= '<td class="center">'.$semesters[$i]['Semester_Code'].'</td>';
 		$output .= '<td class="center">'.date('Y-m-d',$semesters[$i]['Semester_Start_Date']).'</td>';
 		$output .= '<td class="center">'.date('Y-m-d',$semesters[$i]['Semester_End_Date']).'</td>';
-		$output .= '<td class="center"><form method="POST" action="/?p=semester/edit"><input type="hidden" name="semid" value="'.$semesters[$i]['Semester_ID'].'" /><input type="hidden" name="old_semester_code" value="'.$semesters[$i]['Semester_Code'].'" /><input type="hidden" name="old_semester_start_date" value="'.$semesters[$i]['Semester_Start_Date'].'" /><input type="hidden" name="old_semester_end_date" value="'.$semesters[$i]['Semester_End_Date'].'" /><input name="semester_edit" type="submit" title="Edit" value="Edit"/></form></td>';
-		$output .= '<td class="center"><form method="POST" action="/?p=semester/delete"><input type="hidden" name="semid" value="'.$semesters[$i]['Semester_ID'].'" /><input name="semester_delete" type="submit" title="Delete" value="Delete"/></form></td>';
+		$output .= '<td class="center"><form method="POST" action="/semester/edit"><input type="hidden" name="semid" value="'.$semesters[$i]['Semester_ID'].'" /><input type="hidden" name="old_semester_code" value="'.$semesters[$i]['Semester_Code'].'" /><input type="hidden" name="old_semester_start_date" value="'.$semesters[$i]['Semester_Start_Date'].'" /><input type="hidden" name="old_semester_end_date" value="'.$semesters[$i]['Semester_End_Date'].'" /><input name="semester_edit" type="submit" title="Edit" value="Edit"/></form></td>';
+		$output .= '<td class="center"><form method="POST" action="/semester/delete"><input type="hidden" name="semid" value="'.$semesters[$i]['Semester_ID'].'" /><input name="semester_delete" type="submit" title="Delete" value="Delete"/></form></td>';
 		$output .= '</tr>';
 	}
 	$output .= '<tr colspan="6"><td><form method="POST" action="/triggers/set_current_semester.php"><input type="hidden" name="current_semid" id="current_semester" /><input name="semester_set_current" type="submit" value="Set current"/></form></td></tr>';
@@ -1240,11 +1248,11 @@ function view_post($pid,$uid,$button=0) { //Return post from post ID
 	$default = DEFAULT_AVATAR;
 	$grav_url = "https://0.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=identicon&s=" . $size;
 	$output .= '<div class="post '.(($i == 0) ? 'first': "").'">';
-	$output .= '<a class="author" href="'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? '#': '?p=user/'.$user['User_Username']).'"><img src="'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? $default: $grav_url).'" width="40px"/></a>';
+	$output .= '<a class="author" href="'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? '#': '/user/'.$user['User_Username']).'"><img src="'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? $default: $grav_url).'" width="40px"/></a>';
 	$output .= '<div class="post_right_detail">';
-	$output .= '<span class="author_name'.(($user['Role_ID'] == 3) ? ' lecturer': "").'">'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? "": '<a href="/?p=user/'.$user['User_Username'].'">').((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? 'Anonymous': ((isset($user['User_Fullname'])) ? $user['User_Fullname']: $user['User_Username'])).((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? "": '</a>').'</span><br/>';
-	$output .= '<a class="post_title" href="/?p=question/'.$post['Post_URL'].'">'.$post['Post_Title'].'</a><br/>';
-	$output .= '<a class="course_code" href="/?p=course/'.$course['Course_Code'].'">'.$course['Course_Code'].'</a><a href="/?p=course/'.$course['Course_Code'].'/week/'.$post['Post_Week'].'"><span class="course_name">.'.$course['Course_Name'].'</span> > <span class="post_week">Week '.$post['Post_Week'].'</span></a><br/>';
+	$output .= '<span class="author_name'.(($user['Role_ID'] == 3) ? ' lecturer': "").'">'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? "": '<a href="/user/'.$user['User_Username'].'">').((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? 'Anonymous': ((isset($user['User_Fullname'])) ? $user['User_Fullname']: $user['User_Username'])).((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? "": '</a>').'</span><br/>';
+	$output .= '<a class="post_title" href="/question/'.$post['Post_URL'].'">'.$post['Post_Title'].'</a><br/>';
+	$output .= '<a class="course_code" href="/course/'.$course['Course_Code'].'">'.$course['Course_Code'].'</a><a href="/course/'.$course['Course_Code'].'/week/'.$post['Post_Week'].'"><span class="course_name">.'.$course['Course_Name'].'</span> > <span class="post_week">Week '.$post['Post_Week'].'</span></a><br/>';
 	$output .= '<span class="post_content">'.$post['Post_Question'].'</span><br/>';
 	$output .= ($post['Post_Answer'] != "") ? '<div class="post_answer"><div class="post_answer_label">Answer:</div><div class="post_answer_content">'.$post['Post_Answer'].'</div></div>': "";
 	$output .= ($uid != 0 && $post_rate['User_ID'] != $uid && $_SESSION['rid'] != 1) ? star_rating($pid) : '<div title="Your rating" id="post_rate_pid_'.$pid.'" class="rate_widget">'.star_rating_update($pid).'</div><div title="Average rating: '.average_post_rates_with_decimal($pid,1).'" id="average_post_rate_pid_'.$pid.'" class="average_rate">'.star_rating_average($pid).'</div>';
@@ -1291,7 +1299,7 @@ function view_post($pid,$uid,$button=0) { //Return post from post ID
 				});
 				</script>';
 	$output .= '</div></div>';
-	$output .= ($button == 1 && isset($_SESSION['rid']) && course_belonged($cid,$_SESSION['uid']) && ($uid == $post['User_ID'] || $_SESSION['rid'] != 2)) ? '<form style="width: 25px;float: left;" method="POST" action="/?p=post/edit"><input type="hidden" name="pid" value="'.$post['Post_ID'].'" /><input type="hidden" name="old_cid" value="'.$post['Course_ID'].'" /><input type="hidden" name="old_week" value="'.$post['Post_Week'].'" /><input type="hidden" name="old_title" value="'.$post['Post_Title'].'" /><input type="hidden" name="old_url" value="'.$post['Post_URL'].'" /><input type="hidden" name="old_body" value="'.str_replace('"',"'",$post['Post_Question']).'" /><input name="post_edit" type="submit" value="Edit"/></form><form method="POST" action="/?p=post/delete"><input type="hidden" name="pid" value="'.$post['Post_ID'].'" /><input title="Delete" name="post_delete" type="submit" value="Delete"/></form>': "";
+	$output .= ($button == 1 && isset($_SESSION['rid']) && course_belonged($cid,$_SESSION['uid']) && ($uid == $post['User_ID'] || $_SESSION['rid'] != 2)) ? '<form style="width: 25px;float: left;" method="POST" action="/post/edit"><input type="hidden" name="pid" value="'.$post['Post_ID'].'" /><input type="hidden" name="old_cid" value="'.$post['Course_ID'].'" /><input type="hidden" name="old_week" value="'.$post['Post_Week'].'" /><input type="hidden" name="old_title" value="'.$post['Post_Title'].'" /><input type="hidden" name="old_url" value="'.$post['Post_URL'].'" /><input type="hidden" name="old_body" value="'.str_replace('"',"'",$post['Post_Question']).'" /><input name="post_edit" type="submit" value="Edit"/></form><form method="POST" action="/post/delete"><input type="hidden" name="pid" value="'.$post['Post_ID'].'" /><input title="Delete" name="post_delete" type="submit" value="Delete"/></form>': "";
 	return $output;
 }
 function select_week($name,$week=null) { //Return select element of week numbers
@@ -1305,7 +1313,7 @@ function select_week($name,$week=null) { //Return select element of week numbers
 	$output .= '</select>';
 	return $output;
 }
-function list_posts($cid=0,$count,$page=1) { //Return list of posts, for lecturer, and admin use
+function list_posts($cid=0,$count=0,$page=1) { //Return list of posts, for lecturer, and admin use
 	global $db;
 	$output = "";
 	$posts = $db->array_load_all('POST');
@@ -1319,7 +1327,7 @@ function list_posts($cid=0,$count,$page=1) { //Return list of posts, for lecture
 	$pagination->setShowFirstAndLast(true);
 	$pagination->setMainSeperator("");
 	$posts = $pagination->getResults();
-	$output .= '<a class="button" href="/?p=post/create">Create post</a>';
+	$output .= '<a class="button" href="/post/create">Create post</a>';
 	$output .= '<div class="paging">'.$pagination->getLinks().'</div>';
 	$output .= '<table>';
 	$output .= '<tr><th>Title</th><th>Course</th><th>Created time</th><th>Author</th><th colspan="3">Operations</th></tr>';
@@ -1330,13 +1338,13 @@ function list_posts($cid=0,$count,$page=1) { //Return list of posts, for lecture
 		if (isset($_SESSION['rid']) && ($_SESSION['rid'] == $user['rid'] || $_SESSION['rid'] == 1 || $_SESSION['rid'] == 3)) {
 			$class = 'class="'.table_row_class($j).'"';
 			$output .= '<tr '.$class.'>';
-			$output .= '<td><a title="'.$posts[$i]['Post_Title'].'" href="/?p=question/'.$posts[$i]['Post_URL'].'">'.$posts[$i]['Post_Title'].'</a></td>';
+			$output .= '<td><a title="'.$posts[$i]['Post_Title'].'" href="/question/'.$posts[$i]['Post_URL'].'">'.$posts[$i]['Post_Title'].'</a></td>';
 			$output .= '<td class="center">'.$course['Course_Code'].'</td>';
 			$output .= '<td class="center">'.date('d-m-Y',$posts[$i]['Post_Created']).'</td>';
 			$output .= '<td class="center">'.(($posts[$i]['Post_Hide_Name'] == 1 || !user_existed($posts[$i]['User_ID'])) ? 'Anonymous': $user['User_Username']).'</td>';
-			$output .= (isset($_SESSION['rid']) && course_belonged($posts[$i]['Course_ID'],$_SESSION['uid']) && ($_SESSION['uid'] == $posts[$i]['User_ID'] || $_SESSION['rid'] != 2) && $_SESSION['rid'] != 1) ? '<td class="center"><form method="POST" action="/?p=post/edit"><input type="hidden" name="pid" value="'.$posts[$i]['Post_ID'].'" /><input type="hidden" name="old_cid" value="'.$posts[$i]['Course_ID'].'" /><input type="hidden" name="old_week" value="'.$posts[$i]['Post_Week'].'" /><input type="hidden" name="old_title" value="'.$posts[$i]['Post_Title'].'" /><input type="hidden" name="old_url" value="'.$posts[$i]['Post_URL'].'" /><input type="hidden" name="old_body" value="'.str_replace('"',"'",$posts[$i]['Post_Question']).'" /><input type="hidden" name="old_answer" value="'.$posts[$i]['Post_Answer'].'" /><input title="Edit" name="post_edit" type="submit" value="Edit"/></form></td>': '<td class="empty"></td>';
+			$output .= (isset($_SESSION['rid']) && course_belonged($posts[$i]['Course_ID'],$_SESSION['uid']) && ($_SESSION['uid'] == $posts[$i]['User_ID'] || $_SESSION['rid'] != 2) && $_SESSION['rid'] != 1) ? '<td class="center"><form method="POST" action="/post/edit"><input type="hidden" name="pid" value="'.$posts[$i]['Post_ID'].'" /><input type="hidden" name="old_cid" value="'.$posts[$i]['Course_ID'].'" /><input type="hidden" name="old_week" value="'.$posts[$i]['Post_Week'].'" /><input type="hidden" name="old_title" value="'.$posts[$i]['Post_Title'].'" /><input type="hidden" name="old_url" value="'.$posts[$i]['Post_URL'].'" /><input type="hidden" name="old_body" value="'.str_replace('"',"'",$posts[$i]['Post_Question']).'" /><input type="hidden" name="old_answer" value="'.$posts[$i]['Post_Answer'].'" /><input title="Edit" name="post_edit" type="submit" value="Edit"/></form></td>': '<td class="empty"></td>';
 			$output .= (isset($_SESSION['rid']) && course_belonged($posts[$i]['Course_ID'],$_SESSION['uid']) && ($_SESSION['uid'] == $posts[$i]['User_ID'] || $_SESSION['rid'] != 2) && $_SESSION['rid'] != 1) ? '<td class="center"><form method="POST" action="/triggers/archive_post.php"><input type="hidden" name="pid" value="'.$posts[$i]['Post_ID'].'" /><input title="Archive" name="post_archive" type="submit" value="Archive"/></form></td>': '<td class="empty"></td>';
-			$output .= (isset($_SESSION['rid']) && course_belonged($posts[$i]['Course_ID'],$_SESSION['uid']) && ($_SESSION['uid'] == $posts[$i]['User_ID'] || $_SESSION['rid'] != 2) || $_SESSION['rid'] == 1) ? '<td class="center"><form method="POST" action="/?p=post/delete"><input type="hidden" name="pid" value="'.$posts[$i]['Post_ID'].'" /><input title="Delete" name="post_delete" type="submit" value="Delete"/></form></td>': '<td class="empty"></td>';
+			$output .= (isset($_SESSION['rid']) && course_belonged($posts[$i]['Course_ID'],$_SESSION['uid']) && ($_SESSION['uid'] == $posts[$i]['User_ID'] || $_SESSION['rid'] != 2) || $_SESSION['rid'] == 1) ? '<td class="center"><form method="POST" action="/post/delete"><input type="hidden" name="pid" value="'.$posts[$i]['Post_ID'].'" /><input title="Delete" name="post_delete" type="submit" value="Delete"/></form></td>': '<td class="empty"></td>';
 			$output .= '</tr>';
 			$j++;
 		}
@@ -1351,7 +1359,7 @@ function list_posts($cid=0,$count,$page=1) { //Return list of posts, for lecture
 				</script>';
 	return $output;
 }
-function list_archives($cid=0,$count,$page=1) { //Return list of archive posts, for lecturer, and admin use
+function list_archives($cid=0,$count=0,$page=1) { //Return list of archive posts, for lecturer, and admin use
 	global $db;
 	$output = "";
 	$posts = $db->array_load_all('POST');
@@ -1374,14 +1382,14 @@ function list_archives($cid=0,$count,$page=1) { //Return list of archive posts, 
 		if (isset($_SESSION['rid']) && ($_SESSION['rid'] == $user['Role_ID'] || $_SESSION['rid'] == 1 || $_SESSION['rid'] == 3)) {
 			$class = 'class="'.table_row_class($i).'"';
 			$output .= '<tr '.$class.'>';
-			$output .= '<td><a title="'.$posts[$i]['Post_Title'].'" href="/?p=question/'.$posts[$i]['Post_URL'].'">'.$posts[$i]['Post_Title'].'</a></td>';
+			$output .= '<td><a title="'.$posts[$i]['Post_Title'].'" href="/question/'.$posts[$i]['Post_URL'].'">'.$posts[$i]['Post_Title'].'</a></td>';
 			$output .= '<td class="center">'.$course['Course_Code'].'</td>';
 			$output .= '<td class="center">'.date('Y-m-d',$posts[$i]['Post_Created']).'</td>';
 			$output .= '<td class="center">'.(($posts[$i]['Post_Hide_Name'] == 1 || !user_existed($posts[$i]['User_ID'])) ? 'Anonymous': $user['User_Username']).'</td>';
-			$output .= (isset($_SESSION['rid']) && course_belonged($posts[$i]['Course_ID'],$_SESSION['uid']) && ($_SESSION['uid'] == $posts[$i]['User_ID'] || $_SESSION['rid'] != 2) || $_SESSION['rid'] == 1) ? '<td class="center"><form method="POST" action="/?p=post/edit"><input type="hidden" name="pid" value="'.$posts[$i]['Post_ID'].'" /><input type="hidden" name="old_cid" value="'.$posts[$i]['Course_ID'].'" /><input type="hidden" name="old_week" value="'.$posts[$i]['Post_Week'].'" /><input type="hidden" name="old_title" value="'.$posts[$i]['Post_Title'].'" /><input type="hidden" name="old_url" value="'.$posts[$i]['Post_URL'].'" /><input type="hidden" name="old_body" value="'.str_replace('"',"'",$posts[$i]['Post_Question']).'" /><input type="hidden" name="old_answer" value="'.$posts[$i]['Post_Answer'].'" /><input name="post_edit" type="submit" title="Edit" value="Edit"/></form></td>': '<td class="empty"></td>';
+			$output .= (isset($_SESSION['rid']) && course_belonged($posts[$i]['Course_ID'],$_SESSION['uid']) && ($_SESSION['uid'] == $posts[$i]['User_ID'] || $_SESSION['rid'] != 2) || $_SESSION['rid'] == 1) ? '<td class="center"><form method="POST" action="/post/edit"><input type="hidden" name="pid" value="'.$posts[$i]['Post_ID'].'" /><input type="hidden" name="old_cid" value="'.$posts[$i]['Course_ID'].'" /><input type="hidden" name="old_week" value="'.$posts[$i]['Post_Week'].'" /><input type="hidden" name="old_title" value="'.$posts[$i]['Post_Title'].'" /><input type="hidden" name="old_url" value="'.$posts[$i]['Post_URL'].'" /><input type="hidden" name="old_body" value="'.str_replace('"',"'",$posts[$i]['Post_Question']).'" /><input type="hidden" name="old_answer" value="'.$posts[$i]['Post_Answer'].'" /><input name="post_edit" type="submit" title="Edit" value="Edit"/></form></td>': '<td class="empty"></td>';
 			$output .= (isset($_SESSION['rid']) && course_belonged($posts[$i]['Course_ID'],$_SESSION['uid']) && ($_SESSION['uid'] == $posts[$i]['User_ID'] || $_SESSION['rid'] != 2) || $_SESSION['rid'] == 1) ? '<td class="center"><form method="POST" action="/triggers/repost.php"><input type="hidden" name="uid" value="'.$_SESSION['uid'].'" /><input type="hidden" name="cid" value="'.$posts[$i]['Course_ID'].'" /><input type="hidden" name="week" value="'.$posts[$i]['Post_Week'].'" /><input type="hidden" name="title" value="'.$posts[$i]['Post_Title'].'" /><input type="hidden" name="url" value="'.repost_url($posts[$i]['Post_URL'],$posts[$i]['Post_ID']).'" /><input type="hidden" name="body" value="'.str_replace('"',"'",$posts[$i]['Post_Question']).'" /><input type="hidden" name="answer" value="'.str_replace('"',"'",$posts[$i]['Post_Answer']).'" /><input type="hidden" name="repostid" value="'.$posts[$i]['Post_ID'].'" /><input name="repost" type="submit" title="Repost" value="Repost"/></form></td>': '<td class="empty"></td>';
 			$output .= (isset($_SESSION['rid']) && course_belonged($posts[$i]['Course_ID'],$_SESSION['uid']) && ($_SESSION['uid'] == $posts[$i]['User_ID'] || $_SESSION['rid'] != 2) || $_SESSION['rid'] == 1) ? '<td class="center"><form method="POST" action="/triggers/restore_post.php"><input type="hidden" name="pid" value="'.$posts[$i]['Post_ID'].'" /><input name="post_restore" type="submit" title="Restore" value="Restore"/></form></td>': '<td class="empty"></td>';
-			$output .= (isset($_SESSION['rid']) && course_belonged($posts[$i]['Course_ID'],$_SESSION['uid']) && ($_SESSION['uid'] == $posts[$i]['User_ID'] || $_SESSION['rid'] != 2) || $_SESSION['rid'] == 1) ? '<td class="center"><form method="POST" action="/?p=post/delete"><input type="hidden" name="pid" value="'.$posts[$i]['Post_ID'].'" /><input name="post_delete" type="submit" title="Delete" value="Delete"/></form></td>': '<td class="empty"></td>';
+			$output .= (isset($_SESSION['rid']) && course_belonged($posts[$i]['Course_ID'],$_SESSION['uid']) && ($_SESSION['uid'] == $posts[$i]['User_ID'] || $_SESSION['rid'] != 2) || $_SESSION['rid'] == 1) ? '<td class="center"><form method="POST" action="/post/delete"><input type="hidden" name="pid" value="'.$posts[$i]['Post_ID'].'" /><input name="post_delete" type="submit" title="Delete" value="Delete"/></form></td>': '<td class="empty"></td>';
 			$output .= '</tr>';
 		}
 	}
@@ -1567,7 +1575,7 @@ function view_user_courses($uid) { //Return courses list by user ID
 				$course = course_load($courses[$i]['Course_ID']);
 				$users = users_load_by_cid($courses[$i]['Course_ID']);
 				$output .= '<li class="course">';
-				$output .= '<a title="'.$course['Course_Name'].'" class="cid-'.$course['Course_ID'].' course_code" href="/?p=course/'.$course['Course_Code'].'">'.$course['Course_Code'].' - '.$course['Course_Name'].'</a>';
+				$output .= '<a title="'.$course['Course_Name'].'" class="cid-'.$course['Course_ID'].' course_code" href="/course/'.$course['Course_Code'].'">'.$course['Course_Code'].' - '.$course['Course_Name'].'</a>';
 				$output .= '</li>';
 			}
 		}
@@ -1585,7 +1593,7 @@ function view_course_lecturers($cid) { //Return lecturers list by course ID
 		for ($i = 0; $i < count($lecturers); $i++) {
 			if (isset($lecturers[$i])) {
 				$output .= '<li class="lecturer">';
-				$output .= '<a title="'.$lecturers[$i]['User_Fullname'].'" class="lecturer_name" href="/?p=user/'.$lecturers[$i]['User_Username'].'">'.$lecturers[$i]['User_Fullname'].(($course['User_ID'] == $lecturers[$i]['User_ID']) ? ' - Coordinator': "").'</a>';
+				$output .= '<a title="'.$lecturers[$i]['User_Fullname'].'" class="lecturer_name" href="/user/'.$lecturers[$i]['User_Username'].'">'.$lecturers[$i]['User_Fullname'].(($course['User_ID'] == $lecturers[$i]['User_ID']) ? ' - Coordinator': "").'</a>';
 				$output .= '</li>';
 			}
 		}
@@ -1617,7 +1625,7 @@ function view_courses_by_uid($uid) { //Return courses list by user ID
 				$course = course_load($courses[$i]['Course_ID']);
 				$users = users_load_by_cid($courses[$i]['Course_ID']);
 				$output .= '<li class="course">';
-				$output .= '<a title="'.$course['Course_Name'].'" class="cid-'.$course['Course_ID'].' course_code" href="/?p=course/'.$course['Course_Code'].'">'.$course['Course_Code'].'</a><br/>';
+				$output .= '<a title="'.$course['Course_Name'].'" class="cid-'.$course['Course_ID'].' course_code" href="/course/'.$course['Course_Code'].'">'.$course['Course_Code'].'</a><br/>';
 				$output .= '<span class="course_name">'.$course['Course_Name'].'</span>';
 				$output .= '</li>';
 			}
@@ -1655,7 +1663,7 @@ function view_other_courses_by_uid($uid) { //Return other courses list by user I
 		for ($i = 0; $i < count($courses_diff); $i++) {
 			$course = course_load($courses_diff[$i]['Course_ID']);
 			$output .= '<li class="course">';
-			$output .= '<a title="'.$course['Course_Name'].'" class="cid-'.$course['Course_ID'].' course_code" href="/?p=course/'.$course['Course_Code'].'">'.$course['Course_Code'].'</a><br/>';
+			$output .= '<a title="'.$course['Course_Name'].'" class="cid-'.$course['Course_ID'].' course_code" href="/course/'.$course['Course_Code'].'">'.$course['Course_Code'].'</a><br/>';
 			$output .= '<span class="course_name">'.$course['Course_Name'].'</span>';
 			$output .= '</li>';
 		}
@@ -1725,7 +1733,7 @@ function list_courses() { //Return list of courses, for admin use
 	$output = "";
 	$courses = $db->array_load_all('COURSE');
 	$cids = user_cids_load_all($_SESSION['uid']);
-	$output .= ($_SESSION['rid'] == 1) ? '<a class="button" href="/?p=course/create">Create course</a>': "";
+	$output .= ($_SESSION['rid'] == 1) ? '<a class="button" href="/course/create">Create course</a>': "";
 	$output .= '<table>';
 	$output .= '<tr><th>Course code</th><th>Course name</th><th>Lecturers</th><th colspan="8">Operations</th></tr>';
 	$j = 0;
@@ -1737,11 +1745,11 @@ function list_courses() { //Return list of courses, for admin use
 			$output .= '<td class="center">'.$courses[$i]['Course_Code'].'</td>';
 			$output .= '<td>'.$courses[$i]['Course_Name'].'</td>';
 			$output .= '<td>'.view_course_lecturers($cid).'</td>';
-			$output .= (isset($_SESSION['rid']) && $_SESSION['rid'] == 3 && in_array($cid,$cids)) ? '<td class="center"><form action="/?p=course/enrol" method="post"><input type="hidden" name="cid" value="'.$cid.'" /><input type="submit" name="course_enrol" title="Enrol students manually" value="Enrol students manually" /></form></td><td class="center"><form action="/?p=course/csv" method="post"><input type="hidden" name="cid" value="'.$cid.'" /><input type="submit" name="course_csv" title="Enrol students by importer" value="Enrol students by importer" /></form></td><td class="center"><form action="/triggers/course_post_allow.php" method="post"><input type="hidden" name="cid" value="'.$cid.'" /><input type="submit" name="'.(($courses[$i]['Course_Allowed'] == 1) ? 'course_allow': 'course_not_allow').'" title="'.(($courses[$i]['Course_Allowed'] == 0) ? 'Allow': 'Not allow').' post" value="'.(($courses[$i]['Course_Allowed'] == 0) ? 'Allow': 'Not allow').' post" /></form></td><td class="center"><form action="/triggers/course_for_guest.php" method="post"><input type="hidden" name="cid" value="'.$cid.'" /><input type="submit" name="'.(($courses[$i]['Course_For_Guest'] == 1) ? 'course_guest_on': 'course_guest_off').'" title="'.(($courses[$i]['Course_For_Guest'] == 0) ? 'Turn on': 'Turn off').' guest mode" value="'.(($courses[$i]['Course_For_Guest'] == 0) ? 'Turn on': 'Turn off').' guest mode" /></form></td>': '<td class="empty"></td><td class="empty"></td>';
-			$output .= (isset($_SESSION['rid']) && ($_SESSION['rid'] == 3 && $_SESSION['uid'] == $courses[$i]['User_ID'] && in_array($cid,$cids)) || $_SESSION['rid'] == 1) ? '<td class="center"><form action="/?p=course/assign" method="post"><input type="hidden" name="cid" value="'.$cid.'" /><input type="submit" name="course_assign" title="Assign lecturers" value="Assign lecturers" /></form></td>': '<td class="empty"></td>';
-			$output .= (isset($_SESSION['rid']) && $_SESSION['rid'] == 1 && count_lecturers($cid) > 0) ? '<td class="center"><form action="/?p=course/promote" method="post"><input type="hidden" name="cid" value="'.$cid.'" /><input type="submit" name="course_promote" title="Promote coordinator" value="Promote coordinator" /></form></td>': '<td class="empty"></td>';
-			$output .= (isset($_SESSION['rid']) && ($_SESSION['rid'] == 3 && $_SESSION['uid'] == $courses[$i]['User_ID'] && in_array($cid,$cids)) || $_SESSION['rid'] == 1) ? '<td class="center"><form method="POST" action="/?p=course/edit"><input type="hidden" name="cid" value="'.$cid.'" /><input type="hidden" name="code" value="'.$courses[$i]['Course_Code'].'" /><input type="hidden" name="name" value="'.$courses[$i]['Course_Name'].'" /><input name="course_edit" type="submit" title="Edit" value="Edit"/></form></td>': '<td class="empty"></td>';
-			$output .= (isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? '<td class="center"><form method="POST" action="/?p=course/delete"><input type="hidden" name="cid" value="'.$cid.'" /><input name="course_delete" type="submit" title="Delete" value="Delete"/></form></td>': '<td class="empty"></td>';
+			$output .= (isset($_SESSION['rid']) && $_SESSION['rid'] == 3 && in_array($cid,$cids)) ? '<td class="center"><form action="/course/enrol" method="post"><input type="hidden" name="cid" value="'.$cid.'" /><input type="submit" name="course_enrol" title="Enrol students manually" value="Enrol students manually" /></form></td><td class="center"><form action="/course/csv" method="post"><input type="hidden" name="cid" value="'.$cid.'" /><input type="submit" name="course_csv" title="Enrol students by importer" value="Enrol students by importer" /></form></td><td class="center"><form action="/triggers/course_post_allow.php" method="post"><input type="hidden" name="cid" value="'.$cid.'" /><input type="submit" name="'.(($courses[$i]['Course_Allowed'] == 1) ? 'course_allow': 'course_not_allow').'" title="'.(($courses[$i]['Course_Allowed'] == 0) ? 'Allow': 'Not allow').' post" value="'.(($courses[$i]['Course_Allowed'] == 0) ? 'Allow': 'Not allow').' post" /></form></td><td class="center"><form action="/triggers/course_for_guest.php" method="post"><input type="hidden" name="cid" value="'.$cid.'" /><input type="submit" name="'.(($courses[$i]['Course_For_Guest'] == 1) ? 'course_guest_on': 'course_guest_off').'" title="'.(($courses[$i]['Course_For_Guest'] == 0) ? 'Turn on': 'Turn off').' guest mode" value="'.(($courses[$i]['Course_For_Guest'] == 0) ? 'Turn on': 'Turn off').' guest mode" /></form></td>': '<td class="empty"></td><td class="empty"></td>';
+			$output .= (isset($_SESSION['rid']) && ($_SESSION['rid'] == 3 && $_SESSION['uid'] == $courses[$i]['User_ID'] && in_array($cid,$cids)) || $_SESSION['rid'] == 1) ? '<td class="center"><form action="/course/assign" method="post"><input type="hidden" name="cid" value="'.$cid.'" /><input type="submit" name="course_assign" title="Assign lecturers" value="Assign lecturers" /></form></td>': '<td class="empty"></td>';
+			$output .= (isset($_SESSION['rid']) && $_SESSION['rid'] == 1 && count_lecturers($cid) > 0) ? '<td class="center"><form action="/course/promote" method="post"><input type="hidden" name="cid" value="'.$cid.'" /><input type="submit" name="course_promote" title="Promote coordinator" value="Promote coordinator" /></form></td>': '<td class="empty"></td>';
+			$output .= (isset($_SESSION['rid']) && ($_SESSION['rid'] == 3 && $_SESSION['uid'] == $courses[$i]['User_ID'] && in_array($cid,$cids)) || $_SESSION['rid'] == 1) ? '<td class="center"><form method="POST" action="/course/edit"><input type="hidden" name="cid" value="'.$cid.'" /><input type="hidden" name="code" value="'.$courses[$i]['Course_Code'].'" /><input type="hidden" name="name" value="'.$courses[$i]['Course_Name'].'" /><input name="course_edit" type="submit" title="Edit" value="Edit"/></form></td>': '<td class="empty"></td>';
+			$output .= (isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? '<td class="center"><form method="POST" action="/course/delete"><input type="hidden" name="cid" value="'.$cid.'" /><input name="course_delete" type="submit" title="Delete" value="Delete"/></form></td>': '<td class="empty"></td>';
 			$output .= '</tr>';
 			$j++;
 		}
@@ -1876,7 +1884,7 @@ function follow_notify($pid,$commenter_name,$comment) { //Send notification emai
 			<p>Hi <b>'.$user['User_Fullname'].'</b></p>
 			<p>'.$commenter_name.' commented on the post that you have followed</p>
 			<p>'.$commenter_name.' wrote: "'.$comment.'"</p>
-			<p><a href="'.currentURL().'/?p=question/'.$post['Post_URL'].'">Go to comments</a> now</p>
+			<p><a href="'.currentURL().'/question/'.$post['Post_URL'].'">Go to comments</a> now</p>
 		</td>
 	</tr>
 </table>
@@ -2195,12 +2203,12 @@ function latest_questions($count) {
 			$size = 40;
 			$grav_url = "https://0.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=identicon&s=" . $size;
 			$output .= '<div class="post '.(($i == 0) ? 'first': "").'">';
-			$output .= '<a class="author" href="'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? '#': '?p=user/'.$user['User_Username']).'"><img src="'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? $default: $grav_url).'" width="40px"/></a>';
+			$output .= '<a class="author" href="'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? '#': '/user/'.$user['User_Username']).'"><img src="'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? $default: $grav_url).'" width="40px"/></a>';
 			$output .= '<div class="post_right_detail">';
-			$output .= '<a class="title" href="/?p=question/'.$post['Post_URL'].'">'.$title.'</a><br/>';
-			$output .= '<span class="author_name">'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? "": '<a href="/?p=user/'.$user['User_Username'].'">').((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? 'Anonymous': ((isset($user['User_Fullname'])) ? $user['User_Fullname']: $user['User_Username'])).((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? "": '</a>').'</span><br/>';
-			$output .= '<a class="course_name" href="/?p=course/'.$course['Course_Code'].'">'.$course['Course_Code'].'</a>';
-			$output .= '<a class="post_see_more" href="/?p=question/'.$post['Post_URL'].'">See more</a>';
+			$output .= '<a class="title" href="/question/'.$post['Post_URL'].'">'.$title.'</a><br/>';
+			$output .= '<span class="author_name">'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? "": '<a href="/user/'.$user['User_Username'].'">').((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? 'Anonymous': ((isset($user['User_Fullname'])) ? $user['User_Fullname']: $user['User_Username'])).((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? "": '</a>').'</span><br/>';
+			$output .= '<a class="course_name" href="/course/'.$course['Course_Code'].'">'.$course['Course_Code'].'</a>';
+			$output .= '<a class="post_see_more" href="/question/'.$post['Post_URL'].'">See more</a>';
 			$output .= '</div>';
 			$output .= '</div>';
 		}
@@ -2232,12 +2240,12 @@ function most_commented($count) {
 			$size = 40;
 			$grav_url = "https://0.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=identicon&s=" . $size;
 			$output .= '<div class="post '.(($i == 0) ? 'first': "").'">';
-			$output .= '<a class="author" href="'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? '#': '?p=user/'.$user['User_Username']).'"><img src="'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? $default: $grav_url).'" width="40px"/></a>';
+			$output .= '<a class="author" href="'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? '#': '/user/'.$user['User_Username']).'"><img src="'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? $default: $grav_url).'" width="40px"/></a>';
 			$output .= '<div class="post_right_detail">';
-			$output .= '<a class="title" href="/?p=question/'.$post['Post_URL'].'">'.$title.'</a><br/>';
-			$output .= '<span class="author_name">'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? "": '<a href="/?p=user/'.$user['User_Username'].'">').((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? 'Anonymous': ((isset($user['User_Fullname'])) ? $user['User_Fullname']: $user['User_Username'])).((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? "": '</a>').'</span><br/>';
-			$output .= '<a class="course_name" href="/?p=course/'.$course['Course_Code'].'">'.$course['Course_Code'].'</a>';
-			$output .= '<a class="post_see_more" href="/?p=question/'.$post['Post_URL'].'">See more</a>';
+			$output .= '<a class="title" href="/question/'.$post['Post_URL'].'">'.$title.'</a><br/>';
+			$output .= '<span class="author_name">'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? "": '<a href="/user/'.$user['User_Username'].'">').((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? 'Anonymous': ((isset($user['User_Fullname'])) ? $user['User_Fullname']: $user['User_Username'])).((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? "": '</a>').'</span><br/>';
+			$output .= '<a class="course_name" href="/course/'.$course['Course_Code'].'">'.$course['Course_Code'].'</a>';
+			$output .= '<a class="post_see_more" href="/question/'.$post['Post_URL'].'">See more</a>';
 			$output .= '</div>';
 			$output .= '</div>';
 		}
@@ -2477,7 +2485,7 @@ function list_comments($pid,$c=null) { //Return list of comments by post ID
 			$email = $user['User_Mail'];
 			$grav_url = ($comments[$i]['Comment_Hide_Name'] == 0 && user_existed($comments[$i]['User_ID'])) ? "https://0.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=identicon&s=" . $size: $default;
 			$output .= '<div class="comment">';
-			$output .= '<a class="author" href="'.(($comments[$i]['Comment_Hide_Name'] == 1 || !user_existed($comments[$i]['User_ID'])) ? "#": '?p=user/'.$user['User_Username']).'"><img src="'.$grav_url.'" width="30px"/></a>';
+			$output .= '<a class="author" href="'.(($comments[$i]['Comment_Hide_Name'] == 1 || !user_existed($comments[$i]['User_ID'])) ? "#": '/user/'.$user['User_Username']).'"><img src="'.$grav_url.'" width="30px"/></a>';
 			$output .= '<div class="comment_right_detail">';
 			$output .= '<div class="name'.(($user['Role_ID'] == 3) ? ' lecturer': "").'">'.(($comments[$i]['Comment_Hide_Name'] == 0 && user_existed($comments[$i]['User_ID'])) ? ((isset($user['User_Fullname'])) ? $user['User_Fullname']: $user['User_Username']): 'Anonymous').'</div>';
 			$output .= '<div class="date">'.ago($comments[$i]['Comment_Created']).(($comments[$i]['Comment_Edited'] != 0) ? ' - edited: '.ago($comments[$i]['Comment_Edited']): "").'</div>';
@@ -2514,7 +2522,7 @@ function list_comments($pid,$c=null) { //Return list of comments by post ID
 		}
 	}
 	$output .= '<div id="addCommentContainer">';
-	$output .= '<a class="author" href="/?p=user/'.$current_user['User_Username'].'"><img src="'.$current_grav_url.'" width="30px"/></a>';
+	$output .= '<a class="author" href="/user/'.$current_user['User_Username'].'"><img src="'.$current_grav_url.'" width="30px"/></a>';
 	$output .= '<textarea placeholder="Leave a comment..." name="body" id="textarea_body_comment_create_pid_'.$pid.'" cols="20" rows="5"></textarea>';
 	$output .= '<input id="input_hide_comment_create_pid_'.$pid.'" type="checkbox" name="hide" value="1" /><label for="hide" style="position: relative; top: -2px;">Hide your username from others</label><br/>';
 	$output .= '<input id="input_uid_comment_create_pid_'.$pid.'" type="hidden" value="'.$_SESSION['uid'].'" />';
@@ -2562,7 +2570,7 @@ function list_comments_without_right($pid,$c=null) { //Return list of comments b
 			$size = 30;
 			$grav_url = ($comments[$i]['Comment_Hide_Name'] == 0 && user_existed($comments[$i]['User_ID'])) ? "https://0.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=identicon&s=" . $size: $default;
 			$output .= '<div class="comment">';
-			$output .= '<a class="author" href="/?p=user/'.$user['User_Username'].'"><img src="'.$grav_url.'" width="30px"/></a>';
+			$output .= '<a class="author" href="/user/'.$user['User_Username'].'"><img src="'.$grav_url.'" width="30px"/></a>';
 			$output .= '<div class="comment_right_detail">';
 			$output .= '<div class="name'.(($user['Role_ID'] == 3) ? ' lecturer': "").'">'.(($comments[$i]['Comment_Hide_Name'] == 0 && user_existed($comments[$i]['User_ID'])) ? ((isset($user['User_Fullname'])) ? $user['User_Fullname']: $user['User_Username']): 'Anonymous').'</div>';
 			$output .= '<div class="date">'.ago($comments[$i]['Comment_Created']).(($comments[$i]['Comment_Edited'] != 0) ? ' - edited: '.ago($comments[$i]['Comment_Edited']): "").'</div>';
@@ -2962,7 +2970,7 @@ function weeks_bar($cid=null) {
 	$output .= '<div id="weeks_toggle">Choose a week</div>';
 	$output .= '<ul id="weeks_bar">';
 	for ($i = 0; $i < count($weeks); $i++) {
-		$output .= '<li class="week week-'.$weeks[$i].(($cid != null) ? ' cid-'.$cid: "").'"><a class="week week-'.$weeks[$i].(($cid != null) ? ' cid-'.$cid: "").'" href="/?p='.(($cid != null) ? 'course/'.$course['Course_Code'].'/': "").'week/'.$weeks[$i].'">'.$weeks[$i].'</a></li>';
+		$output .= '<li class="week week-'.$weeks[$i].(($cid != null) ? ' cid-'.$cid: "").'"><a class="week week-'.$weeks[$i].(($cid != null) ? ' cid-'.$cid: "").'" href="/'.(($cid != null) ? 'course/'.$course['Course_Code'].'/': "").'week/'.$weeks[$i].'">'.$weeks[$i].'</a></li>';
 	}
 	$output .= '</ul>';
 	$output .= '<script>
@@ -3024,7 +3032,7 @@ function report_most_difficult($count,$cid=0) {
 	for ($i = 0; $i < $count; $i++) {
 		if (isset($posts[$i])) {
 			$class = 'class="'.table_row_class($i).'"';
-			$output .= '<tr '.$class.'><td width="30%"><a href="/?p=question/'.$posts[$i]['Post_URL'].'">'.$posts[$i]['Post_Title'].'</td><td width="20%">'.$posts[$i]['average_rates'].'</td></tr>';
+			$output .= '<tr '.$class.'><td width="30%"><a href="/question/'.$posts[$i]['Post_URL'].'">'.$posts[$i]['Post_Title'].'</td><td width="20%">'.$posts[$i]['average_rates'].'</td></tr>';
 		}
 	}
 	$output .= '</table><br/>';
@@ -3064,7 +3072,7 @@ function report_most_popular($count,$cid=0) {
 	for ($i = 0; $i < $count; $i++) {
 		if (isset($posts[$i])) {
 			$class = 'class="'.table_row_class($i).'"';
-			$output .= '<tr '.$class.'><td width="30%"><a href="/?p=question/'.$posts[$i]['Post_URL'].'">'.$posts[$i]['Post_Title'].'</td><td width="20%">'.$posts[$i]['likes_count'].(($posts[$i]['likes_count'] != 0 && $posts[$i]['likes_count'] != 1) ? ' likes': ' like').'</td></tr>';
+			$output .= '<tr '.$class.'><td width="30%"><a href="/question/'.$posts[$i]['Post_URL'].'">'.$posts[$i]['Post_Title'].'</td><td width="20%">'.$posts[$i]['likes_count'].(($posts[$i]['likes_count'] != 0 && $posts[$i]['likes_count'] != 1) ? ' likes': ' like').'</td></tr>';
 		}
 	}
 	$output .= '</table><br/>';
@@ -3074,7 +3082,7 @@ function report_most_popular($count,$cid=0) {
 	for ($i = 0; $i < $count; $i++) {
 		if (isset($posts[$i])) {
 			$class = 'class="'.table_row_class($i).'"';
-			$output .= '<tr '.$class.'><td width="30%"><a href="/?p=question/'.$posts[$i]['Post_URL'].'">'.$posts[$i]['Post_Title'].'</td><td width="20%">'.$posts[$i]['comments_count'].(($posts[$i]['comments_count'] != 0 && $posts[$i]['comments_count'] != 1) ? ' comments': ' comment').'</td></tr>';
+			$output .= '<tr '.$class.'><td width="30%"><a href="/question/'.$posts[$i]['Post_URL'].'">'.$posts[$i]['Post_Title'].'</td><td width="20%">'.$posts[$i]['comments_count'].(($posts[$i]['comments_count'] != 0 && $posts[$i]['comments_count'] != 1) ? ' comments': ' comment').'</td></tr>';
 		}
 	}
 	$output .= '</table><br/>';
@@ -3084,7 +3092,7 @@ function report_most_popular($count,$cid=0) {
 	for ($i = 0; $i < $count; $i++) {
 		if (isset($posts[$i])) {
 			$class = 'class="'.table_row_class($i).'"';
-			$output .= '<tr '.$class.'><td width="30%"><a href="/?p=question/'.$posts[$i]['Post_URL'].'">'.$posts[$i]['Post_Title'].'</td><td width="20%">'.$posts[$i]['follows_count'].(($posts[$i]['follows_count'] != 0 && $posts[$i]['follows_count'] != 1) ? ' follows': ' follow').'</tr></td>';
+			$output .= '<tr '.$class.'><td width="30%"><a href="/question/'.$posts[$i]['Post_URL'].'">'.$posts[$i]['Post_Title'].'</td><td width="20%">'.$posts[$i]['follows_count'].(($posts[$i]['follows_count'] != 0 && $posts[$i]['follows_count'] != 1) ? ' follows': ' follow').'</tr></td>';
 		}
 	}
 	$output .= '</table><br/>';

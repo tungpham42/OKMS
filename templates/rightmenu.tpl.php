@@ -1,5 +1,5 @@
 <div id="search_bar">
-	<form action="?p=search" method="POST">
+	<form action="/search" method="POST">
 		<input type="hidden" name="cid" value="<?php print $cid; ?>" />
 		<input id="search_box" type="text" name="keyword" title="Fill in your search query" size="20" placeholder="Search<?php print (isset($cid) && $cid != 0) ? ' in '.$course['Course_Code']: ''; ?>.." /><button type="submit" id="search_submit"></button>
 	</form>
@@ -38,8 +38,8 @@ print most_commented(3);
 <div class="heading">External Links</div>
 <br/>
 <div class="quicklinks">
-	<a target="_blank" href="http://en.wikipedia.org"><img class="quicklink" src="images/WIKI.jpg" width="100px"/></a>
-	<a target="_blank" href="https://mail.google.com/a/rmit.edu.vn"><img class="quicklink" src="images/MAIL.jpg" width="100px"/></a>
-	<a target="_blank" href="http://www.rmit.edu.au"><img class="quicklink" src="images/AUS.jpg" width="100px"/></a>
-	<a target="_blank" href="https://online.rmit.edu.vn/"><img class="quicklink" src="images/INTRANET.jpg" width="100px"/></a>
+	<a target="_blank" href="http://en.wikipedia.org"><img class="quicklink" src="/images/WIKI.jpg" width="100px"/></a>
+	<a target="_blank" href="https://mail.google.com/a/rmit.edu.vn"><img class="quicklink" src="/images/MAIL.jpg" width="100px"/></a>
+	<a target="_blank" href="http://www.rmit.edu.au"><img class="quicklink" src="/images/AUS.jpg" width="100px"/></a>
+	<a target="_blank" href="https://online.rmit.edu.vn/"><img class="quicklink" src="/images/INTRANET.jpg" width="100px"/></a>
 </div>

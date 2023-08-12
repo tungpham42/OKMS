@@ -21,7 +21,7 @@ if (isset($_POST['keyword'])) {
 		print '<ul id="suggestions">';
 		for ($i = 0; $i < $count; $i++) {
 			if (isset($users[$i]['User_ID'])) {
-				print '<li class="suggestion'.(($i == 0) ? ' first': '').'"><a class="post_title'.(($i == 0) ? ' first': '').'" href="?p=user/'.$users[$i]['User_ID'].'">'.$users[$i]['User_Fullname'].'</a><br/><span class=post_author>'.$users[$i]['User_Username'].'</span></li>';
+				print '<li class="suggestion'.(($i == 0) ? ' first': '').'"><a class="post_title'.(($i == 0) ? ' first': '').'" href="/user/'.$users[$i]['User_ID'].'">'.$users[$i]['User_Fullname'].'</a><br/><span class=post_author>'.$users[$i]['User_Username'].'</span></li>';
 			}
 		}
 		print (count($users) > 5) ? '<li class="suggestion"><a id="all_results">Show all results</a></li>': '';

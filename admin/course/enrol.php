@@ -34,7 +34,7 @@ if (isset($_POST['submit'])):
 		}	
 	}
 	sleep(1);
-	header('location: '.currentURL().'/?p=course');
+	header('location: '.currentURL().'/course');
 endif;
 ?>
 <script type="text/javascript" src="js/multipleselect.js"></script>
@@ -59,7 +59,7 @@ for ($i = 0; $i < count($users); $i++):
 endfor;
 ?>
 </select>
-<input name="submit" type="submit" value="Update"><a class="button" href="/?p=course">Cancel</a>
+<input name="submit" type="submit" value="Update"><a class="button" href="/course">Cancel</a>
 </form>
 </fieldset>
 <script type="text/javascript">
