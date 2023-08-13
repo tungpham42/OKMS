@@ -2344,10 +2344,18 @@ function ask_question($rid,$cid,$week) {
 	} elseif ($cid == 0 && $week != 0) {
 		$feeds_type = 'week';
 	}
+	$is_guest = false;
+	$cids = cids_load_all();
+	for ($i = 0; $i < count($cids); $i++) {
+		$my_course[$i] = course_load($cids[$i]);
+		if ($my_course[$i]['Course_For_Guest'] == 1) {
+			$is_guest = true;
+		}
+	}
 	$course = course_load($cid);
 	$output .= '<div id="ask_question">';
 	$output .= '<div id="ask_label">Ask Question</div>';
-	$output .= '<div id="question_section" title="Ask question" class="'.(($rid == 0) ? 'not_loggedin': "").((!course_belonged($cid,$_SESSION['uid']) && $cid != 0 && $rid != 1) ? ' not_belonged': "").((isset($course['Course_Allowed']) && $course['Course_Allowed'] != 1 && $rid != 3) ? ' not_allowed': "").((isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? ' is_admin': "").((!is_enroled($_SESSION['uid'])) ? ' not_enroled': "").((!is_allowed($_SESSION['uid']) && $rid != 1 && $rid != 3) ? ' no_course': "").(($course['Course_For_Guest'] == 1) ? ' guest_mode': "").'">';
+	$output .= '<div id="question_section" title="Ask question" class="'.(($rid == 0) ? 'not_loggedin': "").((!course_belonged($cid,$_SESSION['uid']) && $cid != 0 && $rid != 1) ? ' not_belonged': "").((isset($course['Course_Allowed']) && $course['Course_Allowed'] != 1 && $rid != 3) ? ' not_allowed': "").((isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? ' is_admin': "").((!is_enroled($_SESSION['uid'])) ? ' not_enroled': "").((!is_allowed($_SESSION['uid']) && $rid != 1 && $rid != 3) ? ' no_course': "").(($is_guest) ? ' guest_mode': "").'">';
 	$output .= '<span id="question_label">Type a question..</span>';
 	$output .= '<a id="question_close_button"></a>';
 	$output .= '<div class="question_element" style="margin-top: 5px;"><label for="question_title">Subject: </label><input class="element_input" id="question_title" name="question_title" type="text" size="30" /></div>';
