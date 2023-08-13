@@ -1,3 +1,3 @@
 <?php
-print list_semesters();
+echo list_semesters();
 ?>

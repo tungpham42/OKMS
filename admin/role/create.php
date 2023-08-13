@@ -4,7 +4,7 @@ if (isset($_POST['submit'])):
 	create_role($role_name);
 	sleep(1);
 	header('location: '.currentURL().'/role');
-	print 'Role created. Click <a href="/role">here</a> to view created roles';
+	echo 'Role created. Click <a href="/role">here</a> to view created roles';
 endif;
 ?>
 <form id="form" method="post" action="">

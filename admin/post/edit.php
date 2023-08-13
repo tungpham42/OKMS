@@ -19,9 +19,9 @@ if (isset($_POST['submit'])):
 		edit_post($_POST['pid'],$cid,$week,$title,$url,$body,$answer);
 		sleep(1);
 		header('location: '.currentURL().'/question/'.$url);
-		print 'Post edited. Click <a href="/post">here</a> to view posts';
+		echo 'Post edited. Click <a href="/post">here</a> to view posts';
 	else:
-		print 'Not authorized';
+		echo 'Not authorized';
 	endif;
 endif;
 ?>
@@ -37,37 +37,37 @@ $(document).ready(function()	{
 });
 </script>
 <form id="form" method="post" action="">
-	<input type="hidden" name="pid" value="<?php print $pid; ?>"/>
+	<input type="hidden" name="pid" value="<?php echo $pid; ?>"/>
 	<table>
 		<tr id="course">
 			<td><label for="type">Course:</label></td>
-			<td><?php print select_course('cid',$old_cid); ?></td>
+			<td><?php echo select_course('cid',$old_cid); ?></td>
 		</tr>
 		<tr id="week">
 			<td><label for="type">Week:</label></td>
-			<td><?php print select_week('week',$old_week); ?></td>
+			<td><?php echo select_week('week',$old_week); ?></td>
 		</tr>
 		<tr style="display:none">
 			<td><label for="title">Title:</label></td>
-			<td><input type="text" name="title" value="<?php print $old_title; ?>" size="60" maxlength="128" class="required" /><input type="hidden" name="url" value="<?php print $old_url; ?>" /></td>
+			<td><input type="text" name="title" value="<?php echo $old_title; ?>" size="60" maxlength="128" class="required" /><input type="hidden" name="url" value="<?php echo $old_url; ?>" /></td>
 		</tr>
 		<tr>
 			<td><label for="body">Body:</label></td>
-			<td><textarea id="body" cols="60" rows="20" name="body" class="required"><?php print $old_body; ?></textarea></td>
+			<td><textarea id="body" cols="60" rows="20" name="body" class="required"><?php echo $old_body; ?></textarea></td>
 		</tr>
 		<?php
 		if ($_SESSION['rid'] != 2):
 		?>
 		<tr id="answer-row">
 			<td><label for="answer">Answer:</label></td>
-			<td><textarea id="answer" cols="60" rows="20" name="answer" ><?php print $old_answer; ?></textarea></td>
+			<td><textarea id="answer" cols="60" rows="20" name="answer" ><?php echo $old_answer; ?></textarea></td>
 		</tr>
 		<?php
 		endif;
 		?>
 		<tr>
 			<td><input type="submit" name="submit" value="Edit" /></td>
-			<td><a class="button" href="/question/<?php print $post['Post_URL']; ?>">Cancel</a></td>
+			<td><a class="button" href="/question/<?php echo $post['Post_URL']; ?>">Cancel</a></td>
 		</tr>
 	</table>
 </form>

@@ -1,3 +1,3 @@
 <?php
-print view_user($uid);
+echo view_user($uid);
 ?>

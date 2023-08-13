@@ -6,15 +6,15 @@ if (isset($_POST['submit'])):
 	edit_role($_POST['rid'],$new);
 	sleep(1);
 	header('location: '.currentURL().'/role');
-	print 'Role edited. Click <a href="/role">here</a> to view created roles';
+	echo 'Role edited. Click <a href="/role">here</a> to view created roles';
 endif;
 ?>
 <form id="form" method="post" action="">
-	<input type="hidden" name="rid" value="<?php print $rid; ?>"/>
+	<input type="hidden" name="rid" value="<?php echo $rid; ?>"/>
 	<table>
 		<tr>
 			<td><label for="role_name">New role's name:</label></td>
-			<td><input type="text" name="role_name" value="<?php print $name; ?>" size="60" maxlength="128" class="required" /></td>
+			<td><input type="text" name="role_name" value="<?php echo $name; ?>" size="60" maxlength="128" class="required" /></td>
 		</tr>
 		<tr>
 			<td><input type="submit" name="submit" value="Edit" /></td>

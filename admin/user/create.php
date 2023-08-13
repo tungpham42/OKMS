@@ -33,10 +33,10 @@ if (isset($_POST['submit']) && $pass == $pass1):
 					'okms.vn@gmail.com');
 			//sleep(1);
 			//header('location: '.currentURL().'/home');
-			print '<br/>User created. Click <a href="/home">here</a> to go to home page<br/>';
-			print 'We sent you an email with your new account information!';
+			echo '<br/>User created. Click <a href="/home">here</a> to go to home page<br/>';
+			echo 'We sent you an email with your new account information!';
 	else:
-		print implode('<br />',$err);
+		echo implode('<br />',$err);
 	endif;
 endif;
 ?>
@@ -64,7 +64,7 @@ endif;
 		</tr>
 		<tr>
 			<td><label for="rid">Role:</label></td>
-			<td><?php if ($_SESSION['rid'] == 1): ?><?php print select_role('rid'); ?><?php else: ?><?php print radio_role('role'); ?><input id="rid" type="hidden" name="rid" /><?php endif; ?></td>
+			<td><?php if ($_SESSION['rid'] == 1): ?><?php echo select_role('rid'); ?><?php else: ?><?php echo radio_role('role'); ?><input id="rid" type="hidden" name="rid" /><?php endif; ?></td>
 		</tr>
 		<tr>
 			<td><input type="submit" name="submit" value="Submit" /></td>

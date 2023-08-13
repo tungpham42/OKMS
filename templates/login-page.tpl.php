@@ -22,7 +22,7 @@ if(!$_SESSION['username'])
 			<?php
 			if(isset($_POST['login'])){
 				if($err)
-				print '<tr><td style="color: red" colspan="2">'.implode('<br />',$err).'</td></tr>';
+				echo '<tr><td style="color: red" colspan="2">'.implode('<br />',$err).'</td></tr>';
 			}
 			?>
 			<tr>

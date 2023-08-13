@@ -13,7 +13,7 @@ $cid = (isset($_POST['cid'])) ? $_POST['cid']: 0;
 <td><input type="submit" name="submit" /></td>
 <td colspan="3"><a class="button" href="/course">Cancel</a></td>
 </tr>
-<input type="hidden" name="cid" value="<?php print $cid; ?>" />
+<input type="hidden" name="cid" value="<?php echo $cid; ?>" />
 </form>
 </table>
 <?php
@@ -36,11 +36,11 @@ if ( isset($_POST["submit"]) ) {
 		echo "No file selected <br />";
 	}
 }
-print parse_excel_to_table("upload/" . $storagename);
+echo parse_excel_to_table("upload/" . $storagename);
 $profiles = parse_excel_to_array("upload/" . $storagename);
-print '<pre>';
+echo '<pre>';
 print_r($profiles);
-print '</pre>';
+echo '</pre>';
 for ($i = 0; $i < count($profiles); $i++):
 	$username = $profiles[$i];
 	$user = user_load_from_name($username);

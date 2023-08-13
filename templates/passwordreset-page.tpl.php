@@ -41,7 +41,7 @@ if (isset($_POST['submit'])) {
 	</table>';
 	if (check_email_address($_POST['forgotpassword']) && mysqli_result($result,0,0)>0):
 		send_mail($forgotpassword, $subject, $message,  'okms.vn@gmail.com');
-		print '
+		echo '
 			<table>
 				<tr><th style="text-transform: none; text-align: left;">Notice from the system</th></tr>
 				<tr><td>
@@ -93,7 +93,7 @@ if(isset($_GET['email']) && !empty($_GET['email']) && isset($_GET['hash']) && !e
 			</tr>
 		</table>';
 		send_mail($email, $subject, $message,  'okms.vn@gmail.com');
-		print '
+		echo '
 			<table>
 				<tr><th style="text-transform: none; text-align: left;">Notice from the system</th></tr>
 				<tr><td>

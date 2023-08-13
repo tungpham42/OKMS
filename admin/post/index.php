@@ -1,9 +1,9 @@
 <?php
 $cid = (isset($_POST['cid'])) ? $_POST['cid']: 0;
-print select_course('cid',$cid);
-print '<div id="admin_post_section">';
-print list_posts($cid,10,1);
-print '</div>';
+echo select_course('cid',$cid);
+echo '<div id="admin_post_section">';
+echo list_posts($cid,10,1);
+echo '</div>';
 ?>
 <script type="text/javascript">
 $("select#cid").change(function(){

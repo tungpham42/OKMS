@@ -553,7 +553,7 @@ function get_course_week_from_url($p) { //Get week number and course code from p
 }
 /* Auth Functions */
 function error($msg) { //Show popup meesage
-    print '
+    echo '
     <script language="JavaScript">
     <!--
         openWrap("'.$msg.'");

@@ -5,7 +5,7 @@ $uid = (isset($_SESSION['uid'])) ? $_SESSION['uid']: 0;
 $option = (isset($_POST['option'])) ? $_POST['option']: 'All courses';
 $page = (isset($_POST['page'])) ? $_POST['page']: 1;
 $count = (isset($_POST['count'])) ? $_POST['count']: 10;
-print front_page_listing($count,$uid,'sort_post_date_descend',$option,$page);
+echo front_page_listing($count,$uid,'sort_post_date_descend',$option,$page);
 ?>
 <script type="text/javascript">
 $("a.button.disabled").click(function(){

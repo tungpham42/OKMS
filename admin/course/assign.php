@@ -40,12 +40,12 @@ endif;
 <script type="text/javascript" src="/js/multipleselect.js"></script>
 <fieldset>
 <form method="post" action="" onsubmit="multipleSelectOnSubmit()">
-<input type="hidden" name="cid" value="<?php print $cid; ?>" />
+<input type="hidden" name="cid" value="<?php echo $cid; ?>" />
 <select multiple name="fromBox[]" id="fromBox">
 <?php
 for ($i = 0; $i < count($users_diff); $i++):
 ?>
-	<option value="<?php print $users_diff[$i]['User_ID']; ?>"><?php print (isset($users_diff[$i]['User_Fullname'])) ? $users_diff[$i]['User_Fullname'].' - '.$users_diff[$i]['User_Username']: $users_diff[$i]['User_Username']; ?></option>
+	<option value="<?php echo $users_diff[$i]['User_ID']; ?>"><?php echo (isset($users_diff[$i]['User_Fullname'])) ? $users_diff[$i]['User_Fullname'].' - '.$users_diff[$i]['User_Username']: $users_diff[$i]['User_Username']; ?></option>
 <?php
 endfor;
 ?>
@@ -54,7 +54,7 @@ endfor;
 <?php
 for ($i = 0; $i < count($users); $i++):
 ?>
-	<option value="<?php print $users[$i]['User_ID']; ?>"><?php print (isset($users[$i]['User_Fullname'])) ? $users[$i]['User_Fullname'].' - '.$users[$i]['User_Username']: $users[$i]['User_Username']; ?></option>
+	<option value="<?php echo $users[$i]['User_ID']; ?>"><?php echo (isset($users[$i]['User_Fullname'])) ? $users[$i]['User_Fullname'].' - '.$users[$i]['User_Username']: $users[$i]['User_Username']; ?></option>
 <?php
 endfor;
 ?>
@@ -63,5 +63,5 @@ endfor;
 </form>
 </fieldset>
 <script type="text/javascript">
-createMovableOptions("fromBox","toBox",550,300,'Available <?php print $users_label; ?>','Selected <?php print $users_label; ?>');
+createMovableOptions("fromBox","toBox",550,300,'Available <?php echo $users_label; ?>','Selected <?php echo $users_label; ?>');
 </script>

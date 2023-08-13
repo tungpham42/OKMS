@@ -5,7 +5,7 @@ $uid = (isset($_SESSION['uid'])) ? $_SESSION['uid']: 0;
 $cid = (isset($_POST['cid'])) ? $_POST['cid']: '';
 $page = (isset($_POST['page'])) ? $_POST['page']: '';
 $count = (isset($_POST['count'])) ? $_POST['count']: '';
-print view_course($cid,$uid,$count,$page);
+echo view_course($cid,$uid,$count,$page);
 ?>
 <script type="text/javascript">
 $("a.button.disabled").click(function(){

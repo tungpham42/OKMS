@@ -19,10 +19,10 @@ if ($("input#search_user_box").val() == '') {
 </script>
 <?php
 $rid = (isset($_POST['rid'])) ? $_POST['rid']: 0;
-print select_role('rid',$rid);
-print '<div id="admin_user_section">';
-print list_users($rid,10,1);
-print '</div>';
+echo select_role('rid',$rid);
+echo '<div id="admin_user_section">';
+echo list_users($rid,10,1);
+echo '</div>';
 ?>
 <script type="text/javascript">
 $("select#rid").change(function(){

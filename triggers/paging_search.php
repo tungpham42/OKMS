@@ -6,7 +6,7 @@ if (isset($_POST['keyword'])) {
 	$count = (isset($_POST['count'])) ? $_POST['count']: '';
 	$cid = (isset($_POST['cid'])) ? $_POST['cid']: '';
 	$page = (isset($_POST['page'])) ? $_POST['page']: '';
-	print search_question($query,$cid,$count,$page);
+	echo search_question($query,$cid,$count,$page);
 }
 ?>
 <script type="text/javascript">

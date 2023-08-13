@@ -5,6 +5,6 @@ if (isset($_POST['pid']) && isset($_SESSION['uid'])) {
 	$pid = $_POST['pid'];
 	$uid = $_SESSION['uid'];
 	$post_rate = post_rate_load($pid,$uid);
-	print star_rating_update($pid);
+	echo star_rating_update($pid);
 }
 ?>

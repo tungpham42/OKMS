@@ -7,9 +7,9 @@ if (isset($_POST['submit'])):
 	header('location: '.currentURL().'/semester');
 endif;
 ?>
-<h3>Do you want to delete the semester "<?php print $semester['Semester_Code']; ?>"?</h3>
+<h3>Do you want to delete the semester "<?php echo $semester['Semester_Code']; ?>"?</h3>
 <form method="post" action="">
-	<input type="hidden" name="id" value="<?php print $semid; ?>"/>
+	<input type="hidden" name="id" value="<?php echo $semid; ?>"/>
 	<input type="submit" name="submit" value="Delete" />
 	<button onclick="history.go(-1);return false;">Cancel</button>
 </form>

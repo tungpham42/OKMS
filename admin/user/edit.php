@@ -39,14 +39,14 @@ if (isset($_POST['submit'])):
 	</tr>
 </table>',
 						'okms.vn@gmail.com');
-			print '<br/>User edited. Click <a href="/home">here</a> to go to home page<br/>';
-			print 'We sent you an email with your changed account information!';
+			echo '<br/>User edited. Click <a href="/home">here</a> to go to home page<br/>';
+			echo 'We sent you an email with your changed account information!';
 		}
 		sleep(3);
 		header('location: '.currentURL().'/home');
-		//else print 'This username or email is already taken!';
+		//else echo 'This username or email is already taken!';
 	} else {
-		print '<span style="color: red;">'.implode('<br />',$err).'<br/></span>';
+		echo '<span style="color: red;">'.implode('<br />',$err).'<br/></span>';
 		$old_name = isset($_POST['name']) ? $_POST['name']: $user['User_Username'];
 		$old_fullname = isset($_POST['fullname']) ? $_POST['fullname']: $user['User_Fullname'];
 		$old_mail = isset($_POST['mail']) ? $_POST['mail']: $user['User_Mail'];
@@ -55,15 +55,15 @@ if (isset($_POST['submit'])):
 endif;
 ?>
 <form id="form" method="post" action="">
-	<input type="hidden" name="uid" value="<?php print $uid; ?>"/>
+	<input type="hidden" name="uid" value="<?php echo $uid; ?>"/>
 	<table>
 		<tr>
 			<td><label for="name">Username:</label></td>
-			<td><?php print $old_name; ?><input type="hidden" name="name" value="<?php print $old_name; ?>"/></td>
+			<td><?php echo $old_name; ?><input type="hidden" name="name" value="<?php echo $old_name; ?>"/></td>
 		</tr>
 		<tr>
 			<td><label for="fullname">Fullname:</label></td>
-			<td><input type="text" name="fullname" value="<?php print $old_fullname; ?>" size="60" maxlength="128" class="required" /></td>
+			<td><input type="text" name="fullname" value="<?php echo $old_fullname; ?>" size="60" maxlength="128" class="required" /></td>
 		</tr>
 		<tr>
 			<td><label for="current_pass">Current Password:</label></td>
@@ -79,15 +79,15 @@ endif;
 		</tr>
 		<tr>
 			<td><label for="mail">Email:</label></td>
-			<td><?php print $old_mail; ?><input type="hidden" name="mail" value="<?php print $old_mail; ?>" /></td>
+			<td><?php echo $old_mail; ?><input type="hidden" name="mail" value="<?php echo $old_mail; ?>" /></td>
 		</tr>
 		<tr>
 			<td><label for="rid">Role:</label></td>
-			<td><?php if (isset($_SESSION['rid']) && $_SESSION['rid'] == 1) {print select_role('rid',$old_rid);} elseif (isset($_SESSION['rid']) && $_SESSION['rid'] != 1) { print load_name_from_rid($old_rid); }?></td>
+			<td><?php if (isset($_SESSION['rid']) && $_SESSION['rid'] == 1) {echo select_role('rid',$old_rid);} elseif (isset($_SESSION['rid']) && $_SESSION['rid'] != 1) { echo load_name_from_rid($old_rid); }?></td>
 		</tr>
 		<tr>
 			<td>Belonged courses:</td>
-			<td><?php print view_user_courses($uid); ?></td>
+			<td><?php echo view_user_courses($uid); ?></td>
 		</tr>
 		<tr>
 			<td><input onclick="checkPass();" type="submit" name="submit" value="Save" /></td>

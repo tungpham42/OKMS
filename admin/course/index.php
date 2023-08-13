@@ -1,3 +1,3 @@
 <?php
-print list_courses();
+echo list_courses();
 ?>

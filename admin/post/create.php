@@ -14,9 +14,9 @@ if (isset($_POST['submit'])):
 	{
 		sleep(1);
 		header('location: '.currentURL().'/post');
-		print 'Post created. Click <a href="/post">here</a> to view created posts';
+		echo 'Post created. Click <a href="/post">here</a> to view created posts';
 	}
-		else print 'Post not created';
+		else echo 'Post not created';
 endif;
 ?>
 <link rel="stylesheet" type="text/css" href="markitup/skins/markitup/style.css" />
@@ -34,11 +34,11 @@ $(document).ready(function()	{
 	<table>
 		<tr id="course">
 			<td><label for="title">Course:</label></td>
-			<td><?php print (isset($_POST['post_cid'])) ? $post_course['Course_Name'].'<input type="hidden" name="cid" value="'.$post_cid.'" />': select_course('cid'); ?></td>
+			<td><?php echo (isset($_POST['post_cid'])) ? $post_course['Course_Name'].'<input type="hidden" name="cid" value="'.$post_cid.'" />': select_course('cid'); ?></td>
 		</tr>
 		<tr id="week">
 			<td><label for="title">Week:</label></td>
-			<td><?php print select_week('week'); ?></td>
+			<td><?php echo select_week('week'); ?></td>
 		</tr>
 		<tr>
 			<td><label for="title">Title:</label></td>

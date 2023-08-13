@@ -1,6 +1,6 @@
 <?php //Report page template
 $report_type = (isset($_POST['report_type'])) ? $_POST['report_type']: 0;
-print select_report_type('report_type',$report_type);
+echo select_report_type('report_type',$report_type);
 ?>
 <div id="report_section"></div>
 <script type="text/javascript">

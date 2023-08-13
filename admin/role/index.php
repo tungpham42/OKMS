@@ -1,3 +1,3 @@
 <?php
-print list_roles();
+echo list_roles();
 ?>

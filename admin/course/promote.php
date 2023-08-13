@@ -9,11 +9,11 @@ if (isset($_POST['submit'])):
 endif;
 ?>
 <form id="form" method="post" action="">
-	<input type="hidden" name="cid" value="<?php print $cid; ?>"/>
+	<input type="hidden" name="cid" value="<?php echo $cid; ?>"/>
 	<table style="width: 600px;">
 		<tr>
 			<td><label for="coor_uid">Select a coordinator from course's lecturers:</label></td>
-			<td><?php print select_coor_uid('coor_uid',$cid); ?></td>
+			<td><?php echo select_coor_uid('coor_uid',$cid); ?></td>
 		</tr>
 		<tr>
 			<td><input type="submit" name="submit" value="Promote" /></td>

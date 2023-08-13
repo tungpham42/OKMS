@@ -13,19 +13,19 @@ if (isset($_POST['keyword'])) {
 	sort($users);
 	usort($users,'sort_user_ascend');
 	if (count($users) == 0) {
-		print '<span style="padding: 15px;">There is no result</span>';
+		echo '<span style="padding: 15px;">There is no result</span>';
 	}
 	else {
 		$count = (count($users) < 5) ? count($users): 5;
-		print '<span style="padding: 15px;">'.count($users).' result'.((count($users) == 1) ? '': 's').'</span>';
-		print '<ul id="suggestions">';
+		echo '<span style="padding: 15px;">'.count($users).' result'.((count($users) == 1) ? '': 's').'</span>';
+		echo '<ul id="suggestions">';
 		for ($i = 0; $i < $count; $i++) {
 			if (isset($users[$i]['User_ID'])) {
-				print '<li class="suggestion'.(($i == 0) ? ' first': '').'"><a class="post_title'.(($i == 0) ? ' first': '').'" href="/user/'.$users[$i]['User_ID'].'">'.$users[$i]['User_Fullname'].'</a><br/><span class=post_author>'.$users[$i]['User_Username'].'</span></li>';
+				echo '<li class="suggestion'.(($i == 0) ? ' first': '').'"><a class="post_title'.(($i == 0) ? ' first': '').'" href="/user/'.$users[$i]['User_ID'].'">'.$users[$i]['User_Fullname'].'</a><br/><span class=post_author>'.$users[$i]['User_Username'].'</span></li>';
 			}
 		}
-		print (count($users) > 5) ? '<li class="suggestion"><a id="all_results">Show all results</a></li>': '';
-		print '</ul>';
+		echo (count($users) > 5) ? '<li class="suggestion"><a id="all_results">Show all results</a></li>': '';
+		echo '</ul>';
 	}
 }
 ?>

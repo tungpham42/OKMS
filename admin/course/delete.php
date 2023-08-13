@@ -6,15 +6,15 @@ if (course_is_empty($_POST['id'])):
 	delete_course($_POST['id']);
 	sleep(1);
 	header('location: '.currentURL().'/course');
-	print 'Course deleted. Click <a href="/course">here</a> to view created courses';
+	echo 'Course deleted. Click <a href="/course">here</a> to view created courses';
 else:
-	print '<span style="color: red;">This course contains '.count_posts_from_cid($_POST['id']).' post'.((count_posts_from_cid($_POST['id']) == 0 || count_posts_from_cid($_POST['id']) == 1) ? '': 's').'. Please delete all the posts before deleting the course</span>';
+	echo '<span style="color: red;">This course contains '.count_posts_from_cid($_POST['id']).' post'.((count_posts_from_cid($_POST['id']) == 0 || count_posts_from_cid($_POST['id']) == 1) ? '': 's').'. Please delete all the posts before deleting the course</span>';
 endif;
 endif;
 ?>
-<h3>Do you want to delete the course "<?php print $course['Course_Name']; ?>"?</h3>
+<h3>Do you want to delete the course "<?php echo $course['Course_Name']; ?>"?</h3>
 <form method="post" action="">
-	<input type="hidden" name="id" value="<?php print $cid; ?>"/>
+	<input type="hidden" name="id" value="<?php echo $cid; ?>"/>
 	<input type="submit" name="submit" value="Delete" />
 	<a class="button" href="/course">Cancel</a>
 </form>

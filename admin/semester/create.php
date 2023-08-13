@@ -31,6 +31,6 @@ endif;
 </form>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js"></script>
 <script type="text/javascript" charset="utf-8">
-	$( "#semester_start_date" ).datepicker({ dateFormat: "yy-mm-dd" , changeYear: true , yearRange: "1920:2020" , defaultDate: '<?php print date('Y-m-d'); ?>'});
-	$( "#semester_end_date" ).datepicker({ dateFormat: "yy-mm-dd" , changeYear: true , yearRange: "1920:2020" , defaultDate: '<?php print date('Y-m-d'); ?>'});
+	$( "#semester_start_date" ).datepicker({ dateFormat: "yy-mm-dd" , changeYear: true , yearRange: "1920:2020" , defaultDate: '<?php echo date('Y-m-d'); ?>'});
+	$( "#semester_end_date" ).datepicker({ dateFormat: "yy-mm-dd" , changeYear: true , yearRange: "1920:2020" , defaultDate: '<?php echo date('Y-m-d'); ?>'});
 </script>

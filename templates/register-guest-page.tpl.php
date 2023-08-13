@@ -33,7 +33,7 @@ if (isset($_POST['submit']) && $pass == $pass1):
 </table>
 ',
 					'tung.42@gmail.com');
-		print '
+		echo '
 		<table>
 			<tr><th style="text-transform: none; text-align: left;">Notice from the system</th></tr>
 			<tr><td>
@@ -62,20 +62,20 @@ if ((isset($_POST['submit']) && count($err) > 0) || !isset($_POST['submit'])):
 		<?php
 		if(isset($_POST['submit'])){
 			if($err)
-			print '<tr><td style="color: red" colspan="2">'.implode('<br />',$err).'</td></tr>';
+			echo '<tr><td style="color: red" colspan="2">'.implode('<br />',$err).'</td></tr>';
 		}
 		?>
 		<tr>
 			<td><label for="name">Username:</label></td>
-			<td><input id="name" type="text" name="name" size="30" maxlength="128" class="required" value="<?php print $old_name; ?>" /><br/><div style="display: none" id="username_check"></div><span id="username_check_label"></span></td>
+			<td><input id="name" type="text" name="name" size="30" maxlength="128" class="required" value="<?php echo $old_name; ?>" /><br/><div style="display: none" id="username_check"></div><span id="username_check_label"></span></td>
 		</tr>
 		<tr>
 			<td width="30%"><label for="mail">Email:</label></td>
-			<td><input id="mail" type="text" name="mail" size="30" maxlength="128" class="required" value="<?php print $old_mail; ?>" /><br/><div style="display: none" id="email_check"></div><span id="email_check_label"></span></td>
+			<td><input id="mail" type="text" name="mail" size="30" maxlength="128" class="required" value="<?php echo $old_mail; ?>" /><br/><div style="display: none" id="email_check"></div><span id="email_check_label"></span></td>
 		</tr>
 		<tr>
 			<td><label for="fullname">Fullname:</label></td>
-			<td><input type="text" name="fullname" size="30" maxlength="128" class="required" value="<?php print $old_fullname; ?>" /></td>
+			<td><input type="text" name="fullname" size="30" maxlength="128" class="required" value="<?php echo $old_fullname; ?>" /></td>
 		</tr>
 		<tr>
 			<td><label for="pass">Password:</label></td>
@@ -140,6 +140,6 @@ $("input#mail").on('keyup change input', checkEmail);
 <?php
 	endif;
 elseif (isset($_POST['submit']) && count($err) == 0):
-	print '';
+	echo '';
 endif;
 ?>

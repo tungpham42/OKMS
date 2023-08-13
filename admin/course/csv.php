@@ -13,7 +13,7 @@ $cid = (isset($_POST['cid'])) ? $_POST['cid']: 0;
 <td><input type="submit" name="submit" /></td>
 <td colspan="3"><a class="button" href="/course">Cancel</a></td>
 </tr>
-<input type="hidden" name="cid" value="<?php print $cid; ?>" />
+<input type="hidden" name="cid" value="<?php echo $cid; ?>" />
 </form>
 </table>
 <?php
@@ -30,14 +30,14 @@ if ( isset($_POST["submit"]) ) {
 				//Store file in directory "upload" with the name of "uploaded_file.txt"
 				$storagename = "uploaded_file.xls";
 				move_uploaded_file($_FILES["file"]["tmp_name"], "upload/" . $storagename);
-				print 'Import successfully!';
+				echo 'Import successfully!';
             }
         }
 	} else {
 		echo "No file selected <br />";
 	}
 }
-print parse_excel_to_table("upload/" . $storagename);
+echo parse_excel_to_table("upload/" . $storagename);
 $profiles = csv_to_array("upload/" . $storagename);
 for ($i = 0; $i < count($profiles); $i++):
 	$username = $profiles[$i];

@@ -4,7 +4,7 @@ require_once '../includes/admin.inc.php';
 $rid = (isset($_POST['rid'])) ? $_POST['rid']: 0;
 $count = (isset($_POST['count'])) ? $_POST['count']: 10;
 $page = (isset($_POST['page'])) ? $_POST['page']: 1;
-print list_users($rid,$count,$page);
+echo list_users($rid,$count,$page);
 ?>
 <script type="text/javascript">
 $("a.button.disabled").click(function(){

@@ -487,4 +487,4 @@ if (isset($_SESSION['rid'])):
 else:
 	$site_name = 'Online KMS';
 endif;
-$meta_description = 'Online Knowledge Management System'.((isset($post)) ? ' - '.$post['Post_Title'].': '.$post['Post_Question']: ((isset($course)) ? ' - '.$course['Course_Code'].': '.$course['Course_Name']: ' - '.$title));
+$meta_description = 'Online Knowledge Management System'.((isset($post)) ? ' - '.$post['Post_Title'].': '.$post['Post_Question']: ((isset($course)) ? ' - '.$course['Course_Code'].': '.$course['Course_Name']: ((isset($title) && $title != '') ? ' - '.$title: '')));

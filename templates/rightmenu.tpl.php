@@ -1,14 +1,14 @@
 <div id="search_bar">
 	<form action="/search" method="POST">
-		<input type="hidden" name="cid" value="<?php print $cid; ?>" />
-		<input id="search_box" type="text" name="keyword" title="Fill in your search query" size="20" placeholder="Search<?php print (isset($cid) && $cid != 0) ? ' in '.$course['Course_Code']: ''; ?>.." /><button type="submit" id="search_submit"></button>
+		<input type="hidden" name="cid" value="<?php echo $cid; ?>" />
+		<input id="search_box" type="text" name="keyword" title="Fill in your search query" size="20" placeholder="Search<?php echo (isset($cid) && $cid != 0) ? ' in '.$course['Course_Code']: ''; ?>.." /><button type="submit" id="search_submit"></button>
 	</form>
 	<div style="display: none;" id="search_suggestion"></div>
 </div>
 <script type="text/javascript">
 function searchSuggestion() {
 	if ($("input#search_box").val() != '') {
-		$("#search_suggestion").delay(200).load("/triggers/search.php",{keyword:$("input#search_box").val(),cid:<?php print $cid; ?>}).slideDown();
+		$("#search_suggestion").delay(200).load("/triggers/search.php",{keyword:$("input#search_box").val(),cid:<?php echo $cid; ?>}).slideDown();
 	} else if ($("input#search_box").val() == '') {
 		$("#search_suggestion").css("display","none");
 	}
@@ -30,9 +30,9 @@ if ($("input#search_box").val() == '') {
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 <?php
-print (isset($_SESSION['uid'])) ? following_list($_SESSION['uid']): '';
-print latest_questions(3);
-print most_commented(3);
+echo (isset($_SESSION['uid'])) ? following_list($_SESSION['uid']): '';
+echo latest_questions(3);
+echo most_commented(3);
 ?>
 <br/>
 <div class="heading">External Links</div>

@@ -13,23 +13,23 @@ $role_starting_cell_row = (isset($_POST['role_starting_cell_row'])) ? $_POST['ro
 <tr><td colspan="3">Format: CSV File<br/>Fields: Username, Password, Email, Role ID</td></tr>
 <tr>
 <td>Username starting cell: </td>
-<td><label for="username_starting_cell_column">Column: </label><input type="text" class="required" name="username_starting_cell_column" value="<?php print $username_starting_cell_column; ?>"/></td>
-<td><label for="username_starting_cell_row">Row: </label><input type="text" class="required" name="username_starting_cell_row" value="<?php print $username_starting_cell_row; ?>"/></td>
+<td><label for="username_starting_cell_column">Column: </label><input type="text" class="required" name="username_starting_cell_column" value="<?php echo $username_starting_cell_column; ?>"/></td>
+<td><label for="username_starting_cell_row">Row: </label><input type="text" class="required" name="username_starting_cell_row" value="<?php echo $username_starting_cell_row; ?>"/></td>
 </tr>
 <tr>
 <td>Password starting cell: </td>
-<td><label for="password_starting_cell_column">Column: </label><input type="text" class="required" name="password_starting_cell_column" value="<?php print $password_starting_cell_column; ?>"/></td>
-<td><label for="password_starting_cell_row">Row: </label><input type="text" class="required" name="password_starting_cell_row" value="<?php print $password_starting_cell_row; ?>"/></td>
+<td><label for="password_starting_cell_column">Column: </label><input type="text" class="required" name="password_starting_cell_column" value="<?php echo $password_starting_cell_column; ?>"/></td>
+<td><label for="password_starting_cell_row">Row: </label><input type="text" class="required" name="password_starting_cell_row" value="<?php echo $password_starting_cell_row; ?>"/></td>
 </tr>
 <tr>
 <td>Email starting cell: </td>
-<td><label for="email_starting_cell_column">Column: </label><input type="text" class="required" name="email_starting_cell_column" value="<?php print $email_starting_cell_column; ?>"/></td>
-<td><label for="email_starting_cell_row">Row: </label><input type="text" class="required" name="email_starting_cell_row" value="<?php print $email_starting_cell_row; ?>"/></td>
+<td><label for="email_starting_cell_column">Column: </label><input type="text" class="required" name="email_starting_cell_column" value="<?php echo $email_starting_cell_column; ?>"/></td>
+<td><label for="email_starting_cell_row">Row: </label><input type="text" class="required" name="email_starting_cell_row" value="<?php echo $email_starting_cell_row; ?>"/></td>
 </tr>
 <tr>
 <td>Role ID starting cell: </td>
-<td><label for="role_starting_cell_column">Column: </label><input type="text" class="required" name="role_starting_cell_column" value="<?php print $role_starting_cell_column; ?>"/></td>
-<td><label for="role_starting_cell_row">Row: </label><input type="text" class="required" name="role_starting_cell_row" value="<?php print $role_starting_cell_row; ?>"/></td>
+<td><label for="role_starting_cell_column">Column: </label><input type="text" class="required" name="role_starting_cell_column" value="<?php echo $role_starting_cell_column; ?>"/></td>
+<td><label for="role_starting_cell_row">Row: </label><input type="text" class="required" name="role_starting_cell_row" value="<?php echo $role_starting_cell_row; ?>"/></td>
 </tr>
 <tr>
 <td width="20%">Select file</td>
@@ -37,11 +37,11 @@ $role_starting_cell_row = (isset($_POST['role_starting_cell_row'])) ? $_POST['ro
 <td width="50%">
 Query: 
 <select name="query">
-	<option <?php print ($_POST['query'] == 'none') ? 'selected ': ''; ?>value="none">None</option>
-	<option <?php print ($_POST['query'] == 'create') ? 'selected ': ''; ?>value="create">Execute the Create Query</option>
-	<option <?php print ($_POST['query'] == 'update_pass') ? 'selected ': ''; ?>value="update_pass">Execute the Update Password Query</option>
-	<option <?php print ($_POST['query'] == 'update_email') ? 'selected ': ''; ?>value="update_email">Execute the Update Email Query</option>
-	<option <?php print ($_POST['query'] == 'delete') ? 'selected ': ''; ?>value="delete">Execute the Delete Query</option>
+	<option <?php echo ($_POST['query'] == 'none') ? 'selected ': ''; ?>value="none">None</option>
+	<option <?php echo ($_POST['query'] == 'create') ? 'selected ': ''; ?>value="create">Execute the Create Query</option>
+	<option <?php echo ($_POST['query'] == 'update_pass') ? 'selected ': ''; ?>value="update_pass">Execute the Update Password Query</option>
+	<option <?php echo ($_POST['query'] == 'update_email') ? 'selected ': ''; ?>value="update_email">Execute the Update Email Query</option>
+	<option <?php echo ($_POST['query'] == 'delete') ? 'selected ': ''; ?>value="delete">Execute the Delete Query</option>
 </select>
 </td>
 </tr>
@@ -84,18 +84,18 @@ if ( isset($_POST["submit"]) ) {
 		echo "No file selected <br />";
 	}
 }
-print parse_excel_to_table("upload/" . $storagename);
+echo parse_excel_to_table("upload/" . $storagename);
 $profiles = parse_excel_to_array("upload/" . $storagename);
 $usernames = parse_excel_column_to_custom_array("upload/" . $storagename,$username_starting_cell_column,$username_starting_cell_row);
 //$passwords = parse_excel_column_to_custom_array("upload/" . $storagename,$password_starting_cell_column,$password_starting_cell_row);
 //$emails = parse_excel_column_to_custom_array("upload/" . $storagename,$email_starting_cell_column,$email_starting_cell_row);
 //$roles = parse_excel_column_to_custom_array("upload/" . $storagename,$role_starting_cell_column,$role_starting_cell_row);
-print '<pre>';
+echo '<pre>';
 print_r($usernames);
 //print_r($passwords);
 //print_r($emails);
 //print_r($roles);
-print '</pre>';
+echo '</pre>';
 for ($i = 0; $i < count($profiles); $i++):
 	if (isset($_POST['query']) && $_POST['query'] == 'update_pass'):
 		$pass = md5($profiles[$i][1]);
@@ -114,10 +114,10 @@ for ($i = 0; $i < count($profiles); $i++):
 	endif;
 endfor;
 $s = (count($profiles) == 0 || count($profiles) == 1) ? '': 's';
-print count($profiles) . ' row' . $s;
-print (isset($_POST['query']) && $_POST['query'] == 'create') ? ' (CREATE)': '';
-print (isset($_POST['query']) && $_POST['query'] == 'update_pass') ? ' (UPDATE PASS)': '';
-print (isset($_POST['query']) && $_POST['query'] == 'update_email') ? ' (UPDATE EMAIL)': '';
-print (isset($_POST['query']) && $_POST['query'] == 'delete') ? ' (DELETE)': '';
-print (isset($_POST['query']) && $_POST['query'] != 'none') ? ' executed': ' not executed';
+echo count($profiles) . ' row' . $s;
+echo (isset($_POST['query']) && $_POST['query'] == 'create') ? ' (CREATE)': '';
+echo (isset($_POST['query']) && $_POST['query'] == 'update_pass') ? ' (UPDATE PASS)': '';
+echo (isset($_POST['query']) && $_POST['query'] == 'update_email') ? ' (UPDATE EMAIL)': '';
+echo (isset($_POST['query']) && $_POST['query'] == 'delete') ? ' (DELETE)': '';
+echo (isset($_POST['query']) && $_POST['query'] != 'none') ? ' executed': ' not executed';
 ?>

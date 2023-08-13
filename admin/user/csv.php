@@ -7,11 +7,11 @@
 <td width="50%">
 Query: 
 <select name="query">
-	<option <?php print ($_POST['query'] == 'none') ? 'selected ': ''; ?>value="none">None</option>
-	<option <?php print ($_POST['query'] == 'create') ? 'selected ': ''; ?>value="create">Execute the Create Query</option>
-	<option <?php print ($_POST['query'] == 'update_pass') ? 'selected ': ''; ?>value="update_pass">Execute the Update Password Query</option>
-	<option <?php print ($_POST['query'] == 'update_email') ? 'selected ': ''; ?>value="update_email">Execute the Update Email Query</option>
-	<option <?php print ($_POST['query'] == 'delete') ? 'selected ': ''; ?>value="delete">Execute the Delete Query</option>
+	<option <?php echo ($_POST['query'] == 'none') ? 'selected ': ''; ?>value="none">None</option>
+	<option <?php echo ($_POST['query'] == 'create') ? 'selected ': ''; ?>value="create">Execute the Create Query</option>
+	<option <?php echo ($_POST['query'] == 'update_pass') ? 'selected ': ''; ?>value="update_pass">Execute the Update Password Query</option>
+	<option <?php echo ($_POST['query'] == 'update_email') ? 'selected ': ''; ?>value="update_email">Execute the Update Email Query</option>
+	<option <?php echo ($_POST['query'] == 'delete') ? 'selected ': ''; ?>value="delete">Execute the Delete Query</option>
 </select>
 </td>
 
@@ -82,13 +82,13 @@ for ($i = 0; $i < count($profiles); $i++):
 	endif;
 endfor;
 $s = (count($profiles) == 0 || count($profiles) == 1) ? '': 's';
-print count($profiles) . ' row' . $s;
-print (isset($_POST['query']) && $_POST['query'] == 'create') ? ' (CREATE)': '';
-print (isset($_POST['query']) && $_POST['query'] == 'update_pass') ? ' (UPDATE PASS)': '';
-print (isset($_POST['query']) && $_POST['query'] == 'update_email') ? ' (UPDATE EMAIL)': '';
-print (isset($_POST['query']) && $_POST['query'] == 'delete') ? ' (DELETE)': '';
-print (isset($_POST['query']) && $_POST['query'] != 'none') ? ' executed': ' not executed';
-print '<pre>';
+echo count($profiles) . ' row' . $s;
+echo (isset($_POST['query']) && $_POST['query'] == 'create') ? ' (CREATE)': '';
+echo (isset($_POST['query']) && $_POST['query'] == 'update_pass') ? ' (UPDATE PASS)': '';
+echo (isset($_POST['query']) && $_POST['query'] == 'update_email') ? ' (UPDATE EMAIL)': '';
+echo (isset($_POST['query']) && $_POST['query'] == 'delete') ? ' (DELETE)': '';
+echo (isset($_POST['query']) && $_POST['query'] != 'none') ? ' executed': ' not executed';
+echo '<pre>';
 print_r($profiles);
-print '</pre>';
+echo '</pre>';
 ?>
