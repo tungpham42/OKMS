@@ -775,8 +775,6 @@ function pass_error_array($uid,$current_pass,$pass,$pass1) { //Return error mees
 /* User Functions */
 function list_users($rid=0,$count=0,$page=1) { //Return users list, for admin use
 	global $db;
-	$rid = 0;
-	$page = 1;
 	$output = "";
 	$users = $db->array_load_all('USER');
 	if ($rid != 0) {
