@@ -4,11 +4,6 @@ require_once '../includes/admin.inc.php';
 $uid = $_SESSION['uid'];
 $rid = (isset($_POST['rid'])) ? $_POST['rid']: '';
 $cid = (isset($_POST['cid'])) ? $_POST['cid']: '';
-$week = (isset($_POST['week'])) ? $_POST['week']: '';
-$title = (isset($_POST['title'])) ? $_POST['title']: '';
-$url = (isset($_POST['url'])) ? $_POST['url']: '';
-$body = (isset($_POST['body'])) ? $_POST['body']: '';
-$answer = (isset($_POST['answer'])) ? $_POST['answer']: '';
 $is_guest = false;
 $cids = cids_load_all();
 for ($i = 0; $i < count($cids); $i++) {
