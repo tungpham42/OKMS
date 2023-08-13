@@ -2846,6 +2846,7 @@ class Filter {
 //array_filter($posts, array(new Filter($cid), 'filter_cid'))
 /* Search Functions */
 function search_question($query,$cid,$count,$page=1) { //Search questions by post title and post body
+	global $db;
 	$output = "";
 	$uid = (isset($_SESSION['uid'])) ? $_SESSION['uid']: 0;
 	$posts = array();
