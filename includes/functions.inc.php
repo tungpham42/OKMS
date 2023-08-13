@@ -1257,13 +1257,13 @@ function view_post($pid,$uid,$button=0) { //Return post from post ID
 	$output .= ($post['Post_Answer'] != "") ? '<div class="post_answer"><div class="post_answer_label">Answer:</div><div class="post_answer_content">'.$post['Post_Answer'].'</div></div>': "";
 	$output .= ($uid != 0 && $post_rate['User_ID'] != $uid && $_SESSION['rid'] != 1) ? star_rating($pid) : '<div title="Your rating" id="post_rate_pid_'.$pid.'" class="rate_widget">'.star_rating_update($pid).'</div><div title="Average rating: '.average_post_rates_with_decimal($pid,1).'" id="average_post_rate_pid_'.$pid.'" class="average_rate">'.star_rating_average($pid).'</div>';
 	$output .= ($uid != 0) ? '<div style="display: none" id="save_post_rate_pid_'.$pid.'"></div>': "";
-	$output .= ($uid != 0) ? '<a title="'.(($post_vote['PostVote_Like'] == 0) ? 'Like': 'Unlike').' this post" class="button'.(($post_vote['PostVote_Like'] == 0) ? ' like': ' like clicked').((!course_belonged($cid,$_SESSION['uid']) && $cid != 0 && $_SESSION['rid'] != 1) ? ' not_belonged': "").((isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? ' is_admin': "").((isset($_SESSION['rid']) && $course['Course_For_Guest'] == 1) ? ' guest_mode': "").'" id="post_like_pid_'.$pid.'">'.count_post_likes($pid).' Like'.((count_post_likes($pid) == 0 || count_post_likes($pid) == 1) ? "": 's').'</a>': '<a title="Like this post" class="button like disabled" id="post_like_pid_'.$pid.'">'.count_post_likes($pid).' Like'.((count_post_likes($pid) == 0 || count_post_likes($pid) == 1) ? "": 's').'</a>';
+	$output .= ($uid != 0) ? '<a title="'.(($post_vote['PostVote_Like'] == 0) ? 'Like': 'Unlike').' this post" class="button'.(($post_vote['PostVote_Like'] == 0) ? ' like': ' like clicked').'" id="post_like_pid_'.$pid.'">'.count_post_likes($pid).' Like'.((count_post_likes($pid) == 0 || count_post_likes($pid) == 1) ? "": 's').'</a>': '<a title="Like this post" class="button like disabled" id="post_like_pid_'.$pid.'">'.count_post_likes($pid).' Like'.((count_post_likes($pid) == 0 || count_post_likes($pid) == 1) ? "": 's').'</a>';
 	$output .= ($uid != 0) ? '<div style="display: none" id="save_post_like_pid_'.$pid.'"></div>': "";
-	$output .= ($uid != 0) ? '<a title="'.(($post_vote['PostVote_Dislike'] == 0) ? 'Dislike': 'Undislike').' this post" class="button'.(($post_vote['PostVote_Dislike'] == 0) ? ' dislike': ' dislike clicked').((!course_belonged($cid,$_SESSION['uid']) && $cid != 0 && $_SESSION['rid'] != 1) ? ' not_belonged': "").((isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? ' is_admin': "").((isset($_SESSION['rid']) && $course['Course_For_Guest'] == 1) ? ' guest_mode': "").'" id="post_dislike_pid_'.$pid.'">'.count_post_dislikes($pid).' Dislike'.((count_post_dislikes($pid) == 0 || count_post_dislikes($pid) == 1) ? "": 's').'</a>': '<a title="Dislike this post" class="button dislike disabled" id="post_dislike_pid_'.$pid.'">'.count_post_dislikes($pid).' Dislike'.((count_post_dislikes($pid) == 0 || count_post_dislikes($pid) == 1) ? "": 's').'</a>';
+	$output .= ($uid != 0) ? '<a title="'.(($post_vote['PostVote_Dislike'] == 0) ? 'Dislike': 'Undislike').' this post" class="button'.(($post_vote['PostVote_Dislike'] == 0) ? ' dislike': ' dislike clicked').'" id="post_dislike_pid_'.$pid.'">'.count_post_dislikes($pid).' Dislike'.((count_post_dislikes($pid) == 0 || count_post_dislikes($pid) == 1) ? "": 's').'</a>': '<a title="Dislike this post" class="button dislike disabled" id="post_dislike_pid_'.$pid.'">'.count_post_dislikes($pid).' Dislike'.((count_post_dislikes($pid) == 0 || count_post_dislikes($pid) == 1) ? "": 's').'</a>';
 	$output .= ($uid != 0) ? '<div style="display: none" id="save_post_dislike_pid_'.$pid.'"></div>': "";
-	$output .= ($uid != 0) ? '<a title="'.(($post_follow['User_ID'] != $uid) ? 'Follow': 'Unfollow').' this post" class="button'.(($post_follow['User_ID'] != $uid) ? ' follow': ' follow clicked').((!course_belonged($cid,$_SESSION['uid']) && $cid != 0 && $_SESSION['rid'] != 1) ? ' not_belonged': "").((isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? ' is_admin': "").((isset($_SESSION['rid']) && $course['Course_For_Guest'] == 1) ? ' guest_mode': "").'" id="post_follow_pid_'.$pid.'">'.count_post_follows($pid).' Follow'.((count_post_follows($pid) == 0 || count_post_follows($pid) == 1) ? "": 's').'</a>': '<a title="Follow this post" class="button follow disabled" id="post_follow_pid_'.$pid.'">'.count_post_follows($pid).' Follow'.((count_post_follows($pid) == 0 || count_post_follows($pid) == 1) ? "": 's').'</a>';
+	$output .= ($uid != 0) ? '<a title="'.(($post_follow['User_ID'] != $uid) ? 'Follow': 'Unfollow').' this post" class="button'.(($post_follow['User_ID'] != $uid) ? ' follow': ' follow clicked').'" id="post_follow_pid_'.$pid.'">'.count_post_follows($pid).' Follow'.((count_post_follows($pid) == 0 || count_post_follows($pid) == 1) ? "": 's').'</a>': '<a title="Follow this post" class="button follow disabled" id="post_follow_pid_'.$pid.'">'.count_post_follows($pid).' Follow'.((count_post_follows($pid) == 0 || count_post_follows($pid) == 1) ? "": 's').'</a>';
 	$output .= '<div style="display: none" id="save_post_follow_pid_'.$pid.'"></div>';
-	$output .= '<a id="comments_count_pid_'.$pid.'" title="Leave a comment" class="button comment_toggle'.(($uid == 0) ? ' not_loggedin': "").((count_comments($pid) == 0) ? ' no_comment': "").'">'.count_comments($pid).' Comment'.((count_comments($pid) == 0 || count_comments($pid) == 1) ? "": 's').'</a>';
+	$output .= '<a id="comments_count_pid_'.$pid.'" title="Leave a comment" class="button comment_toggle">'.count_comments($pid).' Comment'.((count_comments($pid) == 0 || count_comments($pid) == 1) ? "": 's').'</a>';
 	$output .= '<span class="post_time">'.ago($post['Post_Created']).'</span>';
 	$output .= ($uid != 0) ? list_comments($pid): list_comments_without_right($pid);
 	$output .= ($uid != 0) ? 
@@ -1286,16 +1286,25 @@ function view_post($pid,$uid,$button=0) { //Return post from post ID
 					$("#comments_count_pid_'.$pid.'").addClass("clicked");
 				}
 				$("#comments_count_pid_'.$pid.'").click(function(){
-					if ($(this).hasClass("not_loggedin") && $(this).hasClass("no_comment")) {
-						openLogin();
-					} else {
-						toggle_comments('."'".'comments_pid_'.$pid."'".',this);
-					}
-					if ($("#comments_pid_'.$pid.'").css("display") == "none") {
-						$("#comments_count_pid_'.$pid.'").removeClass("clicked");
-					} else if ($("#comments_pid_'.$pid.'").css("display") == "block") {
-						$("#comments_count_pid_'.$pid.'").addClass("clicked");
-					}
+					$.ajax({
+						type: "POST",
+						url: "/triggers/validate_comments_count.php",
+						data: {
+							"pid": '.$pid.'
+						},
+						dataType: "text"
+					}).done(function(data){
+						if (data.includes("not_loggedin") && data.includes("no_comment")) {
+							openLogin();
+						} else {
+							toggle_comments('."'".'comments_pid_'.$pid."'".',this);
+						}
+						if ($("#comments_pid_'.$pid.'").css("display") == "none") {
+							$("#comments_count_pid_'.$pid.'").removeClass("clicked");
+						} else if ($("#comments_pid_'.$pid.'").css("display") == "block") {
+							$("#comments_count_pid_'.$pid.'").addClass("clicked");
+						}
+					});
 				});
 				</script>';
 	$output .= '</div></div>';
@@ -1908,11 +1917,11 @@ function star_rating($pid) {
 	$cid = $post['Course_ID'];
 	$course = course_load($cid);
 	$output .= '<div title="Rate this post" id="post_rate_pid_'.$pid.'" class="rate_widget">';
-	$output .= '<div id="rate_1_pid_'.$pid.'" class="ratings_stars'.((!course_belonged($cid,$_SESSION['uid']) && $cid != 0 && $_SESSION['rid'] != 1) ? ' not_belonged': "").((isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? ' is_admin': "").((isset($_SESSION['rid']) && $course['Course_For_Guest'] == 1) ? ' guest_mode': "").'"></div>';
-	$output .= '<div id="rate_2_pid_'.$pid.'" class="ratings_stars'.((!course_belonged($cid,$_SESSION['uid']) && $cid != 0 && $_SESSION['rid'] != 1) ? ' not_belonged': "").((isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? ' is_admin': "").((isset($_SESSION['rid']) && $course['Course_For_Guest'] == 1) ? ' guest_mode': "").'"></div>';
-	$output .= '<div id="rate_3_pid_'.$pid.'" class="ratings_stars'.((!course_belonged($cid,$_SESSION['uid']) && $cid != 0 && $_SESSION['rid'] != 1) ? ' not_belonged': "").((isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? ' is_admin': "").((isset($_SESSION['rid']) && $course['Course_For_Guest'] == 1) ? ' guest_mode': "").'"></div>';
-	$output .= '<div id="rate_4_pid_'.$pid.'" class="ratings_stars'.((!course_belonged($cid,$_SESSION['uid']) && $cid != 0 && $_SESSION['rid'] != 1) ? ' not_belonged': "").((isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? ' is_admin': "").((isset($_SESSION['rid']) && $course['Course_For_Guest'] == 1) ? ' guest_mode': "").'"></div>';
-	$output .= '<div id="rate_5_pid_'.$pid.'" class="ratings_stars'.((!course_belonged($cid,$_SESSION['uid']) && $cid != 0 && $_SESSION['rid'] != 1) ? ' not_belonged': "").((isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? ' is_admin': "").((isset($_SESSION['rid']) && $course['Course_For_Guest'] == 1) ? ' guest_mode': "").'"></div>';
+	$output .= '<div id="rate_1_pid_'.$pid.'" class="ratings_stars'.'"></div>';
+	$output .= '<div id="rate_2_pid_'.$pid.'" class="ratings_stars'.'"></div>';
+	$output .= '<div id="rate_3_pid_'.$pid.'" class="ratings_stars'.'"></div>';
+	$output .= '<div id="rate_4_pid_'.$pid.'" class="ratings_stars'.'"></div>';
+	$output .= '<div id="rate_5_pid_'.$pid.'" class="ratings_stars'.'"></div>';
 	$output .= '<span class="post_rate_text" id="rate_text_pid_'.$pid.'"></span>';
 	$output .= '</div>';
 	$output .= '<div title="Average rating: '.average_post_rates_with_decimal($pid,1).'" id="average_post_rate_pid_'.$pid.'" class="average_rate">'.star_rating_average($pid).'</div>';
@@ -2355,7 +2364,7 @@ function ask_question($rid,$cid,$week) {
 	$course = course_load($cid);
 	$output .= '<div id="ask_question">';
 	$output .= '<div id="ask_label">Ask Question</div>';
-	$output .= '<div id="question_section" title="Ask question" class="'.(($rid == 0) ? 'not_loggedin': "").((!course_belonged($cid,$_SESSION['uid']) && $cid != 0 && $rid != 1) ? ' not_belonged': "").((isset($course['Course_Allowed']) && $course['Course_Allowed'] != 1 && $rid != 3) ? ' not_allowed': "").((isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? ' is_admin': "").((!is_enroled($_SESSION['uid'])) ? ' not_enroled': "").((!is_allowed($_SESSION['uid']) && $rid != 1 && $rid != 3) ? ' no_course': "").(($is_guest) ? ' guest_mode': "").'">';
+	$output .= '<div id="question_section" title="Ask question">';
 	$output .= '<span id="question_label">Type a question..</span>';
 	$output .= '<a id="question_close_button"></a>';
 	$output .= '<div class="question_element" style="margin-top: 5px;"><label for="question_title">Subject: </label><input class="element_input" id="question_title" name="question_title" type="text" size="30" /></div>';
@@ -2373,23 +2382,33 @@ function ask_question($rid,$cid,$week) {
 	$output .= '<div style="display:none" id="follow_post"></div>';
 	$output .= '<script>
 				$("#question_section").click(function(){
-					if (!$(this).hasClass("not_loggedin") && !$(this).hasClass("not_belonged") && !$(this).hasClass("not_allowed") && !$(this).hasClass("is_admin") && !$(this).hasClass("not_enroled") && !$(this).hasClass("no_course") || (!$(this).hasClass("not_loggedin") && !$(this).hasClass("is_admin") && $(this).hasClass("guest_mode"))) {
-						$("#question_label").text("");
-						$("#question_section .question_element,#question_close_button,#question_bottom").css("display","block");
-						$(this).css("cursor","default").animate({height:"'.(($rid != 2 && $rid != 4) ? '140px': '125px').'"},240);
-					} else if ($(this).hasClass("not_loggedin")) {
-						openLogin();
-					} else if ($(this).hasClass("not_belonged")) {
-						openWrap("You do not belong to this course");
-					} else if ($(this).hasClass("not_allowed")) {
-						openWrap("The course(s) not allow posting");
-					} else if ($(this).hasClass("no_course") && !$(this).hasClass("guest_mode")) {
-						openWrap("You do not belong to any course");
-					} else if ($(this).hasClass("is_admin")) {
-						openWrap("Admin cannot post question");
-					} else if ($(this).hasClass("not_enroled")) {
-						openWrap("You are not enroled in any course. Please ask your lecturer to enrol you into a course");
-					}
+					$.ajax({
+						type: "POST",
+						url: "/triggers/validate_ask.php",
+						data: {
+							"rid": '.$rid.',
+							"cid": '.$cid.'
+						},
+						dataType: "text"
+					}).done(function(data){
+						if (!data.includes("not_loggedin") && !data.includes("not_belonged") && !data.includes("not_allowed") && !data.includes("is_admin") && !data.includes("not_enroled") && !data.includes("no_course") || (!data.includes("not_loggedin") && !data.includes("is_admin") && data.includes("guest_mode"))) {
+							$("#question_label").text("");
+							$("#question_section .question_element,#question_close_button,#question_bottom").css("display","block");
+							$("#question_section").css("cursor","default").animate({height:"'.(($rid != 2 && $rid != 4) ? '140px': '125px').'"},240);
+						} else if (data.includes("not_loggedin")) {
+							openLogin();
+						} else if (data.includes("not_belonged")) {
+							openWrap("You do not belong to this course");
+						} else if (data.includes("not_allowed")) {
+							openWrap("The course(s) not allow posting");
+						} else if (data.includes("no_course") && !data.includes("guest_mode")) {
+							openWrap("You do not belong to any course");
+						} else if (data.includes("is_admin")) {
+							openWrap("Admin cannot post question");
+						} else if (data.includes("not_enroled")) {
+							openWrap("You are not enroled in any course. Please ask your lecturer to enrol you into a course");
+						}
+					});
 				});
 				$("#question_close_button").click(function(e){
 					e.stopPropagation();
@@ -2483,7 +2502,7 @@ function list_comments($pid,$c=null) { //Return list of comments by post ID
 	$comments = comments_load_by_pid($pid);
 	usort($comments,'sort_comment_date_ascend');
 	$count = ($c == null) ? count($comments): $c;
-	$output .= '<div class="comments'.((!course_belonged($cid,$_SESSION['uid']) && $cid != 0 && $_SESSION['rid'] != 1) ? ' not_belonged': "").((isset($_SESSION['rid']) && $_SESSION['rid'] == 1) ? ' is_admin': "").((isset($_SESSION['rid']) && $course['Course_For_Guest'] == 1) ? ' guest_mode': "").'" id="comments_pid_'.$pid.'" style="display: none"><!-- Start comments of post '.$pid.' -->';
+	$output .= '<div class="comments'.'" id="comments_pid_'.$pid.'" style="display: none"><!-- Start comments of post '.$pid.' -->';
 	for ($i = 0; $i < $count; $i++) {
 		if (isset($comments[$i])) {
 			$user = user_load($comments[$i]['User_ID']);

@@ -8,7 +8,7 @@ function toggle(id,link) {
 		link.innerHTML = 'Debug on';
 	}
 }
-function toggle_comments(id,link) {
+function toggle_comments(id) {
 	var e = document.getElementById(id);
 	if (e.style.display == 'block') {
 		e.style.display = 'none';
