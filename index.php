@@ -9,6 +9,7 @@ require 'includes/admin.inc.php';
 <!DOCTYPE html>
 <html>
 	<head>
+		<meta charset="UTF-8">
 		<meta http-equiv="content-type" content="text/html;charset=utf-8">
 		<meta name="description" content="<?php echo $meta_description; ?>" />
 		<meta name="keywords" content="kms,cms,online_kms,knowledge management system" />

@@ -13,9 +13,10 @@ $rows = mysqli_query($db->link, "SELECT * FROM ".$db->db_prefix."POST WHERE Post
 if(mysqli_num_rows($rows) == 0)
 {
 	create_post($uid,$cid,$week,$title,$url,$body,$answer,$hide);
+	echo 'URL_AVAILABLE';
 }
 else
 {
-	echo('URL_EXISTS');
+	echo 'URL_EXISTS';
 }
 ?>

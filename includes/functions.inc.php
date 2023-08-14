@@ -2418,7 +2418,8 @@ function ask_question($rid,$cid,$week) {
 					$(".element_textarea").val("");
 					$("#question_hide").attr("checked",false);
 				});
-				$("#post_submit").click(function(){
+				$("#post_submit").click(function(e){
+					e.stopPropagation();
 					if (!$(this).hasClass("disabled")) {
 						var errors = "";
 						if ($("#question_title").val() == "") {
@@ -2430,20 +2431,18 @@ function ask_question($rid,$cid,$week) {
 						if ($("#question_title").val() != "" && $("#question_url").val() != "" && $("#question_body").val() != "") {
 							appendDate();
 							$("#save_post").load("/triggers/post_create.php",{cid:$("#question_cid").val(),week:$("#question_week").val(),title:$("#question_title").val(),url:$("#question_url").val(),body:$("#question_body").val(),answer:$("#question_answer").val(),hide:$("#question_hide:checked").val()}, function(data){
-								$("#question_label").text("Type a question..");
-								$("#question_section .question_element,#question_close_button,#question_bottom").css("display","none");
-								$("#question_section").css("height","27px");
 								if (data == "URL_EXISTS") {
 									openWrap("Duplicated subject.");
-								} else {
+								} else if (data == "URL_AVAILABLE") {
 									$("#question_label").text("Type a question..");
 									$("#question_section .question_element,#question_close_button,#question_bottom").css("display","none");
-									$("#question_section").css("height","27px");
+									$("#question_section").css("cursor","text").animate({height:"27px"},240);
+									$(".element_input").val("");
+									$(".element_textarea").val("");
+									$("#question_hide").attr("checked",false);
 									$("#follow_post").load("/triggers/latest_post_follow.php",function(){
 										$("#feeds").load("/triggers/feeds_update.php",{feeds_type:"'.$feeds_type.'"},function(){
-											$("#rightmenu").load("/templates/rightmenu.tpl.php",function(){
-												openWrap("Post created");
-											});
+											openWrap("Post created");
 										});
 									});
 								}
