@@ -118,7 +118,7 @@ input[type="submit"]:active,input[type="reset"]:active,input[type="button"]:acti
 }
 fieldset {
 	margin: 1em 0 1.2em;
-	border: 0px solid #ccc;
+	border: 0 solid #ccc;
 }
 
 input, textarea, select {
@@ -193,7 +193,7 @@ img.quicklink {
 	position: relative;
 	top: 157px;
 	width: 1024px;
-	margin: 0px auto;
+	margin: 0 auto;
 	background: #E6E7E8;
 }
 #toolbar {
@@ -204,8 +204,8 @@ img.quicklink {
 	top: 21px;
 }
 #leftmenu ul.toolbar > li {
-	padding: 0px;
-	margin: 0px;
+	padding: 0;
+	margin: 0;
 }
 #leftmenu ul.toolbar > li, ul.toolbar > li > a {
 	float: left;
@@ -226,9 +226,9 @@ ul.toolbar > li > a {
 }
 h1.title {color: #BE1E2D;}
 #header {
-	padding: 0px;
+	padding: 0;
 	color: white;
-	margin: 0px;
+	margin: 0;
 	height: 132px;
 	z-index: 98;
 	width: 100%;
@@ -247,7 +247,7 @@ h1.title {color: #BE1E2D;}
 }
 #logo {
 	position: relative;
-	left: 0px;
+	left: 0;
 	width: 448px;
 	height: 116px;
 	float: left;
@@ -255,14 +255,14 @@ h1.title {color: #BE1E2D;}
 }
 #header-login-form button.login-button {
 	background: transparent url('/images/login_button.png') no-repeat;
-	background-position: 0px 0px;
-	border: 0px;
+	background-position: 0 0;
+	border: 0;
 	width: 41px;
 	height: 20px;
 	margin-top: 1px;
 }
 #header-login-form button.login-button:active {
-	background-position: 0px -20px;
+	background-position: 0 -20px;
 }
 #header-login-form {
 	position: relative;
@@ -330,7 +330,7 @@ h1.title {color: #BE1E2D;}
 	width: 16px;
 	height: 16px;
 	border: 1px solid black;
-	border-bottom: 0px;
+	border-bottom: 0;
 	background: #A7A9AB url('/images/arrow_click.png') no-repeat;
 }
 #header-login-form.logged_in a {
@@ -352,11 +352,11 @@ h1.title {color: #BE1E2D;}
 }
 #header-login-form #user-panel > ul {
 	position: absolute;
-	-webkit-margin-before: 0px;
-	-webkit-margin-after: 0px;
-	-webkit-margin-start: 0px;
-	-webkit-margin-end: 0px;
-	-webkit-padding-start: 0px;
+	-webkit-margin-before: 0;
+	-webkit-margin-after: 0;
+	-webkit-margin-start: 0;
+	-webkit-margin-end: 0;
+	-webkit-padding-start: 0;
 }
 #header-login-form #user-panel > ul > li {
 	position: relative;
@@ -367,7 +367,7 @@ h1.title {color: #BE1E2D;}
 	color: black;
 	text-decoration: none;
 	font-size: 11px;
-	padding: 1px 0px 3px 25px;
+	padding: 1px 0 3px 25px;
 	margin: 2px;
 	line-height: 12px;
 	height: 12px;
@@ -403,7 +403,7 @@ h1.title {color: #BE1E2D;}
 	-webkit-box-shadow: 0 1px 1px #fff;
 	-moz-box-shadow:    0 1px 1px #fff;
 	box-shadow:         0 1px 1px #fff;
-	padding: 0px 4px;
+	padding: 0 4px;
 	white-space: nowrap;
 	vertical-align: middle;
 	color: #666;
@@ -437,9 +437,9 @@ ul#weeks_bar {
 	position: absolute;
 	float: left;
 	top: 2px;
-	margin-left: 0px;
+	margin-left: 0;
 	background: #E6E7E8;
-	padding: 1px 0px 2px;
+	padding: 1px 0 2px;
 	border: 1px solid #939598;
 	z-index: 96;
 }
@@ -479,7 +479,7 @@ ul#weeks_bar > li > a:hover {
 	border-left: 1px dotted black;
 }
 #topmenu ul > li:first {
-	border-left: 0px;
+	border-left: 0;
 }
 #topmenu ul > li > a {
 	color: black;
@@ -492,7 +492,7 @@ ul#weeks_bar > li > a:hover {
 #leftmenu {
 	float: left;
 	width: 140px;
-	border: 0px solid #E9E4E5;
+	border: 0 solid #E9E4E5;
 	background: #E2E2E2;
 	font: 1.1em  tahoma, verdana, arial, sans-serif;
 	position: relative;
@@ -501,7 +501,7 @@ ul#weeks_bar > li > a:hover {
 	z-index: inherit;
 	margin: 0;
 	padding: 10px;
-	top: 0px;
+	top: 0;
 }
 #leftmenu > ul > li {
 	list-style: none;
@@ -511,7 +511,7 @@ ul#weeks_bar > li > a:hover {
 	padding-left: 20px;
 	background-image: url('/images/link_icon.png') !important;
 	background-repeat: no-repeat !important;
-	background-position: 0px 0px;
+	background-position: 0 0;
 	padding-bottom: 1px;
 	margin-bottom: 10px;
 }
@@ -532,7 +532,7 @@ padding : 0;
 }
 #leftmenu h5 {
 width: 153px;
-padding: 0px 7px;
+padding: 0 7px;
 }
 #leftmenu div.heading {
 	color: black;
@@ -563,7 +563,7 @@ padding: 0px 7px;
 }
 #rightmenu {
 	float: left;
-	border: 0px solid #E9E4E5;
+	border: 0 solid #E9E4E5;
 	background: transparent;
 	font: 1.1em  tahoma, verdana, arial, sans-serif;
 	position: absolute;
@@ -576,7 +576,7 @@ padding: 0px 7px;
 #leftmenu a#course_name_toggle {
 	position: relative;
 	float: left;
-	margin: 8px 0px;
+	margin: 8px 0;
 	text-decoration: none;
 }
 #rightmenu .courses {
@@ -591,7 +591,7 @@ padding: 0px 7px;
 #rightmenu h5 {
 background: #CCC;
 width: 188px;
-padding: 0px 7px;
+padding: 0 7px;
 }
 #rightmenu div.heading {
 	width: 210px;
@@ -609,12 +609,12 @@ padding: 0px 7px;
     overflow:hidden;
     height:auto !important;
 	min-height: 45px;
-	margin-top: 0px;
+	margin-top: 0;
 	padding-top: 5px;
 	border-top: 1px solid #939598;
 }
 #rightmenu .post.first {
-	border-top: 0px !important;
+	border-top: 0 !important;
 }
 #rightmenu .post a {
 	text-decoration: none;
@@ -693,10 +693,10 @@ padding: 0px 7px;
 	background: url('/images/close_button.png') no-repeat;
 }
 #question_close_button:hover, .close_button:hover, #search_bar button#search_submit.close_button:hover {
-	background-position: 0px -16px;
+	background-position: 0 -16px;
 }
 #question_close_button:active, .close_button:active, #search_bar button#search_submit.close_button:active {
-	background-position: 0px -32px;
+	background-position: 0 -32px;
 }
 .question_element {
 	width: 490px;
@@ -704,7 +704,7 @@ padding: 0px 7px;
 }
 .question_element > label{
 	float: left;
-	margin: 3px 0px 0px 5px;
+	margin: 3px 0 0 5px;
 }
 .question_element input, .question_element select, .question_element textarea {
 	float: right;
@@ -731,7 +731,7 @@ label[for="question_hide"] {
 	margin-top: 6px;
 }
 textarea#question_body, textarea#question_answer {
-	border: 0px;
+	border: 0;
 	border-bottom: 1px solid #808285;
 	color: #808285;
 	float: left;
@@ -747,7 +747,7 @@ a#post_submit {
 	background: #BE1E2D;
 	color: white;
 	border: 1px solid #939598;
-	border-radius: 0px;
+	border-radius: 0;
 }
 a#post_submit:hover {
 	text-decoration: none !important;
@@ -760,7 +760,7 @@ a#post_submit:hover {
 	display: none;
 	position: absolute;
 	height: 26px;
-	bottom: 0px;
+	bottom: 0;
 	background: #FDD7C8;
 	width: 500px;
 	border-top: 1px solid #BE1E2D;
@@ -791,12 +791,12 @@ select#question_cid {width: 285px;}
 	position: relative;
 	font: normal 0.9em  tahoma, verdana, arial, sans-serif;
 	background: #E6E7E8;
-	padding: 0px;
+	padding: 0;
 	padding-bottom: 42px;
 	min-height: 420px;
 	height: 100%;
 	height: auto !important;
-	margin: 0px 42px 0px 42px;
+	margin: 0 42px 0 42px;
 }
 
 #main ul li {list-style: none;}
@@ -810,7 +810,7 @@ select#question_cid {width: 285px;}
 	margin-left: 170px;
 	padding: 2px;
 	width: 530px;
-	top: 0px;
+	top: 0;
 }
 #content p,#content h1 {
 margin-top: 5px;
@@ -832,7 +832,7 @@ white-space:pre-wrap;
 	border-top: 1px solid #939598;
 }
 #content .post.first {
-	border-top: 0px !important;
+	border-top: 0 !important;
 }
 #content .post a {
 	text-decoration: none;
@@ -951,7 +951,7 @@ a.button.like:active, a.button.dislike:active, a.button.follow:active, a.button.
 	font-size: 16px;
 	font-family: Impact;
 	text-transform: uppercase;
-	margin: 4px 0px;
+	margin: 4px 0;
 }
 .footer_divider {
 	background: url('/images/footer_divider.png') repeat-y;
@@ -959,7 +959,7 @@ a.button.like:active, a.button.dislike:active, a.button.follow:active, a.button.
 	height: 130px;
 	position: relative;
 	float: left;
-	padding: 0px 20px;
+	padding: 0 20px;
 	top: 3px;
 }
 .footer_icon {
@@ -1059,7 +1059,7 @@ a.button.like:active, a.button.dislike:active, a.button.follow:active, a.button.
 }
 .course_more_post {
 	position: relative;
-	padding: 0px 25px 25px;
+	padding: 0 25px 25px;
 }
 table {
 	width: 88%;
@@ -1077,7 +1077,7 @@ table td {
 	border-collapse:collapse;
 }
 table td.empty {
-	padding: 0px;
+	padding: 0;
 	border-left: 1px solid transparent;
 	border-right: 1px solid transparent;
 }
@@ -1122,7 +1122,7 @@ td.count {
 	width: 400px;
 	position: relative;
 	background-color: #FDD7C8;
-	border: 0px solid transparent;
+	border: 0 solid transparent;
 	color: black;
 	margin-bottom:1px;
 }
@@ -1189,7 +1189,7 @@ td.count {
 	font-size:11px;
 	line-height:1.5;
 	overflow-x:hidden;
-	margin: 0px !important;
+	margin: 0 !important;
 }
 
 #addCommentContainer input[type=text],
@@ -1202,7 +1202,7 @@ td.count {
 	height: 20px;
 	line-height: 20px;
 	margin:5px;
-	margin-top: 0px;
+	margin-top: 0;
 	padding:4px;
 	font-size:11px;
 	color: black;
@@ -1218,7 +1218,7 @@ td.count {
 .comment a.button {
 	color: #F68F75 !important;
 	background: transparent !important;
-	border: 0px !important;
+	border: 0 !important;
 	font-size: 11px;
 	text-decoration: none;
 	cursor: pointer;
@@ -1261,7 +1261,7 @@ span.comment_count {
 	left: 4px;
 }
 .comment > table {
-	border: 0px;
+	border: 0;
 }
 .post .post_answer_label {
 	font-style: italic;
@@ -1305,18 +1305,18 @@ legend > a{
 	font-weight: bold;
 }
 table.course, table.course td, table.post {
-	border: 0px;
+	border: 0;
 }
 body.front table.course {
 	width: 508px;
 }
 body.front table.course td.post{
-	padding: 0px;
+	padding: 0;
 }
 body.front table.post {
-	border: 0px;
+	border: 0;
 	width: 504px;
-	padding: 0px;
+	padding: 0;
 	margin: 1px;
 }
 body.front table.post tr.header, body.front table.post tr.header > td {
@@ -1340,7 +1340,7 @@ fieldset.course:hover > legend{
 	text-decoration: underline;
 }
 body.admin table {
-	border: 0px solid #D2D2D2;
+	border: 0 solid #D2D2D2;
 }
 #overlay {
 	display: none;
@@ -1387,7 +1387,7 @@ body.admin table {
 }
 #wrap-content {font-size: 16px;padding: 42px 24px;margin: auto;color: black;height: 136px;}
 #wrap-content > h5 {
-	padding: 0px;
+	padding: 0;
 	margin-bottom: 10px;
 	font-size: 14px;
 	color: #BE1E2D;
@@ -1397,13 +1397,13 @@ body.admin table {
 	text-decoration: underline;
 }
 #login table, #login table td {
-	border: 0px;
-	padding: 0px;
-	margin: 0px;
+	border: 0;
+	padding: 0;
+	margin: 0;
 }
 #login-wrap h1 {
 	font-size: 2em;
-	margin: 6px 0px 0px;
+	margin: 6px 0 0;
 	text-align: center;
 	color: #e33e3e;
 }
@@ -1419,15 +1419,15 @@ body.admin table {
 #login #nav {
 	text-shadow: white 0 1px 0;
 	margin: 0 0 0 16px;
-	padding: 0px 16px 22px;
+	padding: 0 16px 22px;
 }
 body.admin #content {
 	position: fixed;
 	background: #F4F5F5;
 	z-index: 98;
-	margin: 0px auto;
+	margin: 0 auto;
 	width: 100%;
-	left: 0px;
+	left: 0;
 	overflow: auto;
 	top: 160px;
 }
@@ -1489,13 +1489,13 @@ body.admin #leftmenu, body.admin #rightmenu, body.admin #footer {
 	white-space: pre-wrap;
 	width: 100px;
 	height: 32px;
-	padding: 0px;
+	padding: 0;
 }
 #leftmenu a.author .name:hover {
 	text-decoration: underline;
 }
 .rate_widget, .average_rate {
-    border: 0px solid #CCC;
+    border: 0 solid #CCC;
     overflow: visible;
     padding: 5px;
     position: relative;
@@ -1562,7 +1562,7 @@ a.details_rate_trigger {
 }
 #search_bar {
 	position: relative;
-	margin: 15px 0px;
+	margin: 15px 0 0;
 	height: 27px;
 }
 #search_bar input#search_box, #search_bar input#search_user_box {
@@ -1572,8 +1572,8 @@ a.details_rate_trigger {
 	height: 23px;
 	width: 190px;
 	line-height: 20px;
-	border-right: 0px;
-	padding: 0px 5px 2px 10px;
+	border-right: 0;
+	padding: 0 5px 2px 10px;
 	color: #808284;
 }
 body.admin.user.list #search_bar input#search_user_box {
@@ -1586,8 +1586,8 @@ body.admin.user.list #search_bar input#search_user_box {
 	background: transparent url('/images/search_button.png') no-repeat;
 	height: 27px;
 	width: 27px;
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
 	cursor: pointer;
 }
 #search_bar #search_suggestion, #search_bar #search_user_suggestion {
@@ -1599,21 +1599,21 @@ body.admin.user.list #search_bar input#search_user_box {
 	color: #808284;
 	position: absolute;
 	top: 26px;
-	padding: 0px;
+	padding: 0;
 }
 #search_bar #search_suggestion > ul, #search_bar #search_user_suggestion > ul {
-	-webkit-margin-before: 0px;
-	-webkit-margin-after: 0px;
-	-webkit-margin-start: 0px;
-	-webkit-margin-end: 0px;
-	-webkit-padding-start: 0px;
+	-webkit-margin-before: 0;
+	-webkit-margin-after: 0;
+	-webkit-margin-start: 0;
+	-webkit-margin-end: 0;
+	-webkit-padding-start: 0;
 }
 #search_bar #search_suggestion ul > li.suggestion, #search_bar #search_user_suggestion ul > li.suggestion {
 	padding: 5px 10px;
 	border-top: 1px solid #BBBDC0;
 }
 #search_bar #search_suggestion ul > li.suggestion.first, #search_bar #search_user_suggestion ul > li.suggestion.first {
-	border-top: 0px;
+	border-top: 0;
 }
 #search_bar #search_suggestion ul > li.suggestion:hover, #search_bar #search_user_suggestion ul > li.suggestion:hover {
 	background: #BE1E2D;
@@ -1638,7 +1638,7 @@ body.admin.user.list #search_bar input#search_user_box {
 	position: relative;
 	line-height: 20px;
 	word-spacing: 4px;
-	margin: 15px 0px;
+	margin: 15px 0;
 }
 .paging a.paging_button {
 	color: #1C1C1B !important;
@@ -1646,7 +1646,7 @@ body.admin.user.list #search_bar input#search_user_box {
 	font-size: 12px;
 	text-decoration: none;
 	padding: 4px 7px;
-	margin: 0px;
+	margin: 0;
 	-webkit-border-radius: 2px;
 	-moz-border-radius: 2px;
 	border-radius: 2px;
@@ -1682,9 +1682,9 @@ body.admin.user.list #search_bar input#search_user_box {
 	color: #231F20;
 }
 input[name=post_edit], input[name=post_archive], input[name=post_delete], input[name=user_activate], input[name=user_deactivate], input[name=user_edit], input[name=user_delete], input[name=role_edit], input[name=role_delete], input[name=course_csv], input[name=course_assign], input[name=course_promote], input[name=course_edit], input[name=course_delete], input[name=course_allow], input[name=course_not_allow], input[name=course_guest_on], input[name=course_guest_off], input[name=course_enrol], input[name=semester_edit], input[name=semester_delete], input[name=repost], input[name=post_restore] {
-	font-size: 0px !important;
-	line-height: 0px !important;
-	border: 0px !important;
+	font-size: 0 !important;
+	line-height: 0 !important;
+	border: 0 !important;
 	background-color: transparent !important;
 	background-repeat: no-repeat !important;
 }

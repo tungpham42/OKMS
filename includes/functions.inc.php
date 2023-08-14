@@ -5,6 +5,10 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 require __DIR__.'/../vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'/../');
+$dotenv->load();
+
 require('database.inc.php');
 require('libraries/class.phpmailer.php');
 // Include the pagination class
@@ -596,14 +600,14 @@ function check_mail($str) //Check email format
 function send_mail($to,$subject,$body,$from) //Send mail with SMTP authentication
 {
 	$mail = new PHPMailer(true);
-	$mail->IsSMTP();                                      // Set mailer to use SMTP
-	$mail->Host = 'smtp.gmail.com';                       // Specify main and backup server
-	$mail->Port = 587;                                    // Set the SMTP port
-	$mail->CharSet = 'UTF-8';
-	$mail->SMTPAuth = true;                               // Enable SMTP authentication
-	$mail->Username = 'tung.42@gmail.com';                // SMTP username
-	$mail->Password = 'cftyaokgtoumhmfp';                 // SMTP password
-	$mail->SMTPSecure = 'tls';                            // Enable encryption, 'ssl' also accepted
+	$mail->IsSMTP();                                      	// Set mailer to use SMTP
+	$mail->Host = $_ENV['MAIL_HOST'];                    	// Specify main and backup server
+	$mail->Port = $_ENV['MAIL_PORT'];                       // Set the SMTP port
+	$mail->CharSet = 'UTF-8';								// Set CharSet
+	$mail->SMTPAuth = true;                               	// Enable SMTP authentication
+	$mail->Username = $_ENV['MAIL_USERNAME'];               // SMTP username
+	$mail->Password = $_ENV['MAIL_PASSWORD'];               // SMTP password
+	$mail->SMTPSecure = $_ENV['MAIL_ENCRYPTION'];           // Enable encryption, 'ssl' also accepted
 //	$mail->SMTPDebug = 2;
 	$mail->From = $from;
 	$mail->FromName = 'OKMS';

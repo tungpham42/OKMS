@@ -18,16 +18,14 @@ if ($("input#search_box").val() == '') {
 	$("#search_suggestion").css("display","none");
 }
 </script>
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- okms_200x200 -->
-<center>
-	<ins class="adsbygoogle"
-     style="display:inline-block;width:200px;height:200px"
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3585118770961536" crossorigin="anonymous"></script>
+<!-- OKMS_234x195 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:234px;height:195px"
      data-ad-client="ca-pub-3585118770961536"
-     data-ad-slot="8174603499"></ins>
- </center>
+     data-ad-slot="9220457544"></ins>
 <script>
-(adsbygoogle = window.adsbygoogle || []).push({});
+     (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 <?php
 echo (isset($_SESSION['uid'])) ? following_list($_SESSION['uid']): '';

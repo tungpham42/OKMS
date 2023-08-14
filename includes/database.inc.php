@@ -1,12 +1,15 @@
 <?php
+require __DIR__.'/../vendor/autoload.php';
+// $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+// $dotenv->load();
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'/../');
+$dotenv->load();
+
 require 'libraries/class.database.php';
 /* Database config */
-// $url = getenv('JAWSDB_URL');
-$url = 'mysql://cungrao_okms:OKMSv0d0i@localhost:3306/cungrao_okms';
-$dbparts = parse_url($url);
-$hostname = $dbparts['host'];
-$username = $dbparts['user'];
-$password = $dbparts['pass'];
-$database = ltrim($dbparts['path'],'/');
+$hostname = $_ENV['DB_HOST'];
+$username = $_ENV['DB_USERNAME'];
+$password = $_ENV['DB_PASSWORD'];
+$database = $_ENV['DB_DATABASE'];
 $db = new Database($hostname, $username, $password, $database,'OKMS_');
 $db->connect();
