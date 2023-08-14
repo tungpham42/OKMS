@@ -28,7 +28,7 @@ if (isset($_POST['submit'])):
 <table style="border: 1px solid black;">
 	<tr style="border: 1px solid black;">
 		<td>
-			<img src="'.currentURL().'images/banner_email.png" width="480" height="80" />
+			<img src="'.currentURL().'/images/banner_email.png" width="480" height="80" />
 		</td>
 	</tr>
 	<tr style="border: 1px solid black;">
