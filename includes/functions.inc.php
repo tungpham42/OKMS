@@ -1,14 +1,5 @@
 <?php
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
-
-require __DIR__.'/../vendor/autoload.php';
-
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'/../');
-$dotenv->load();
-
 require('database.inc.php');
 require('libraries/class.phpmailer.php');
 // Include the pagination class
@@ -18,6 +9,10 @@ require('libraries/PHPExcel/PHPExcel.php');
 require('libraries/PHPExcel/PHPExcel/IOFactory.php');
 define('PREFIX', 'OKMS_');
 define('DEFAULT_AVATAR', '/images/avatar.jpg');
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 /* General Functions */
 global $db;
 function table_row_class($id) { //Identify the table row class based on counter
