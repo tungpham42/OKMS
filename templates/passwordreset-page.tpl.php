@@ -1,14 +1,9 @@
 <?php //Password reset page template
-if (isset($_POST['submit'])) {	
+if (isset($_POST['submit'])) {
 	if ($_POST['forgotpassword']=='') {
 		error('Please Fill in Email.');
 	}
-	if(get_magic_quotes_gpc()) {
-		$forgotpassword = htmlspecialchars(stripslashes($_POST['forgotpassword']));
-	} 
-	else {
-		$forgotpassword = htmlspecialchars($_POST['forgotpassword']);
-	}
+	$forgotpassword = htmlspecialchars(stripslashes($_POST['forgotpassword']));
 	//Make sure it's a valid email address, last thing we want is some sort of exploit!
 	if (!check_email_address($_POST['forgotpassword'])) {
   		error('Email Not Valid - Must be in format of name@domain.tld');
@@ -16,7 +11,7 @@ if (isset($_POST['submit'])) {
     // Lets see if the email exists
     $sql = "SELECT COUNT(*) FROM ".PREFIX."USER WHERE User_Mail = '$forgotpassword'";
     $result = mysqli_query($db->link, $sql)or die('Could not find member: ' . mysqli_error());
-    if (!mysqli_result($result,0,0)>0) {
+    if (mysqli_num_rows($result)==0) {
         error('Email Not Found!');
     }
 	$user = user_load_from_mail($forgotpassword);
@@ -39,8 +34,8 @@ if (isset($_POST['submit'])) {
 			</td>
 		</tr>
 	</table>';
-	if (check_email_address($_POST['forgotpassword']) && mysqli_result($result,0,0)>0):
-		send_mail($forgotpassword, $subject, $message,  'okms.vn@gmail.com');
+	if (check_email_address($_POST['forgotpassword']) && mysqli_num_rows($result)>0):
+		send_mail($forgotpassword, $subject, $message,  'tung.42@gmail.com');
 		echo '
 			<table>
 				<tr><th style="text-transform: none; text-align: left;">Notice from the system</th></tr>
@@ -92,7 +87,7 @@ if(isset($_GET['email']) && !empty($_GET['email']) && isset($_GET['hash']) && !e
 				</td>
 			</tr>
 		</table>';
-		send_mail($email, $subject, $message,  'okms.vn@gmail.com');
+		send_mail($email, $subject, $message,  'tung.42@gmail.com');
 		echo '
 			<table>
 				<tr><th style="text-transform: none; text-align: left;">Notice from the system</th></tr>
