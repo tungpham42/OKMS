@@ -13,7 +13,7 @@ require('libraries/pagination.class.php');
 require('libraries/PHPExcel/PHPExcel.php');
 require('libraries/PHPExcel/PHPExcel/IOFactory.php');
 define('PREFIX', 'OKMS_');
-define('DEFAULT_AVATAR', 'http://nhipsinhhoc.vn/okms/images/avatar.jpg');
+define('DEFAULT_AVATAR', '/images/avatar.jpg');
 /* General Functions */
 global $db;
 function table_row_class($id) { //Identify the table row class based on counter
@@ -599,6 +599,7 @@ function send_mail($to,$subject,$body,$from) //Send mail with SMTP authenticatio
 	$mail->IsSMTP();                                      // Set mailer to use SMTP
 	$mail->Host = 'smtp.gmail.com';                       // Specify main and backup server
 	$mail->Port = 587;                                    // Set the SMTP port
+	$mail->CharSet = 'UTF-8';
 	$mail->SMTPAuth = true;                               // Enable SMTP authentication
 	$mail->Username = 'tung.42@gmail.com';                // SMTP username
 	$mail->Password = 'cftyaokgtoumhmfp';                 // SMTP password
@@ -2429,6 +2430,9 @@ function ask_question($rid,$cid,$week) {
 						if ($("#question_title").val() != "" && $("#question_url").val() != "" && $("#question_body").val() != "") {
 							appendDate();
 							$("#save_post").load("/triggers/post_create.php",{cid:$("#question_cid").val(),week:$("#question_week").val(),title:$("#question_title").val(),url:$("#question_url").val(),body:$("#question_body").val(),answer:$("#question_answer").val(),hide:$("#question_hide:checked").val()}, function(data){
+								$("#question_label").text("Type a question..");
+								$("#question_section .question_element,#question_close_button,#question_bottom").css("display","none");
+								$("#question_section").css("height","27px");
 								if (data == "URL_EXISTS") {
 									openWrap("Duplicated subject.");
 								} else {

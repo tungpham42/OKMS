@@ -114,7 +114,7 @@ input[type="submit"]:hover,input[type="reset"]:hover,input[type="button"]:hover,
 input[type="submit"]:active,input[type="reset"]:active,input[type="button"]:active,input.button:active,button:active,a.button:active,a#post_submit.button:active {
 	background: #F1F2F2;
 	color: black;
-	border: 1px solid #black;
+	border: 1px solid black;
 }
 fieldset {
 	margin: 1em 0 1.2em;
@@ -235,6 +235,7 @@ h1.title {color: #BE1E2D;}
 	background: #414042 url('/images/banner_over.png') no-repeat;
 	position: fixed;
 	border-bottom: 28px solid #414042;
+	box-shadow: 0 1rem 3rem rgba(0,0,0,.175);
 }
 #inner_header {
 	margin: 0 auto;
@@ -1376,10 +1377,13 @@ body.admin table {
 	background: #5C5C5C;
 	padding: 14px;
 	height: 207px;
+	border-radius: 20px;
+	box-shadow: 0 1rem 3rem rgba(0,0,0,.175);
 }
 #login, #wrap-content {
 	background: white none;
 	border: solid 1px #141414;
+	border-radius: 10px;
 }
 #wrap-content {font-size: 16px;padding: 42px 24px;margin: auto;color: black;height: 136px;}
 #wrap-content > h5 {
@@ -1459,7 +1463,7 @@ body.admin #content > #inner_content a.button, body.admin #content > #inner_cont
 body.admin #content > #inner_content a.button:active, body.admin #content > #inner_content input[type=submit]:active, body.admin #content > #inner_content button:active {
 	background: #F1F2F2;
 	color: black;
-	border: 1px solid #black;
+	border: 1px solid black;
 }
 #inner_content table a{
 	color: #231F20;
