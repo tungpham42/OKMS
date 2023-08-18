@@ -1039,7 +1039,7 @@ function following_list($uid) { //Friend list
 			$email = $user['User_Mail'];
 			$grav_url = "https://0.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=identicon&s=" . $size;
 			$output .= '<div class="post '.(($i == 0) ? 'first': "").'">';
-			$output .= '<a class="author" href="/user/'.$user['User_Username'].'"><img src="'.$grav_url.'" width="40px"/></a>';
+			$output .= '<a class="author" href="/user/'.$user['User_Username'].'"><img alt="'.$user['User_Username'].'" src="'.$grav_url.'" width="40px"/></a>';
 			$output .= '<div class="post_right_detail">';
 			$output .= '<span class="author_name"><a href="/user/'.$user['User_Username'].'">'.$user['User_Fullname'].'</a></span><br/>';
 			$output .= '</div>';
@@ -1226,7 +1226,7 @@ function view_post($pid,$uid,$button=0) { //Return post from post ID
 	$default = DEFAULT_AVATAR;
 	$grav_url = "https://0.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=identicon&s=" . $size;
 	$output .= '<div class="post '.(($i == 0) ? 'first': "").'">';
-	$output .= '<a class="author" href="'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? '#': '/user/'.$user['User_Username']).'"><img src="'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? $default: $grav_url).'" width="40px"/></a>';
+	$output .= '<a class="author" href="'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? '#': '/user/'.$user['User_Username']).'"><img alt="'.$user['User_Username'].'" src="'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? $default: $grav_url).'" width="40px"/></a>';
 	$output .= '<div class="post_right_detail">';
 	$output .= '<span class="author_name'.(($user['Role_ID'] == 3) ? ' lecturer': "").'">'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? "": '<a href="/user/'.$user['User_Username'].'">').((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? 'Anonymous': ((isset($user['User_Fullname'])) ? $user['User_Fullname']: $user['User_Username'])).((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? "": '</a>').'</span><br/>';
 	$output .= '<a class="post_title" href="/question/'.$post['Post_URL'].'">'.$post['Post_Title'].'</a><br/>';
@@ -2190,7 +2190,7 @@ function latest_questions($count) {
 			$size = 40;
 			$grav_url = "https://0.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=identicon&s=" . $size;
 			$output .= '<div class="post '.(($i == 0) ? 'first': "").'">';
-			$output .= '<a class="author" href="'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? '#': '/user/'.$user['User_Username']).'"><img src="'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? $default: $grav_url).'" width="40px"/></a>';
+			$output .= '<a class="author" href="'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? '#': '/user/'.$user['User_Username']).'"><img alt="'.$user['User_Username'].'" src="'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? $default: $grav_url).'" width="40px"/></a>';
 			$output .= '<div class="post_right_detail">';
 			$output .= '<a class="title" href="/question/'.$post['Post_URL'].'">'.$title.'</a><br/>';
 			$output .= '<span class="author_name">'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? "": '<a href="/user/'.$user['User_Username'].'">').((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? 'Anonymous': ((isset($user['User_Fullname'])) ? $user['User_Fullname']: $user['User_Username'])).((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? "": '</a>').'</span><br/>';
@@ -2227,7 +2227,7 @@ function most_commented($count) {
 			$size = 40;
 			$grav_url = "https://0.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=identicon&s=" . $size;
 			$output .= '<div class="post '.(($i == 0) ? 'first': "").'">';
-			$output .= '<a class="author" href="'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? '#': '/user/'.$user['User_Username']).'"><img src="'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? $default: $grav_url).'" width="40px"/></a>';
+			$output .= '<a class="author" href="'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? '#': '/user/'.$user['User_Username']).'"><img alt="'.$user['User_Username'].'" src="'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? $default: $grav_url).'" width="40px"/></a>';
 			$output .= '<div class="post_right_detail">';
 			$output .= '<a class="title" href="/question/'.$post['Post_URL'].'">'.$title.'</a><br/>';
 			$output .= '<span class="author_name">'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? "": '<a href="/user/'.$user['User_Username'].'">').((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? 'Anonymous': ((isset($user['User_Fullname'])) ? $user['User_Fullname']: $user['User_Username'])).((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? "": '</a>').'</span><br/>';
@@ -2492,7 +2492,7 @@ function list_comments($pid,$c=null) { //Return list of comments by post ID
 			$email = $user['User_Mail'];
 			$grav_url = ($comments[$i]['Comment_Hide_Name'] == 0 && user_existed($comments[$i]['User_ID'])) ? "https://0.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=identicon&s=" . $size: $default;
 			$output .= '<div class="comment">';
-			$output .= '<a class="author" href="'.(($comments[$i]['Comment_Hide_Name'] == 1 || !user_existed($comments[$i]['User_ID'])) ? "#": '/user/'.$user['User_Username']).'"><img src="'.$grav_url.'" width="30px"/></a>';
+			$output .= '<a class="author" href="'.(($comments[$i]['Comment_Hide_Name'] == 1 || !user_existed($comments[$i]['User_ID'])) ? "#": '/user/'.$user['User_Username']).'"><img alt="'.$user['User_Username'].'" src="'.$grav_url.'" width="30px"/></a>';
 			$output .= '<div class="comment_right_detail">';
 			$output .= '<div class="name'.(($user['Role_ID'] == 3) ? ' lecturer': "").'">'.(($comments[$i]['Comment_Hide_Name'] == 0 && user_existed($comments[$i]['User_ID'])) ? ((isset($user['User_Fullname'])) ? $user['User_Fullname']: $user['User_Username']): 'Anonymous').'</div>';
 			$output .= '<div class="date">'.ago($comments[$i]['Comment_Created']).(($comments[$i]['Comment_Edited'] != 0) ? ' - edited: '.ago($comments[$i]['Comment_Edited']): "").'</div>';
@@ -2577,7 +2577,7 @@ function list_comments_without_right($pid,$c=null) { //Return list of comments b
 			$size = 30;
 			$grav_url = ($comments[$i]['Comment_Hide_Name'] == 0 && user_existed($comments[$i]['User_ID'])) ? "https://0.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=identicon&s=" . $size: $default;
 			$output .= '<div class="comment">';
-			$output .= '<a class="author" href="/user/'.$user['User_Username'].'"><img src="'.$grav_url.'" width="30px"/></a>';
+			$output .= '<a class="author" href="/user/'.$user['User_Username'].'"><img alt="'.$user['User_Username'].'" src="'.$grav_url.'" width="30px"/></a>';
 			$output .= '<div class="comment_right_detail">';
 			$output .= '<div class="name'.(($user['Role_ID'] == 3) ? ' lecturer': "").'">'.(($comments[$i]['Comment_Hide_Name'] == 0 && user_existed($comments[$i]['User_ID'])) ? ((isset($user['User_Fullname'])) ? $user['User_Fullname']: $user['User_Username']): 'Anonymous').'</div>';
 			$output .= '<div class="date">'.ago($comments[$i]['Comment_Created']).(($comments[$i]['Comment_Edited'] != 0) ? ' - edited: '.ago($comments[$i]['Comment_Edited']): "").'</div>';

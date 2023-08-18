@@ -267,6 +267,7 @@ h1.title {color: #BE1E2D;}
 #header-login-form {
 	position: relative;
 	top: 16px;
+	right: 16px;
 }
 body.logged-in #header-login-form {
 	right: 15px;
