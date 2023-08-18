@@ -37,7 +37,7 @@ if(isset($_POST['header_login'])){
 }
 ?>
 <!--<a class="button" href="#" onclick="openLogin();return false">Login</a>-->
-<div style="display: none" id="login-wrap">
+<div id="login-wrap">
 	<div id="login-border">
 	<a class="close-button" onclick="closeLoginBox()"></a>
 		<div id="login">
@@ -117,7 +117,7 @@ if($_SESSION['username'])
 		<a class="username" href="/user/<?php echo $_SESSION['uid']; ?>"><?php echo (isset($user['User_Fullname'])) ? $user['User_Fullname']: $user['User_Username']; ?></a>
 		<a class="front" href=".">Home</a>
 		<span id="user-toggle"></span>
-		<div id="user-panel" style="display: none;">
+		<div id="user-panel">
 			<ul>
 				<?php
 				if (isset($_SESSION['rid']) && $_SESSION['rid'] == 1):
@@ -139,8 +139,8 @@ if($_SESSION['username'])
 				<?php
 				endif;
 				?>
-				<li><a href="/triggers/logout.php">Logout</a></li>
 				<li><a href="#">Help</a></li>
+				<li><a href="/triggers/logout.php">Logout</a></li>
 			</ul>
 		</div>
 	</div>

@@ -3,7 +3,7 @@
 		<input type="hidden" name="cid" value="<?php echo $cid; ?>" />
 		<input id="search_box" type="text" name="keyword" title="Fill in your search query" size="20" placeholder="Search<?php echo (isset($cid) && $cid != 0) ? ' in '.$course['Course_Code']: ''; ?>.." /><button type="submit" id="search_submit"></button>
 	</form>
-	<div style="display: none;" id="search_suggestion"></div>
+	<div id="search_suggestion"></div>
 </div>
 <script type="text/javascript">
 function searchSuggestion() {

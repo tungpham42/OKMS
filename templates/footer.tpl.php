@@ -6,9 +6,9 @@ if (!isset($_GET['p']) || $_GET['p'] == 'home'):
 		<div class="footer_heading">Connect with us</div>
 		<div class="footer_content">
 			<a target="_blank" class="footer_icon facebook" href="https://www.facebook.com/groups/295960750500743"></a>
-			<a class="footer_icon linkedin" href="#"></a>
-			<a class="footer_icon skype" href="#"></a>
-			<a class="footer_icon twitter" href="#"></a>
+			<a target="_blank" class="footer_icon linkedin" href="https://www.linkedin.com/in/tungpham42/"></a>
+			<a target="_blank" class="footer_icon skype" href="skype:tung.42"></a>
+			<a target="_blank" class="footer_icon twitter" href="https://twitter.com/tungpham42"></a>
 		</div>
 	</div>
 	<div class="footer_divider"></div>

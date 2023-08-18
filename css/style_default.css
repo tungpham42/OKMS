@@ -42,6 +42,7 @@ body {
 	color: #BCBEC0;
 	font: normal 1.3em  tahoma, verdana, arial, sans-serif;
 	height: 100%;
+	padding-top: 160px;
 }
 /*
 *[title] {
@@ -81,7 +82,9 @@ blockquote {
 	padding: 0.8em 1em 0.2em 46px;
 }
 hr {
-	color: #939598;
+	color: #c2c2c2;
+    border-top: 1px solid #c2c2c2;
+    border-bottom: 0;
 }
 /* 
    Links 
@@ -233,9 +236,7 @@ h1.title {color: #BE1E2D;}
 	z-index: 98;
 	width: 100%;
 	background: #414042 url('/images/banner_over.png') no-repeat;
-	position: sticky;
 	border-bottom: 28px solid #414042;
-	box-shadow: 0 1rem 3rem rgba(0,0,0,.175);
 }
 #inner_header {
 	margin: 0 auto;
@@ -363,6 +364,7 @@ body.logged-in #header-login-form {
 	border-right: 1px solid black;
 	border-bottom: 1px solid black;
 	z-index: 1;
+	display: none;
 }
 #header-login-form #user-panel > ul {
 	position: relative;
@@ -380,10 +382,10 @@ body.logged-in #header-login-form {
 #header-login-form #user-panel > ul > li > a {
 	color: black;
 	text-decoration: none;
-	font-size: 13px;
-	padding: 2px 8px;
+	font-size: 14px;
+	padding: 4px 8px;
 	margin: 2px;
-	line-height: 12px;
+	line-height: 1.2rem;
 	height: 12px;
 	float: none;
 	display: block;
@@ -623,7 +625,7 @@ padding: 0 7px;
 	min-height: 45px;
 	margin-top: 0;
 	padding-top: 5px;
-	border-top: 1px solid #939598;
+	border-top: 1px solid #c2c2c2;
 }
 #rightmenu .post.first {
 	border-top: 0 !important;
@@ -864,6 +866,8 @@ white-space:pre-wrap;
 	float: right;
 	min-height: 50px;
 	width: calc(100% - 50px);
+	font-size: 16px;
+    line-height: 2rem;
 }
 #content .post_right_detail a.course_code {
 	float: none;
@@ -1138,7 +1142,6 @@ td.count {
 .post_answer_toggle, .post_answer, .comment, #addCommentContainer {
 	/* Styling the comments and the comment form container */
 	padding: 5px;
-	width: 400px;
 	position: relative;
 	background-color: #FDD7C8;
 	border: 0 solid transparent;
@@ -1186,7 +1189,7 @@ td.count {
 }
 
 .comment .date{
-	font-size:11px;
+	font-size:13px;
 	padding:0px;
 	position:absolute;
 	right:10px;
@@ -1200,12 +1203,11 @@ td.count {
 }
 .comment .comment_right_detail {
 	display: block;
-	width: 360px;
 	margin-left: 40px;
 }
 .comment p,
 #addCommentContainer p{
-	font-size:11px;
+	font-size:14px;
 	line-height:1.5;
 	overflow-x:hidden;
 	margin: 0 !important;
@@ -1229,7 +1231,16 @@ td.count {
 }
 
 #addCommentContainer textarea{
-	width:342px;
+	width: calc(100% - 50px);
+}
+[id^="submit_comment_create_pid_"] {
+	float: right;
+    position: relative;
+    right: -2px;
+    bottom: 23px;
+}
+[id^="save_comment_create_pid_"], [id^="comments_pid_"], [id^="save_user_follow_id_"], [id^="save_post_rate_pid_"], [id^="save_post_like_pid_"], [id^="save_post_dislike_pid_"], [id^="save_post_follow_pid_"], [id^="save_comment_like_comid_"], [id^="save_comment_dislike_comid_"], [id^="comment_comid_"], [id^="save_comment_edit_comid_"], [id^="save_comment_delete_comid_"], [id^="user_rate_pid_"], [id^="average_rate_pid_"], #save_post, #follow_post {
+	display: none;
 }
 .comments, #comments {
 	display: none;
@@ -1568,8 +1579,6 @@ a.details_rate_trigger {
 }
 .details_rate {
 	position: relative;
-	width: 280px;
-	height: 120px;
 }
 #content .control_bar {
 	position: relative;
@@ -1769,6 +1778,7 @@ ul.user_course, ul.user_course > li {
 #loading {
 	margin: 0 auto;
 	position: fixed;
+	display: none;
 }
 @media only screen and (max-width: 1199px) {
 	#leftmenu {

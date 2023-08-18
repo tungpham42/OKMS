@@ -1009,7 +1009,7 @@ function following_box($followee_id) { //Friend box
 	$output = "";
 	$output .= '<div class="following_box">';
 	$output .= ($followee_id != $_SESSION['uid']) ? '<a id="user_followee_id_'.$followee_id.'" class="button'.((is_followee($_SESSION['uid'],$followee_id)) ? ' user_unfollow': ' user_follow').'">'.((is_followee($_SESSION['uid'],$followee_id)) ? 'Followed': 'Follow').'</a>': "";
-	$output .= '<div style="display: none" id="save_user_follow_id_'.$followee_id.'"></div>';
+	$output .= '<div id="save_user_follow_id_'.$followee_id.'"></div>';
 	$output .= '<script>
 				$(".following_box > .button.user_unfollow").mouseenter(function(){
 					$(this).text("Unfollow");
@@ -1234,13 +1234,13 @@ function view_post($pid,$uid,$button=0) { //Return post from post ID
 	$output .= '<span class="post_content">'.$post['Post_Question'].'</span><br/>';
 	$output .= ($post['Post_Answer'] != "") ? '<div class="post_answer"><div class="post_answer_label">Answer:</div><div class="post_answer_content">'.$post['Post_Answer'].'</div></div>': "";
 	$output .= ($uid != 0 && $post_rate['User_ID'] != $uid && $_SESSION['rid'] != 1) ? star_rating($pid) : '<div title="Your rating" id="post_rate_pid_'.$pid.'" class="rate_widget">'.star_rating_update($pid).'</div><div title="Average rating: '.average_post_rates_with_decimal($pid,1).'" id="average_post_rate_pid_'.$pid.'" class="average_rate">'.star_rating_average($pid).'</div>';
-	$output .= ($uid != 0) ? '<div style="display: none" id="save_post_rate_pid_'.$pid.'"></div>': "";
+	$output .= ($uid != 0) ? '<div id="save_post_rate_pid_'.$pid.'"></div>': "";
 	$output .= ($uid != 0) ? '<a title="'.(($post_vote['PostVote_Like'] == 0) ? 'Like': 'Unlike').' this post" class="button'.(($post_vote['PostVote_Like'] == 0) ? ' like': ' like clicked').'" id="post_like_pid_'.$pid.'">'.count_post_likes($pid).' Like'.((count_post_likes($pid) == 0 || count_post_likes($pid) == 1) ? "": 's').'</a>': '<a title="Like this post" class="button like disabled" id="post_like_pid_'.$pid.'">'.count_post_likes($pid).' Like'.((count_post_likes($pid) == 0 || count_post_likes($pid) == 1) ? "": 's').'</a>';
-	$output .= ($uid != 0) ? '<div style="display: none" id="save_post_like_pid_'.$pid.'"></div>': "";
+	$output .= ($uid != 0) ? '<div id="save_post_like_pid_'.$pid.'"></div>': "";
 	$output .= ($uid != 0) ? '<a title="'.(($post_vote['PostVote_Dislike'] == 0) ? 'Dislike': 'Undislike').' this post" class="button'.(($post_vote['PostVote_Dislike'] == 0) ? ' dislike': ' dislike clicked').'" id="post_dislike_pid_'.$pid.'">'.count_post_dislikes($pid).' Dislike'.((count_post_dislikes($pid) == 0 || count_post_dislikes($pid) == 1) ? "": 's').'</a>': '<a title="Dislike this post" class="button dislike disabled" id="post_dislike_pid_'.$pid.'">'.count_post_dislikes($pid).' Dislike'.((count_post_dislikes($pid) == 0 || count_post_dislikes($pid) == 1) ? "": 's').'</a>';
-	$output .= ($uid != 0) ? '<div style="display: none" id="save_post_dislike_pid_'.$pid.'"></div>': "";
+	$output .= ($uid != 0) ? '<div id="save_post_dislike_pid_'.$pid.'"></div>': "";
 	$output .= ($uid != 0) ? '<a title="'.(($post_follow['User_ID'] != $uid) ? 'Follow': 'Unfollow').' this post" class="button'.(($post_follow['User_ID'] != $uid) ? ' follow': ' follow clicked').'" id="post_follow_pid_'.$pid.'">'.count_post_follows($pid).' Follow'.((count_post_follows($pid) == 0 || count_post_follows($pid) == 1) ? "": 's').'</a>': '<a title="Follow this post" class="button follow disabled" id="post_follow_pid_'.$pid.'">'.count_post_follows($pid).' Follow'.((count_post_follows($pid) == 0 || count_post_follows($pid) == 1) ? "": 's').'</a>';
-	$output .= '<div style="display: none" id="save_post_follow_pid_'.$pid.'"></div>';
+	$output .= '<div id="save_post_follow_pid_'.$pid.'"></div>';
 	$output .= '<a id="comments_count_pid_'.$pid.'" title="Leave a comment" class="button comment_toggle">'.count_comments($pid).' Comment'.((count_comments($pid) == 0 || count_comments($pid) == 1) ? "": 's').'</a>';
 	$output .= '<span class="post_time">'.ago($post['Post_Created']).'</span>';
 	$output .= ($uid != 0) ? list_comments($pid): list_comments_without_right($pid);
@@ -1903,7 +1903,7 @@ function star_rating($pid) {
 	$output .= '<span class="post_rate_text" id="rate_text_pid_'.$pid.'"></span>';
 	$output .= '</div>';
 	$output .= '<div title="Average rating: '.average_post_rates_with_decimal($pid,1).'" id="average_post_rate_pid_'.$pid.'" class="average_rate">'.star_rating_average($pid).'</div>';
-	$output .= '<div style="display: none;" id="save_post_rate_pid_'.$pid.'"></div>';
+	$output .= '<div id="save_post_rate_pid_'.$pid.'"></div>';
 	$output .= '<script>
 				$("#average_post_rate_pid_'.$pid.'").load("/triggers/post_rate_average.php",{pid:'.$pid.'});
 				$("#rate_1_pid_'.$pid.'").mouseenter(function(){
@@ -1987,8 +1987,8 @@ function star_rating_average($pid) {
 	$output .= '<div id="average_rate_4_pid_'.$pid.'" class="average_ratings_stars no_cursor"></div>';
 	$output .= '<div id="average_rate_5_pid_'.$pid.'" class="average_ratings_stars no_cursor"></div>';
 	$output .= '<a class="details_rate_trigger" id="details_rate_trigger_pid_'.$pid.'">Details</a>';
-	$output .= '<div style="display: none;" id="average_rate_pid_'.$pid.'">'.average_post_rates($pid).'</div>';
-	$output .= '<div class="details_rate" style="display: none;" id="details_rate_pid_'.$pid.'"></div>';
+	$output .= '<div id="average_rate_pid_'.$pid.'">'.average_post_rates($pid).'</div>';
+	$output .= '<div class="details_rate" id="details_rate_pid_'.$pid.'"></div>';
 	$output .= '<script>
 				var averageRate = $("#average_rate_pid_'.$pid.'").text();
 				if (averageRate == 1) {
@@ -2028,7 +2028,7 @@ function star_rating_update($pid) {
 	$output .= '<div id="rate_4_pid_'.$pid.'" class="ratings_stars no_cursor"></div>';
 	$output .= '<div id="rate_5_pid_'.$pid.'" class="ratings_stars no_cursor"></div>';
 	$output .= '<span class="post_rate_text" id="rate_text_pid_'.$pid.'"></span>';
-	$output .= '<div style="display: none;" id="user_rate_pid_'.$pid.'">'.$post_rate['PostRate'].'</div>';
+	$output .= '<div id="user_rate_pid_'.$pid.'">'.$post_rate['PostRate'].'</div>';
 	$output .= '<script>
 				var userRate = $("#user_rate_pid_'.$pid.'").text();
 				if (userRate == 1) {
@@ -2356,8 +2356,8 @@ function ask_question($rid,$cid,$week) {
 	$output .= '<a class="button '.(($rid == 0) ? 'disabled': "").'" id="post_submit">Post</a>';
 	$output .= '</div>';
 	$output .= '</div>';
-	$output .= '<div style="display:none" id="save_post"></div>';
-	$output .= '<div style="display:none" id="follow_post"></div>';
+	$output .= '<div id="save_post"></div>';
+	$output .= '<div id="follow_post"></div>';
 	$output .= '<script>
 				$("#question_section").click(function(){
 					$.ajax({
@@ -2482,7 +2482,7 @@ function list_comments($pid,$c=null) { //Return list of comments by post ID
 	$comments = comments_load_by_pid($pid);
 	usort($comments,'sort_comment_date_ascend');
 	$count = ($c == null) ? count($comments): $c;
-	$output .= '<div class="comments'.'" id="comments_pid_'.$pid.'" style="display: none"><!-- Start comments of post '.$pid.' -->';
+	$output .= '<div class="comments'.'" id="comments_pid_'.$pid.'"><!-- Start comments of post '.$pid.' -->';
 	for ($i = 0; $i < $count; $i++) {
 		if (isset($comments[$i])) {
 			$user = user_load($comments[$i]['User_ID']);
@@ -2498,10 +2498,10 @@ function list_comments($pid,$c=null) { //Return list of comments by post ID
 			$output .= '<div class="date">'.ago($comments[$i]['Comment_Created']).(($comments[$i]['Comment_Edited'] != 0) ? ' - edited: '.ago($comments[$i]['Comment_Edited']): "").'</div>';
 			$output .= '<p>'.$comments[$i]['Comment_Body'].'</p>';
 			$output .= '<a title="'.(($comment_vote['CommentVote_Like'] == 0) ? 'Like': 'Unlike').' this comment" class="button'.(($comment_vote['CommentVote_Like'] == 0) ? ' like': ' like clicked').'" id="comment_like_comid_'.$comid.'">'.count_comment_likes($comid).' Like'.((count_comment_likes($comid) == 0 || count_comment_likes($comid) == 1) ? "": 's').'</a>';
-			$output .= '<div style="display: none" id="save_comment_like_comid_'.$comid.'"></div>';
+			$output .= '<div id="save_comment_like_comid_'.$comid.'"></div>';
 			$output .= '<a title="'.(($comment_vote['CommentVote_Dislike'] == 0) ? 'Dislike': 'Undislike').' this comment" class="button'.(($comment_vote['CommentVote_Dislike'] == 0) ? ' dislike': ' dislike clicked').'" id="comment_dislike_comid_'.$comid.'">'.count_comment_dislikes($comid).' Dislike'.((count_comment_dislikes($comid) == 0 || count_comment_dislikes($comid) == 1) ? "": 's').'</a>';
-			$output .= '<div style="display: none" id="save_comment_dislike_comid_'.$comid.'"></div>';
-			$output .= (isset($_SESSION['uid']) && $_SESSION['uid'] == $comments[$i]['User_ID'] || ($_SESSION['rid'] == 3 && course_belonged($cid,$_SESSION['uid']))) ? '<div id="comment_comid_'.$comments[$i]['Comment_ID'].'" style="display: none"><textarea style="width: 290px;" id="textarea_body_comment_edit_comid_'.$comid.'" name="body">'.$comments[$i]['Comment_Body'].'</textarea><a style="float: none; margin-top: -18px;" class="button" id="submit_comment_edit_comid_'.$comid.'">Submit</a></div><div style="display: none" id="save_comment_edit_comid_'.$comid.'"></div><a title="Edit this comment" class="button edit_comment" onclick="toggle_comment_edit('."'".'comment_comid_'.$comid."'".',this)">Edit</a><a title="Delete this comment" class="button delete_comment" id="submit_comment_delete_comid_'.$comid.'">Delete</a><div style="display: none" id="save_comment_delete_comid_'.$comid.'"></div>': "";
+			$output .= '<div id="save_comment_dislike_comid_'.$comid.'"></div>';
+			$output .= (isset($_SESSION['uid']) && $_SESSION['uid'] == $comments[$i]['User_ID'] || ($_SESSION['rid'] == 3 && course_belonged($cid,$_SESSION['uid']))) ? '<div id="comment_comid_'.$comments[$i]['Comment_ID'].'"><textarea style="width: 290px;" id="textarea_body_comment_edit_comid_'.$comid.'" name="body">'.$comments[$i]['Comment_Body'].'</textarea><a style="float: none; margin-top: -18px;" class="button" id="submit_comment_edit_comid_'.$comid.'">Submit</a></div><div id="save_comment_edit_comid_'.$comid.'"></div><a title="Edit this comment" class="button edit_comment" onclick="toggle_comment_edit('."'".'comment_comid_'.$comid."'".',this)">Edit</a><a title="Delete this comment" class="button delete_comment" id="submit_comment_delete_comid_'.$comid.'">Delete</a><div id="save_comment_delete_comid_'.$comid.'"></div>': "";
 			$output .= '</div>';
 			$output .= '</div>';
 			$output .= '<script>
@@ -2533,9 +2533,9 @@ function list_comments($pid,$c=null) { //Return list of comments by post ID
 	$output .= '<textarea placeholder="Leave a comment..." name="body" id="textarea_body_comment_create_pid_'.$pid.'" cols="20" rows="5"></textarea>';
 	$output .= '<input id="input_hide_comment_create_pid_'.$pid.'" type="checkbox" name="hide" value="1" /><label for="hide" style="position: relative; top: -2px;">Hide your username from others</label><br/>';
 	$output .= '<input id="input_uid_comment_create_pid_'.$pid.'" type="hidden" value="'.$_SESSION['uid'].'" />';
-	$output .= '<a style="float: right; position: relative; left: -6px; bottom: 23px;" class="button" id="submit_comment_create_pid_'.$pid.'">Create comment</a>';
+	$output .= '<a class="button" id="submit_comment_create_pid_'.$pid.'">Create comment</a>';
 	$output .= '</div>';
-	$output .= '<div style="display: none" id="save_comment_create_pid_'.$pid.'"></div>';
+	$output .= '<div id="save_comment_create_pid_'.$pid.'"></div>';
 	$output .= '<script>
 				$("#submit_comment_create_pid_'.$pid.'").click(function(){
 					commentCreate('.$pid.');
@@ -2567,7 +2567,7 @@ function list_comments_without_right($pid,$c=null) { //Return list of comments b
 	$comments = comments_load_by_pid($pid);
 	usort($comments,'sort_comment_date_ascend');
 	$count = ($c == null) ? count($comments): $c;
-	$output .= '<div class="comments" id="comments_pid_'.$pid.'" style="display: none">';
+	$output .= '<div class="comments" id="comments_pid_'.$pid.'">';
 	for ($i = 0; $i < $count; $i++) {
 		if (isset($comments[$i])) {
 			$user = user_load($comments[$i]['User_ID']);
