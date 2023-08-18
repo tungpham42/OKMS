@@ -19,11 +19,13 @@ if ($("input#search_box").val() == '') {
 }
 </script>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3585118770961536" crossorigin="anonymous"></script>
-<!-- OKMS_234x195 -->
+<!-- OKMS_res -->
 <ins class="adsbygoogle"
-     style="display:inline-block;width:234px;height:195px"
+     style="display:block"
      data-ad-client="ca-pub-3585118770961536"
-     data-ad-slot="9220457544"></ins>
+     data-ad-slot="2138902239"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
 <script>
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script>

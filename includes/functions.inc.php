@@ -2345,7 +2345,7 @@ function ask_question($rid,$cid,$week) {
 	$output .= '<div id="question_section" title="Ask question">';
 	$output .= '<span id="question_label">Type a question..</span>';
 	$output .= '<a id="question_close_button"></a>';
-	$output .= '<div class="question_element" style="margin-top: 5px;"><label for="question_title">Subject: </label><input class="element_input" id="question_title" name="question_title" type="text" size="30" /></div>';
+	$output .= '<div class="question_element" style="margin-top: 5px; left: 20px;"><label for="question_title">Subject: </label><input class="element_input" id="question_title" name="question_title" type="text" size="30" /></div>';
 	$output .= '<input class="element_input" id="question_url" name="question_url" type="hidden" />';
 	$output .= '<div class="question_element"><label for="question_body">Type a question.. </label><br/><textarea style="resize: none; overflow: auto" class="element_textarea" id="question_body" name="question_body" rows="1"></textarea></div><br/>';
 	$output .= ($rid != 2 && $rid != 4) ? '<div class="question_element"><label for="question_answer">(Optional) Type an answer.. </label><br/><textarea style="resize: none; overflow: auto" class="element_textarea" id="question_answer" name="question_answer" rows="1"></textarea></div><br/>': '<input type="hidden" id="question_answer" value="" />';
@@ -2392,7 +2392,7 @@ function ask_question($rid,$cid,$week) {
 					e.stopPropagation();
 					$("#question_label").text("Type a question..");
 					$("#question_section .question_element,#question_close_button,#question_bottom").css("display","none");
-					$("#question_section").css("cursor","text").animate({height:"27px"},240);
+					$("#question_section").css("cursor","text").animate({height:"36px"},240);
 					$(".element_input").val("");
 					$(".element_textarea").val("");
 					$("#question_hide").attr("checked",false);
@@ -2415,7 +2415,7 @@ function ask_question($rid,$cid,$week) {
 								} else if (data == "URL_AVAILABLE") {
 									$("#question_label").text("Type a question..");
 									$("#question_section .question_element,#question_close_button,#question_bottom").css("display","none");
-									$("#question_section").css("cursor","text").animate({height:"27px"},240);
+									$("#question_section").css("cursor","text").animate({height:"36px"},240);
 									$(".element_input").val("");
 									$(".element_textarea").val("");
 									$("#question_hide").attr("checked",false);

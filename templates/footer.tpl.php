@@ -1,7 +1,7 @@
 <?php //Footer template
 if (!isset($_GET['p']) || $_GET['p'] == 'home'):
 ?>
-<div id="inner_footer">
+<div id="inner_footer" class="col-12">
 	<div id="footer_first" class="footer_column">
 		<div class="footer_heading">Connect with us</div>
 		<div class="footer_content">
@@ -40,14 +40,14 @@ endif;
 if (isset($_GET['p']) && $_GET['p'] != 'home'):
 ?>
 <style>
-#footer {top: 292px; min-height: 0px;}
+#footer {min-height: 0px;}
 #footer_bottom {top: 0px;}
 </style>
 <?php
 endif;
 ?>
-<div id="footer_bottom">
+<div id="footer_bottom" class="w-100">
 	<div id="inner_footer_bottom">
-		<span style="margin: 0 auto; width: 600px; float: left;">Copyright 2012 by the Avengers Group, RMIT International University, Vietnam . All rights reserved</span>
+		<span style="margin: 0 auto; width: 50%; float: left;">Copyright 2012 by the Avengers Group, RMIT International University, Vietnam . All rights reserved</span>
 	</div>
 </div>

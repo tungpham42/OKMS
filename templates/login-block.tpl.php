@@ -119,16 +119,32 @@ if($_SESSION['username'])
 		<span id="user-toggle"></span>
 		<div id="user-panel" style="display: none;">
 			<ul>
+				<?php
+				if (isset($_SESSION['rid']) && $_SESSION['rid'] == 1):
+				?>
+				<li><a class="admin post" title="Manage posts" href="/post">Manage posts</a></li>
+				<li><a class="admin user" title="Manage users" href="/user">Manage users</a></li>
+				<li><a class="admin role" title="Manage roles" href="/role">Manage roles</a></li>
+				<li><a class="admin course" title="Manage courses" href="/course">Manage courses</a></li>
+				<li><a class="admin semester" title="Manage semesters" href="/semester">Manage semesters</a></li>
+				<li><a class="admin archive" title="Knowledge base" href="/post/archive">Knowledge base</a></li>
+				<li><a class="admin report" title="Report" href="/report">Report</a></li>
+				<?php
+				elseif (isset($_SESSION['rid']) && $_SESSION['rid'] == 3):
+				?>
+				<li><a class="admin post" title="Manage posts" href="/post">Manage posts</a></li>
+				<li><a class="admin course" title="Manage courses" href="/course">Manage courses</a></li>
+				<li><a class="admin archive" title="Knowledge base" href="/post/archive">Knowledge base</a></li>
+				<li><a class="admin report" title="Report" href="/report">Report</a></li>
+				<?php
+				endif;
+				?>
 				<li><a href="/triggers/logout.php">Logout</a></li>
 				<li><a href="#">Help</a></li>
 			</ul>
 		</div>
 	</div>
 	<script type="text/javascript">
-	var width = $("#header-login-form.logged_in").width() - 37;
-	var paddingRight = $("#header-login-form.logged_in").width() - 99;
-	$("#header-login-form #user-panel").css("width",width+"px");
-	$("#header-login-form #user-panel > ul > li > a").css("paddingRight",paddingRight+"px");
 	$("#user-toggle").click(function(){
 		if ($("#user-panel").css("display") == "none") {
 			$("#user-toggle").addClass("clicked");

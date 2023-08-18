@@ -33,6 +33,8 @@ table { border-collapse: separate; border-spacing: 0;display: table;vertical-ali
 html {
 	font-size: 62.5%; /* reset 1em to 10px */
 	height: 100%;
+	overflow-x: hidden;
+	overflow-y: scroll;
 }
 
 body {
@@ -191,8 +193,6 @@ img.quicklink {
 /* General */
 #page_section {
 	position: relative;
-	top: 157px;
-	width: 1024px;
 	margin: 0 auto;
 	background: #E6E7E8;
 }
@@ -233,13 +233,12 @@ h1.title {color: #BE1E2D;}
 	z-index: 98;
 	width: 100%;
 	background: #414042 url('/images/banner_over.png') no-repeat;
-	position: fixed;
+	position: sticky;
 	border-bottom: 28px solid #414042;
 	box-shadow: 0 1rem 3rem rgba(0,0,0,.175);
 }
 #inner_header {
 	margin: 0 auto;
-	width: 940px;
 }
 #banner {
 	position: relative;
@@ -268,13 +267,29 @@ h1.title {color: #BE1E2D;}
 	position: relative;
 	top: 16px;
 }
+body.logged-in #header-login-form {
+	right: 15px;
+}
+@media only screen and (max-width: 876px) {
+	body:not(.logged-in) #header-login-form {
+		top: -100px !important;
+		background-color: #414042;
+	}
+}
+@media only screen and (max-width: 605px) {
+	body.logged-in #header-login-form {
+		top: -100px !important;
+		background-color: #414042;
+		right: 15px;
+	}
+}
 #header-login-form .username, #header-login-form .password, #header-login-form .login-submit {
 	float: left;
 	margin-right: 7px;
-	font-size: 11px;
+	font-size: 13px;
 	color: white;
 }
-#header-login-form .remember {font-size: 11px;}
+#header-login-form .remember {font-size: 13px;}
 #header-login-form .login-bottom {
 	float: right;
 	position: relative;
@@ -282,7 +297,7 @@ h1.title {color: #BE1E2D;}
 	right: 75px;
 }
 #header-login-form a.forgot, #header-login-form a.register {
-	font-size: 11px;
+	font-size: 13px;
 	text-decoration: none;
 }
 #header-login-form a.forgot:hover, #header-login-form a.register:hover {
@@ -309,7 +324,7 @@ h1.title {color: #BE1E2D;}
 	text-decoration: none;
 }
 #header-login-form a.front {
-	font-size: 11px;
+	font-size: 13px;
 	padding-left: 3px;
 	border-right: 1px solid white;
 	line-height: 12px;
@@ -337,21 +352,20 @@ h1.title {color: #BE1E2D;}
 	float: left;
 	position: relative;
 }
-#header-login-form.logged_in {
-}
 #header-login-form #user-panel {
 	background: #A7A9AB;
 	min-width: 42px;
 	min-height: 38px;
-	position: relative;
+	position: absolute;
 	top: 20px;
-	left: 35px;
+	right: 0;
 	border-left: 1px solid black;
 	border-right: 1px solid black;
 	border-bottom: 1px solid black;
+	z-index: 1;
 }
 #header-login-form #user-panel > ul {
-	position: absolute;
+	position: relative;
 	-webkit-margin-before: 0;
 	-webkit-margin-after: 0;
 	-webkit-margin-start: 0;
@@ -366,8 +380,8 @@ h1.title {color: #BE1E2D;}
 #header-login-form #user-panel > ul > li > a {
 	color: black;
 	text-decoration: none;
-	font-size: 11px;
-	padding: 1px 0 3px 25px;
+	font-size: 13px;
+	padding: 2px 8px;
 	margin: 2px;
 	line-height: 12px;
 	height: 12px;
@@ -376,6 +390,7 @@ h1.title {color: #BE1E2D;}
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: hidden;
+	width: calc(100% - 20px);
 }
 #header-login-form #user-panel > ul > li > a:hover {
 	background: #BE1E2D;
@@ -452,7 +467,7 @@ ul#weeks_bar > li > a {
 	background: transparent;
 	color: #BE1E2D;
 	padding: 2px 4px;
-	font-size: 12px;
+	font-size: 14px;
 	text-decoration: none;
 }
 ul#weeks_bar > li > a:hover {
@@ -491,7 +506,6 @@ ul#weeks_bar > li > a:hover {
 }
 #leftmenu {
 	float: left;
-	width: 140px;
 	border: 0 solid #E9E4E5;
 	background: #E2E2E2;
 	font: 1.1em  tahoma, verdana, arial, sans-serif;
@@ -514,6 +528,7 @@ ul#weeks_bar > li > a:hover {
 	background-position: 0 0;
 	padding-bottom: 1px;
 	margin-bottom: 10px;
+	clear: both;
 }
 #leftmenu > ul > li > a{
 	color: black;
@@ -536,13 +551,14 @@ padding: 0 7px;
 }
 #leftmenu div.heading {
 	color: black;
-	font-size: 11px;
+	font-size: 13px;
 	text-transform: uppercase;
 	font-weight: bold;
-	width: 95px;
+	width: 100%;
+	clear: both;
 }
 #leftmenu a.course_code {
-	font-size: 11px;
+	font-size: 13px;
 	font-weight: normal;
 	text-decoration: none;
 	color: #BE1E2D;
@@ -552,7 +568,7 @@ padding: 0 7px;
 }
 #leftmenu span.course_name {
 	color: #808285;
-	font-size: 11px;
+	font-size: 13px;
 }
 #leftmenu ul#other_courses li.course {
 	width: 120px;
@@ -562,11 +578,9 @@ padding: 0 7px;
 	display: none;
 }
 #rightmenu {
-	float: left;
 	border: 0 solid #E9E4E5;
 	background: transparent;
 	font: 1.1em  tahoma, verdana, arial, sans-serif;
-	position: absolute;
 	height: 100%;
 	height: auto !important;
 	z-index: inherit;
@@ -594,18 +608,16 @@ width: 188px;
 padding: 0 7px;
 }
 #rightmenu div.heading {
-	width: 210px;
 	height: 13px;
 	border-top: 1px solid #939598;
 	background: #BCBEC0;
 	color: black;
 	padding: 3px 12px;
-	font-size: 11px;
+	font-size: 13px;
 	font-weight: bold;
 }
 #rightmenu .post {
 	display: block;
-	width: 235px;
     overflow:hidden;
     height:auto !important;
 	min-height: 45px;
@@ -631,12 +643,12 @@ padding: 0 7px;
 	display: block;
 	float: right;
 	min-height: 45px;
-	width: 180px;
+	width: calc(100% - 50px);
 }
 #rightmenu .post a.title, #rightmenu .post_right_detail a.course_name {
 	float: none;
 	color: #BE1E2D !important;
-	font-size: 11px;
+	font-size: 13px;
 	font-weight: normal;
 	text-decoration: none;
 	position: relative;
@@ -649,14 +661,14 @@ padding: 0 7px;
 #rightmenu .post_right_detail a.post_see_more {color: #808285; float: right;}
 #rightmenu .post_right_detail a.post_see_more:hover {text-decoration: underline;}
 #rightmenu .post_right_detail a.title, #rightmenu .post_right_detail span.author_name, #rightmenu .post_right_detail a.course_name, #rightmenu .post_right_detail a.post_see_more {
-	font-size: 11px;
+	font-size: 13px;
 }
 .post span.author_name a {color: black; text-decoration: none;}
 .post span.author_name.lecturer a {color: #BE1E2D !important;}
 .post span.author_name a:hover {color: black; text-decoration: underline !important;}
 .post span.author_name.lecturer a:hover {color: #BE1E2D !important;}
 #ask_label {
-	font-size: 12px;
+	font-size: 14px;
 	font-weight: bold;
 	color: black;
 	background: url('/images/ask_question.png') no-repeat;
@@ -667,15 +679,15 @@ padding: 0 7px;
 	overflow: hidden;
 	min-height: 60px;
 	display: block;
-	width: 504px;
+	width: 100%;
 	margin-top: 12px;
 	margin-bottom: 12px;
 }
 #question_section {
 	position: relative;
 	background: transparent;
-	width: 500px;
-	height: 27px;
+	width: calc(100% - 2px);
+	height: 36px;
 	border: 1px solid #BE1E2D;
 	margin-top: 5px;
 	cursor: text;
@@ -684,6 +696,7 @@ padding: 0 7px;
 	position: absolute;
 	top: 2px;
 	right: 2px;
+	z-index: 1;
 }
 #question_close_button, .close_button, #search_bar button#search_submit.close_button {
 	display: none;
@@ -699,7 +712,7 @@ padding: 0 7px;
 	background-position: 0 -32px;
 }
 .question_element {
-	width: 490px;
+	width: 100%;
 	height: 22px;
 }
 .question_element > label{
@@ -711,8 +724,8 @@ padding: 0 7px;
 	background: transparent;
 }
 .question_element input {
-	width: 250px;
-	margin-right: 170px;
+	width: calc(100% - 75px);
+	margin-right: 20px;
 }
 .question_element textarea {
 	width: 250px;
@@ -724,8 +737,17 @@ input#question_title,input#question_url {
 	border: 1px solid #F68F75;
 	color: #F68F75;
 }
+input#question_title {
+	width: calc(100% - 75px);
+	left: -20px;
+    position: relative;
+}
 label[for="question_title"],label[for="question_url"] {
 	color: #F68F75;
+}
+label[for="question_title"] {
+	left: -20px !important;
+    position: relative;
 }
 label[for="question_hide"] {
 	margin-top: 6px;
@@ -735,7 +757,7 @@ textarea#question_body, textarea#question_answer {
 	border-bottom: 1px solid #808285;
 	color: #808285;
 	float: left;
-	width: 490px;
+	width: calc(100% - 12px);
 	margin-left: 5px;
 }
 label[for="question_body"],label[for="question_answer"],label[for="question_hide"] {
@@ -762,7 +784,7 @@ a#post_submit:hover {
 	height: 26px;
 	bottom: 0;
 	background: #FDD7C8;
-	width: 500px;
+	width: 100%;
 	border-top: 1px solid #BE1E2D;
 }
 #question_bottom > .question_element {
@@ -773,7 +795,7 @@ a#post_submit:hover {
 	width: 95px;
 }
 #question_bottom > .question_element.course {
-	width: 345px;
+	width: calc(100% - 138px);
 }
 #question_bottom > .question_element > label {
 	color: #BE1E2D;
@@ -785,7 +807,7 @@ a#post_submit:hover {
 	color: white;
 }
 select#question_week {width: 45px;}
-select#question_cid {width: 285px;}
+select#question_cid {width: calc(100% - 52px);}
 /* Main */
 #main {
 	position: relative;
@@ -796,7 +818,7 @@ select#question_cid {width: 285px;}
 	min-height: 420px;
 	height: 100%;
 	height: auto !important;
-	margin: 0 42px 0 42px;
+	margin: 0 auto;
 }
 
 #main ul li {list-style: none;}
@@ -807,9 +829,6 @@ select#question_cid {width: 285px;}
 	min-height: 420px;
 	background: transparent;
 	text-align: left;
-	margin-left: 170px;
-	padding: 2px;
-	width: 530px;
 	top: 0;
 }
 #content p,#content h1 {
@@ -819,11 +838,9 @@ white-space:pre-wrap;
 }
 #content .posts {
 	position: relative;
-	width: 504px;
 }
 #content .post {
 	display: block;
-	width: 504px;
     overflow:hidden;
     height:auto !important;
 	min-height: 50px;
@@ -846,12 +863,12 @@ white-space:pre-wrap;
 	display: block;
 	float: right;
 	min-height: 50px;
-	width: 450px;
+	width: calc(100% - 50px);
 }
 #content .post_right_detail a.course_code {
 	float: none;
 	color: #BE1E2D !important;
-	font-size: 12px;
+	font-size: 14px;
 	font-weight: bold;
 	text-decoration: none;
 	position: relative;
@@ -860,14 +877,14 @@ white-space:pre-wrap;
 #content .post  a.title:hover, #content .post_right_detail a.course_code:hover {
 	text-decoration: underline;
 }
-#content .post_right_detail a.post_title, #content .post_right_detail a.post_title:hover {color: #BE1E2D; font-size: 13px;}
+#content .post_right_detail a.post_title, #content .post_right_detail a.post_title:hover {color: #BE1E2D; font-size: 15px;}
 #content .post_right_detail a.post_title:hover {text-decoration: underline;}
-#content .post_right_detail span.author_name {color: black;font-size: 13px;font-weight: bold;}
+#content .post_right_detail span.author_name {color: black;font-size: 15px;font-weight: bold;}
 #content .post_right_detail span.author_name.lecturer {color: #BE1E2D;}
 #content .post_right_detail span.course_name {color: #939598;}
 #content .post_right_detail span.post_week {color: #939598;}
-#content .post_right_detail span.post_content {color: black;font-size: 13px;}
-#content .post_right_detail div.post_rate {color: black;font-size: 12px;}
+#content .post_right_detail span.post_content, .post_answer {color: black;font-size: 15px;}
+#content .post_right_detail div.post_rate {color: black;font-size: 14px;}
 #content .post_right_detail a.post_see_more {color: #808285; float: right;}
 #content .post_right_detail a.post_see_more:hover {text-decoration: underline;}
 a.button.like, a.button.dislike, a.button.follow, a.button.comment_toggle, .comment a.button.edit_comment, .comment a.button.delete_comment, .comment a.button {
@@ -911,7 +928,6 @@ a.button.like:active, a.button.dislike:active, a.button.follow:active, a.button.
 #footer {
 	background: #6E6E6E;
 	position: relative;
-	top: 157px;
 	width: 100%;
 	min-height: 135px;
 	text-align: left;
@@ -942,13 +958,16 @@ a.button.like:active, a.button.dislike:active, a.button.follow:active, a.button.
 	top: 135px;
 	height: 32px;
 	width: 100%;
+    left: 0;
+    right: 0;
+    margin: 0;
 }
 #footer_bottom span {
 	padding-top: 10px;
 	font-size: 10px;
 }
 #footer .footer_heading {
-	font-size: 16px;
+	font-size: 18px;
 	font-family: Impact;
 	text-transform: uppercase;
 	margin: 4px 0;
@@ -1127,7 +1146,7 @@ td.count {
 	margin-bottom:1px;
 }
 .post_answer {
-	width: 440px;
+	width: 100%;
 	margin-top: 12px;
 }
 .comment .avatar{
@@ -1157,7 +1176,7 @@ td.count {
 }
 
 .comment .name{
-	font-size:11px;
+	font-size: 14px;
 	color: black;
 	font-weight: bold;
 }
@@ -1219,7 +1238,7 @@ td.count {
 	color: #F68F75 !important;
 	background: transparent !important;
 	border: 0 !important;
-	font-size: 11px;
+	font-size: 13px;
 	text-decoration: none;
 	cursor: pointer;
 	margin-right: 10px;
@@ -1385,11 +1404,11 @@ body.admin table {
 	border: solid 1px #141414;
 	border-radius: 10px;
 }
-#wrap-content {font-size: 16px;padding: 42px 24px;margin: auto;color: black;height: 136px;}
+#wrap-content {font-size: 18px;padding: 42px 24px;margin: auto;color: black;height: 136px;}
 #wrap-content > h5 {
 	padding: 0;
 	margin-bottom: 10px;
-	font-size: 14px;
+	font-size: 16px;
 	color: #BE1E2D;
 }
 #login a {
@@ -1414,7 +1433,7 @@ body.admin table {
 }
 #login label {
 	color: #777;
-	font-size: 11px;
+	font-size: 13px;
 }
 #login #nav {
 	text-shadow: white 0 1px 0;
@@ -1424,7 +1443,7 @@ body.admin table {
 body.admin #content {
 	position: fixed;
 	background: #F4F5F5;
-	z-index: 98;
+	z-index: 0;
 	margin: 0 auto;
 	width: 100%;
 	left: 0;
@@ -1451,7 +1470,7 @@ body.admin #content > #inner_content h1.title {
 	font-size: 21px;
 }
 body.admin #content > #inner_content span.count {
-	font-size: 12px;
+	font-size: 14px;
 	color: #231F20;
 	margin-left: 24px;
 }
@@ -1570,7 +1589,7 @@ a.details_rate_trigger {
 	border: 1px solid #BE1E2D;
 	background: transparent;
 	height: 23px;
-	width: 190px;
+	width: calc(100% - 43px);
 	line-height: 20px;
 	border-right: 0;
 	padding: 0 5px 2px 10px;
@@ -1593,7 +1612,7 @@ body.admin.user.list #search_bar input#search_user_box {
 #search_bar #search_suggestion, #search_bar #search_user_suggestion {
 	display: none;
 	border: 1px solid #BE1E2D;
-	width: 231px;
+	width: calc(100% - 2px);
 	background: #D1D2D4;
 	z-index: 96;
 	color: #808284;
@@ -1643,7 +1662,7 @@ body.admin.user.list #search_bar input#search_user_box {
 .paging a.paging_button {
 	color: #1C1C1B !important;
 	background: #C6C6C5;
-	font-size: 12px;
+	font-size: 14px;
 	text-decoration: none;
 	padding: 4px 7px;
 	margin: 0;
@@ -1677,7 +1696,7 @@ body.admin.user.list #search_bar input#search_user_box {
 	cursor: default;
 }
 #report_section h2 {
-	font-size: 16px;
+	font-size: 18px;
 	font-family: Impact;
 	color: #231F20;
 }
@@ -1750,4 +1769,9 @@ ul.user_course, ul.user_course > li {
 #loading {
 	margin: 0 auto;
 	position: fixed;
+}
+@media only screen and (max-width: 1199px) {
+	#leftmenu {
+		display: none;
+	}
 }

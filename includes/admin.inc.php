@@ -484,6 +484,7 @@ if (in_array($p,$course_week_paths)):
 endif;
 if (isset($_SESSION['rid'])):
 	$site_name = '[Logged in] Online KMS';
+	$body_class .= ' logged-in';
 else:
 	$site_name = 'Online KMS';
 endif;
