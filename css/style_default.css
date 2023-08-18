@@ -1093,7 +1093,7 @@ table td {
 	color: #231F20;
 	border-width: 1px;
 	border-style: solid;
-	border-color: #F1F1F2;
+	border-color: transparent;
 	border-collapse:collapse;
 }
 table td.empty {
