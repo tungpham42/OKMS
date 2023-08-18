@@ -507,9 +507,6 @@ ul#weeks_bar > li > a:hover {
 	text-decoration: underline;
 }
 #leftmenu {
-	float: left;
-	border: 0 solid #E9E4E5;
-	background: #E2E2E2;
 	font: 1.1em  tahoma, verdana, arial, sans-serif;
 	position: relative;
 	height: 100%;
