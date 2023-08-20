@@ -16,7 +16,7 @@ if(!isset($_SESSION['username']))
 			<button type="submit" value="Login" name="header_login" class="login-button"></button>
 		</div>
 		<div class="remember">
-			<input name="rememberMe" id="rememberMe" type="checkbox" checked="checked" value="1" /> &nbsp;Remember me
+			<label for="rememberMe"><input name="rememberMe" id="rememberMe" type="checkbox" checked="checked" value="1" /> &nbsp;Remember me</label>
 		</div>
 		<div class="login-bottom">
 			<a class="forgot" href="/user/password_reset">Forgot Password</a> | <a class="register" href="/user/register">Sign Up</a>
@@ -39,7 +39,7 @@ if(isset($_POST['header_login'])){
 <!--<a class="button" href="#" onclick="openLogin();return false">Login</a>-->
 <div id="login-wrap">
 	<div id="login-border">
-	<a class="close-button" onclick="closeLoginBox()"></a>
+	<button class="close-button" onclick="closeLoginBox()"></button>
 		<div id="login">
 		<h1>User login</h1>
 		<?php
@@ -73,7 +73,7 @@ if(isset($_POST['header_login'])){
 					</tr>
 					<tr>
 						<td colspan="2">
-							<label><input name="rememberMe" id="rememberMe" type="checkbox" checked="checked" value="1" /> &nbsp;Remember me</label>
+							<label for="rememberMePopup"><input name="rememberMe" id="rememberMePopup" type="checkbox" checked="checked" value="1" /> &nbsp;Remember me</label>
 						</td>
 					</tr>
 					<tr>

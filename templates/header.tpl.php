@@ -1,6 +1,6 @@
 <div id="wrap">
 	<div id="wrap-border">
-	<a class="close-button" onclick="closeWrapBox()"></a>
+	<button class="close-button" onclick="closeWrapBox()"></button>
 		<div id="wrap-content">
 		</div>
 	</div>

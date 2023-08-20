@@ -178,10 +178,10 @@ class pagination
 			// Assign the 'previous page' link into the array if we are not on the first page
 			if ($this->page != 1) {
 				if ($this->_showFirstAndLast) {
-					$plinks[] = ' <a class="paging_button" onclick="turnPage(1)">&laquo;&laquo;</a> ';
+					$plinks[] = ' <button class="paging_button" onclick="turnPage(1)">First</button> ';
 				}
 				if ($this->page > $this->pageLimit && $this->pages > $this->pageLimit) {
-					$plinks[] = ' <a class="paging_button" onclick="turnPage('.($this->prev).')">&laquo;</a> ';
+					$plinks[] = ' <button class="paging_button" onclick="turnPage('.($this->prev).')">Previous</button> ';
 				}
 			}
 
@@ -189,9 +189,9 @@ class pagination
 			for ($j = $this->pageStart; $j <= ($this->pageStart + $this->pageLimit - 1); $j++) {
 				if ( $j >= 1 && $j <= $this->pages ) {
 					if ($this->page == $j) {
-						$links[] = ' <a class="paging_button selected">'.$j.'</a> '; // If we are on the same page as the current item
+						$links[] = ' <button class="paging_button selected">'.$j.'</button> '; // If we are on the same page as the current item
 					} else {
-						$links[] = ' <a class="paging_button" onclick="turnPage('.$j.')">'.$j.'</a> '; // add the link to the array
+						$links[] = ' <button class="paging_button" onclick="turnPage('.$j.')">'.$j.'</button> '; // add the link to the array
 					}
 				}
 			}
@@ -199,10 +199,10 @@ class pagination
 			// Assign the 'next page' if we are not on the last page
 			if ($this->page < $this->pages) {
 				if ($this->page <= $this->pageFloor && $this->pages > $this->pageLimit) {
-					$slinks[] = ' <a class="paging_button" onclick="turnPage('.($this->next).')">&raquo;</a> ';
+					$slinks[] = ' <button class="paging_button" onclick="turnPage('.($this->next).')">Next</button> ';
 				}
 				if ($this->_showFirstAndLast) {
-					$slinks[] = ' <a class="paging_button" onclick="turnPage('.($this->pages).')">&raquo;&raquo;</a> ';
+					$slinks[] = ' <button class="paging_button" onclick="turnPage('.($this->pages).')">Last</button> ';
 				}
 			}
 

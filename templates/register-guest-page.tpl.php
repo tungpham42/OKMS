@@ -87,7 +87,7 @@ if ((isset($_POST['submit']) && count($err) > 0) || !isset($_POST['submit'])):
 		</tr>
 		<tr>
 			<td colspan="2">
-				<input name="has_agreed" type="checkbox" value="1" />
+				<input id="has_agreed" name="has_agreed" type="checkbox" value="1" />
 				<label style="position: relative;top: -4px;" for="has_agreed">I have read, and agree to abide by the <a style="position: relative;top: -2px;" target="_blank" href="/terms-and-conditions">Terms and Conditions</a></label>
 			</td>
 		</tr>
