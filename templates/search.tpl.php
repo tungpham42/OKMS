@@ -1,6 +1,6 @@
 <?php //Search results page template
-if (isset($_POST['keyword'])) {					
-	$query = str_replace("'","/",$_POST['keyword']);
+if (isset($_GET['q'])) {					
+	$query = str_replace("'","/",$_GET['q']);
 	$cid = (isset($_POST['cid'])) ? $_POST['cid']: 0;
 	echo '<div id="feeds">';
 	if ($query == '') {

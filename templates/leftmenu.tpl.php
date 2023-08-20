@@ -4,7 +4,7 @@ if (isset($_SESSION['uid'])):
 	$email = $user['User_Mail'];
 	$default = DEFAULT_AVATAR;
 	$grav_url = "https://0.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=identicon&s=40";
-	echo '<a class="author" href="/user/'.$user['User_Username'].'"><img src="'.$grav_url.'" width="40px"/><div class="name">'.((isset($user['User_Fullname'])) ? $user['User_Fullname']: $user['User_Username']).'</div></a>'
+	echo '<a class="author" href="/user/'.$user['User_Username'].'"><img alt="'.$user['User_Username'].'" src="'.$grav_url.'" width="40px"/><div class="name">'.((isset($user['User_Fullname'])) ? $user['User_Fullname']: $user['User_Username']).'</div></a>'
 ?>
 <?php
 endif;

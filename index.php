@@ -11,33 +11,34 @@ require 'includes/admin.inc.php';
 	<head>
 		<meta charset="UTF-8">
 		<meta http-equiv="content-type" content="text/html;charset=utf-8">
-		<meta name="description" content="<?php echo $meta_description; ?>" />
-		<meta name="keywords" content="kms,cms,online_kms,knowledge management system" />
-		<meta name="author" content="Tung Pham" />
-		<meta property="og:url" content="<?php echo currentURL(); ?>" />
-		<meta property="og:type" content="website" />
-		<meta property="og:locale" content="en_US" />
-		<meta property="og:title" content="<?php echo $site_name.(($p != 'home' && $p != '') ? ' - ': ' ').$title; ?>" />
-		<meta property="og:description" content="<?php echo $meta_description; ?>" />
-		<meta property="og:image" content="/images/okms_200x200.png" />
-		<meta property="og:image:type" content="image/png" />
-		<meta property="og:image:width" content="200" />
-		<meta property="og:image:height" content="200" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="<?php echo $meta_description; ?>">
+		<meta name="keywords" content="kms,cms,online_kms,knowledge management system">
+		<meta name="author" content="Tung Pham">
+		<meta property="og:url" content="<?php echo currentURL(); ?>">
+		<meta property="og:type" content="website">
+		<meta property="og:locale" content="en_US">
+		<meta property="og:title" content="<?php echo $site_name.(($p != 'home' && $p != '') ? ' - ': ' ').$title; ?>">
+		<meta property="og:description" content="<?php echo $meta_description; ?>">
+		<meta property="og:image" content="<?php echo currentURL(); ?>/images/okms_200x200.png">
+		<meta property="og:image:type" content="image/png">
+		<meta property="og:image:width" content="200">
+		<meta property="og:image:height" content="200">
 		<title><?php echo $site_name.(($p != 'home' && $p != '') ? ' - ': ' ').$title; ?></title>
-		<link rel="stylesheet" href="/css/style_<?php echo (isset($_SESSION['theme'])) ? $_SESSION['theme']: 'default'; ?>.css" type="text/css" media="screen" />
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.1/css/bootstrap-grid.min.css" integrity="sha512-2cWcZ9cbPMZFm2inlFOhwsBVbNMmNxKBtVXqL8OY9tXCZahhnIfXMxPCzpKqiHF2I2mOiNHNXEDUDglwd+4uYw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.1/css/bootstrap-utilities.min.css" integrity="sha512-cfwnOJPyV+wKMunF+AeiFo+CJX+AN3xF+DyT7TQ0P9/RjcVM9ZlRFoN6m6ZjU+avqGKL8w8hKFXkdjSk8CDl0A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+		<link rel="stylesheet" href="/css/style_<?php echo (isset($_SESSION['theme'])) ? $_SESSION['theme']: 'default'; ?>.css" type="text/css" media="screen">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.1/css/bootstrap-grid.min.css" integrity="sha512-2cWcZ9cbPMZFm2inlFOhwsBVbNMmNxKBtVXqL8OY9tXCZahhnIfXMxPCzpKqiHF2I2mOiNHNXEDUDglwd+4uYw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.1/css/bootstrap-utilities.min.css" integrity="sha512-cfwnOJPyV+wKMunF+AeiFo+CJX+AN3xF+DyT7TQ0P9/RjcVM9ZlRFoN6m6ZjU+avqGKL8w8hKFXkdjSk8CDl0A==" crossorigin="anonymous" referrerpolicy="no-referrer">
 		<!--[if IE]>
-		<link type="text/css" rel="stylesheet" media="all" href="/css/ie.css" />
+		<link type="text/css" rel="stylesheet" media="all" href="/css/ie.css">
 		<![endif]-->
 		<script>
 		if (navigator.appName == 'Microsoft Internet Explorer') {
-			document.write('<link type="text/css" rel="stylesheet" media="all" href="/css/ie.css" />');
+			document.write('<link type="text/css" rel="stylesheet" media="all" href="/css/ie.css">');
 		}
 		</script>
 		<!--<script src="http://yui.yahooapis.com/3.6.0/build/yui/yui-min.js"></script>-->
 		<script type="text/javascript" src="/js/yui/yui/yui-min.js"></script>
-		<link rel="shortcut icon" href="/images/favicon.ico" />
+		<link rel="shortcut icon" href="/images/favicon.ico">
 		<!-- Google tag (gtag.js) -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZETS4QXH8Z"></script>
 		<script>
@@ -84,7 +85,7 @@ require 'includes/admin.inc.php';
 	<script type="text/javascript" src="/js/jquery.qtip.min.js"></script>
 	<!-- Start Header -->
 	<div id="header" class="container-fluid fixed-top shadow-lg">
-		<div id="inner_header" class="container-xxl">
+		<div id="inner_header" class="container-xxl pe-0">
 			<div class="col-12">
 			<?php include('templates/header.tpl.php'); ?>
 			</div>
@@ -93,7 +94,7 @@ require 'includes/admin.inc.php';
 	<!-- End Header -->
 	<div id="page_section" class="container-fluid">
 		<!-- Start Main -->
-		<div id="main" class="container-xxl">
+		<div id="main" class="container-xxl px-0">
 			<div class="row px-0 w-100">
 				<!-- Start Side Bar -->
 				<div id="leftmenu" class="col-xxl-2 col-xl-2 col-lg-12 col-md-12 col-sm-12 col-xs-12"><?php include('templates/leftmenu.tpl.php'); ?></div>

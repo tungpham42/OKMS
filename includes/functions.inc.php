@@ -191,7 +191,7 @@ function user_courses_load($cid) { //Load array from table course_users from cou
 }
 function lecturers_load_from_cid($cid) { //Load lecturers array from course ID
 	$users = users_load_by_cid($cid);
-	$lecturers = array_filter($users, array(new filter('3'), 'filter_rid'));
+	$lecturers = array_filter($users, array(new Filter('3'), 'filter_rid'));
 	return $lecturers;
 }
 function uids_load_from_cid($cid) { //Load user IDs array from course ID
@@ -1037,7 +1037,7 @@ function following_list($uid) { //Friend list
 		for ($i = 0; $i < count($followee_ids); $i++) {
 			$user = user_load($followee_ids[$i]);
 			$email = $user['User_Mail'];
-			$grav_url = "https://0.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=identicon&s=" . $size;
+			$grav_url = "https://0.gravatar.com/avatar/" . md5( strtolower( trim((string) $email ) ) ) . "?d=identicon&s=" . $size;
 			$output .= '<div class="post '.(($i == 0) ? 'first': "").'">';
 			$output .= '<a class="author" href="/user/'.$user['User_Username'].'"><img alt="'.$user['User_Username'].'" src="'.$grav_url.'" width="40px"/></a>';
 			$output .= '<div class="post_right_detail">';
@@ -1224,7 +1224,7 @@ function view_post($pid,$uid,$button=0) { //Return post from post ID
 	$email = $user['User_Mail'];
 	$size = 40;
 	$default = DEFAULT_AVATAR;
-	$grav_url = "https://0.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=identicon&s=" . $size;
+	$grav_url = "https://0.gravatar.com/avatar/" . md5( strtolower( trim((string) $email ) ) ) . "?d=identicon&s=" . $size;
 	$output .= '<div class="post '.(($i == 0) ? 'first': "").'">';
 	$output .= '<a class="author" href="'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? '#': '/user/'.$user['User_Username']).'"><img alt="'.$user['User_Username'].'" src="'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? $default: $grav_url).'" width="40px"/></a>';
 	$output .= '<div class="post_right_detail">';
@@ -2188,7 +2188,7 @@ function latest_questions($count) {
 			$course = course_load($posts[$i]['Course_ID']);
 			$email = $user['User_Mail'];
 			$size = 40;
-			$grav_url = "https://0.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=identicon&s=" . $size;
+			$grav_url = "https://0.gravatar.com/avatar/" . md5( strtolower( trim((string) $email ) ) ) . "?d=identicon&s=" . $size;
 			$output .= '<div class="post '.(($i == 0) ? 'first': "").'">';
 			$output .= '<a class="author" href="'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? '#': '/user/'.$user['User_Username']).'"><img alt="'.$user['User_Username'].'" src="'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? $default: $grav_url).'" width="40px"/></a>';
 			$output .= '<div class="post_right_detail">';
@@ -2225,7 +2225,7 @@ function most_commented($count) {
 			$course = course_load($posts[$i]['Course_ID']);
 			$email = $user['User_Mail'];
 			$size = 40;
-			$grav_url = "https://0.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=identicon&s=" . $size;
+			$grav_url = "https://0.gravatar.com/avatar/" . md5( strtolower( trim((string) $email ) ) ) . "?d=identicon&s=" . $size;
 			$output .= '<div class="post '.(($i == 0) ? 'first': "").'">';
 			$output .= '<a class="author" href="'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? '#': '/user/'.$user['User_Username']).'"><img alt="'.$user['User_Username'].'" src="'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? $default: $grav_url).'" width="40px"/></a>';
 			$output .= '<div class="post_right_detail">';
@@ -2478,7 +2478,7 @@ function list_comments($pid,$c=null) { //Return list of comments by post ID
 	$cid = $post['Course_ID'];
 	$course = course_load($cid);
 	$current_user = user_load($_SESSION['uid']);
-	$current_grav_url = "https://0.gravatar.com/avatar/" . md5( strtolower( trim( $current_user['User_Mail'] ) ) ) . "?d=identicon&s=" . $size;
+	$current_grav_url = "https://0.gravatar.com/avatar/" . md5( strtolower( trim((string) $current_user['User_Mail'] ) ) ) . "?d=identicon&s=" . $size;
 	$comments = comments_load_by_pid($pid);
 	usort($comments,'sort_comment_date_ascend');
 	$count = ($c == null) ? count($comments): $c;
@@ -2490,7 +2490,7 @@ function list_comments($pid,$c=null) { //Return list of comments by post ID
 			$comid = $comments[$i]['Comment_ID'];
 			$hide_label = ($comments[$i]['Comment_Hide_Name'] == 0 && user_existed($comments[$i]['User_ID'])) ? 'Hide': 'Unhide';
 			$email = $user['User_Mail'];
-			$grav_url = ($comments[$i]['Comment_Hide_Name'] == 0 && user_existed($comments[$i]['User_ID'])) ? "https://0.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=identicon&s=" . $size: $default;
+			$grav_url = ($comments[$i]['Comment_Hide_Name'] == 0 && user_existed($comments[$i]['User_ID'])) ? "https://0.gravatar.com/avatar/" . md5( strtolower( trim((string) $email ) ) ) . "?d=identicon&s=" . $size: $default;
 			$output .= '<div class="comment">';
 			$output .= '<a class="author" href="'.(($comments[$i]['Comment_Hide_Name'] == 1 || !user_existed($comments[$i]['User_ID'])) ? "#": '/user/'.$user['User_Username']).'"><img alt="'.$user['User_Username'].'" src="'.$grav_url.'" width="30px"/></a>';
 			$output .= '<div class="comment_right_detail">';
@@ -2575,7 +2575,7 @@ function list_comments_without_right($pid,$c=null) { //Return list of comments b
 			$comment_vote = comment_vote_load($comid,$_SESSION['uid']);
 			$email = $user['User_Mail'];
 			$size = 30;
-			$grav_url = ($comments[$i]['Comment_Hide_Name'] == 0 && user_existed($comments[$i]['User_ID'])) ? "https://0.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=identicon&s=" . $size: $default;
+			$grav_url = ($comments[$i]['Comment_Hide_Name'] == 0 && user_existed($comments[$i]['User_ID'])) ? "https://0.gravatar.com/avatar/" . md5( strtolower( trim((string) $email ) ) ) . "?d=identicon&s=" . $size: $default;
 			$output .= '<div class="comment">';
 			$output .= '<a class="author" href="/user/'.$user['User_Username'].'"><img alt="'.$user['User_Username'].'" src="'.$grav_url.'" width="30px"/></a>';
 			$output .= '<div class="comment_right_detail">';
@@ -2770,7 +2770,7 @@ function sort_course_code_ascend($a,$b){ //Call back function to sort course cod
 /* Filter Class */
 class Filter {
 	function __construct($num) {
-			$this->num = $num;
+		$this->num = $num;
 	}
 	function filter_cid($a) { //Call back function to filter array by course ID
 		if (isset($a['Course_ID'])) {
@@ -3371,7 +3371,7 @@ function parse_excel_column_to_custom_array($filename,$column,$starting_cell_row
 }
 function anti_sql($sql) {
     $sql = str_replace(sql_regcase("/(from|select|insert|delete|where|drop table|show tables|#|*|--|\)/"),"",$sql);
-    return trim(strip_tags(addslashes($sql))); #strtolower()
+    return trim((string)strip_tags(addslashes($sql))); #strtolower()
 }
 /* Triggers */
 function comment_like($comid,$uid) {

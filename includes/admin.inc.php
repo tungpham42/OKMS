@@ -61,7 +61,7 @@ $uid = substr($p,5);
 $username = get_username_from_url($p);
 $week = get_week_from_url($p);
 $course_week = get_course_week_from_url($p);
-$cid = (isset($course_week)) ? $course_week['cid']: ((isset($_POST['cid'])) ? $_POST['cid']: get_cid_from_url($p));
+$cid = (isset($course_week)) ? $course_week['cid']: ((isset($_GET['cid'])) ? $_GET['cid']: get_cid_from_url($p));
 $cids = ($_SESSION['rid'] == 1) ? cids_load_all(): user_cids_load_all($_SESSION['uid']);
 $pids = user_pids_load_all($_SESSION['uid']);
 $user = user_load($_SESSION['uid']);
@@ -118,7 +118,7 @@ elseif (!isset($_GET['p']) || $_GET['p'] == 'home'):
 	$title = "";
 	$body_class = 'front';
 elseif ($p == 'search'):
-	$title = (isset($_POST['keyword']) && $_POST['keyword'] != "") ? 'Search results for "'.$_POST['keyword'].'"'.(($cid != 0) ? ' in '.$course['Course_Code']: ""): 'Search results';
+	$title = (isset($_GET['q']) && $_GET['q'] != "") ? 'Search results for "'.$_GET['q'].'"'.(($cid != 0) ? ' in '.$course['Course_Code']: ""): 'Search results';
 	$body_class = 'search';
 elseif ($p == 'option'):
 	if (isset($_SESSION['rid']) && $_SESSION['rid'] == 1):

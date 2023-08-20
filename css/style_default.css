@@ -42,7 +42,7 @@ body {
 	color: #BCBEC0;
 	font: normal 1.3em  tahoma, verdana, arial, sans-serif;
 	height: 100%;
-	padding-top: 160px;
+	padding-top: 132px;
 }
 /*
 *[title] {
@@ -236,7 +236,6 @@ h1.title {color: #BE1E2D;}
 	z-index: 98;
 	width: 100%;
 	background: #414042 url('/images/banner_over.png') no-repeat;
-	border-bottom: 28px solid #414042;
 }
 #inner_header {
 	margin: 0 auto;
@@ -272,17 +271,45 @@ h1.title {color: #BE1E2D;}
 body.logged-in #header-login-form {
 	right: 15px;
 }
-@media only screen and (max-width: 876px) {
-	body:not(.logged-in) #header-login-form {
-		top: -100px !important;
-		background-color: #414042;
+@media only screen and (max-width: 991px) {
+	#footer {
+		display: none !important;
 	}
 }
-@media only screen and (max-width: 605px) {
-	body.logged-in #header-login-form {
-		top: -100px !important;
+@media only screen and (max-width: 876px) {
+	body:not(.logged-in) #header-login-form {
+		top: 7px !important;
 		background-color: #414042;
-		right: 15px;
+		right: 30px !important;
+	}
+	#banner, #footer {
+		display: none !important;
+	}
+	#header {
+		height: 68px !important;
+	}
+	body {
+		padding-top: 68px !important;
+	}
+	#header-login-form .username > input, #header-login-form .password > input {
+		width: 80px !important;
+	}
+	body.logged-in #header-login-form {
+		top: 7px !important;
+		background-color: #414042;
+		right: 50px;
+	}
+	#login-wrap, #wrap {
+		width: 320px !important;
+	}
+	#header-login-form a.front, #header-login-form .username, #header-login-form .password, #header-login-form .login-submit, #header-login-form .remember, #header-login-form .login-bottom, #header-login-form a.forgot, #header-login-form a.register {
+		font-size: 10px !important;
+	}
+	#content .post_right_detail span.author_name, #content .post_right_detail a.post_title, #content .post_right_detail a.course_code, #content .post_right_detail span.post_content, .post_answer, #content .post_right_detail span.course_name, #content .post_right_detail span.post_week, #inner_content input.button, #inner_content button, #inner_content a.button, #inner_content a#post_submit.button, #content .post .post_right_detail {
+		font-size: 12px !important;
+	}
+	.average_rate {
+		display: none !important;
 	}
 }
 #header-login-form .username, #header-login-form .password, #header-login-form .login-submit {
@@ -1398,7 +1425,7 @@ body.admin table {
 	left: 50%;
 	top: 50%;
 	z-index: 100;
-	margin-left: -180px;
+	transform: translateX(-50%) translateY(-25%);
 	margin-top: -134px;
 	display: none;
 }
