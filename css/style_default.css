@@ -1174,6 +1174,8 @@ td.count {
 .post .post_rate_text {
 	color: #BE1E2D;
 	position: relative;
+	font-size: 11px;
+    top: -3px;
 }
 .post_answer_toggle, .post_answer, .comment, #addCommentContainer {
 	/* Styling the comments and the comment form container */
@@ -1524,7 +1526,6 @@ body.admin #content > #inner_content span.count {
 }
 body.admin #content > #inner_content a.button, body.admin #content > #inner_content input[type=reset], body.admin #content > #inner_content input[type=submit], body.admin #content > #inner_content button  {
 	border: 1px solid #A7A9AB;
-	background: #404041;
 	color: white;
 }
 body.admin #content > #inner_content a.button:active, body.admin #content > #inner_content input[type=submit]:active, body.admin #content > #inner_content button:active {
