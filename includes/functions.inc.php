@@ -2436,9 +2436,10 @@ function ask_question($rid,$cid,$week) {
 				});
 				function updateField(){
 					var title = $("input#question_title").val();
-					var url = title.replace(/[<>""!?,.!@#$%^&*{};:()]+/g,"");
-					var url = url.toLowerCase();
-					var url = url.replace(/[^A-Za-z0-9-]+/g,"-");
+					var url = slugify(title, {
+						lowercase: true,
+						separator: "-",
+					});
 					$("input#question_url").val(url);
 				}
 				function appendDate() {
@@ -3488,4 +3489,20 @@ function user_follow($uid,$followee_id) {
 	} elseif ($count == 1) {
 		unfollow_user($uid,$followee_id);
 	}
+}
+function transliterateURL($url) {
+    // Transliterate non-ASCII characters to their ASCII equivalents
+    $transliterated = iconv('UTF-8', 'ASCII//TRANSLIT', $url);
+    
+    // Replace spaces and special characters with dashes
+    $transliterated = preg_replace('/[^A-Za-z0-9\-]/', '-', $transliterated);
+    
+    // Remove consecutive dashes and leading/trailing dashes
+    $transliterated = preg_replace('/-+/', '-', $transliterated);
+    $transliterated = trim($transliterated, '-');
+    
+    // Convert to lowercase
+    $transliterated = strtolower($transliterated);
+    
+    return $transliterated;
 }

@@ -37,7 +37,7 @@ require 'includes/admin.inc.php';
 		}
 		</script>
 		<!--<script src="http://yui.yahooapis.com/3.6.0/build/yui/yui-min.js"></script>-->
-		<script type="text/javascript" src="/js/yui/yui/yui-min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/yui/3.18.1/yui/yui-min.js" integrity="sha512-xRL1U0vZqWAcR3uFMaar+fYTEA3spq+rHdDnlV/xQIj3nhrvRrLTvvWwQLjcyuvTy8eCNwFQEIavOjbCLythRQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 		<link rel="shortcut icon" href="/images/favicon.ico">
 		<!-- Google tag (gtag.js) -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZETS4QXH8Z"></script>
@@ -79,7 +79,8 @@ require 'includes/admin.inc.php';
 <!--
 	<script type="text/javascript" src="/js/jquery.js"></script>
 -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js" integrity="sha512-J9QfbPuFlqGD2CYVCa6zn8/7PEgZnGpM5qtFOBZgwujjDnG5w5Fjx46YzqvIh/ORstcj7luStvvIHkisQi5SKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdn.jsdelivr.net/npm/transliteration@2.3.5/dist/browser/bundle.umd.min.js" integrity="sha256-WM+Q7gs+YPKhWaTZxr24xQ9DF8yT7m2WJdrKYBVdGh4=" crossorigin="anonymous"></script>
 	<script type="text/javascript" src="/js/animation.js"></script>
 	<script type="text/javascript" src="/js/scripts.js"></script>
 	<script type="text/javascript" src="/js/jquery.qtip.min.js"></script>
@@ -390,7 +391,7 @@ require 'includes/admin.inc.php';
 		});
 		$('[title]').qtip({
 			style: {
-				padding: 7,
+				padding: 8,
 				background: '#404041',
 				color: 'white',
 				fontSize: '10px',
@@ -404,8 +405,8 @@ require 'includes/admin.inc.php';
 			},
 			position: {
 				corner: {
-				target: 'bottomMiddle',
-				tooltip: 'topLeft'
+					target: 'bottomMiddle',
+					tooltip: 'topLeft'
 				}
 			}
 		});

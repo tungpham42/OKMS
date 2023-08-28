@@ -1438,7 +1438,7 @@ body.admin table {
 	left: 50%;
 	top: 50%;
 	z-index: 100;
-	transform: translateX(-50%) translateY(-25%);
+	transform: translateX(-50%) translateY(0%);
 	margin-top: -134px;
 	display: none;
 }
