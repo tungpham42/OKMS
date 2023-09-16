@@ -2,11 +2,14 @@
 /* Auth */
 global $db;
 session_name('okms');
-if (!session_id()) session_start();
-if (!isset($_SESSION['username'])) 
-{
-//If not isset -> set with dumy value 
-$_SESSION['username'] = null;
+// Check if a session is already active
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (!isset($_SESSION['username'])) {
+    // If not isset -> set with dummy value
+    $_SESSION['username'] = null;
 }
 $err = array();
 if(isset($_POST['header_login']) || isset($_POST['wrap_login'])){
@@ -59,11 +62,11 @@ if(isset($_POST['header_login']) || isset($_POST['wrap_login'])){
 }
 if (!username_existed($_SESSION['username'])) {
 	// session_name('okms');
-	session_unset();
+	// session_unset();
 	session_destroy();
 } elseif (username_existed($_SESSION['username'])) {
-	session_name('okms');
-	session_start();
+	// session_name('okms');
+	// session_start();
 }
 /* End Auth */
 $p = isset($_GET['p']) ? rawurldecode($_GET['p']): 'home';

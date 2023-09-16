@@ -1239,7 +1239,7 @@ function set_current_semester($semid) { //Set current semester
 	$db->update_record_with_operator(array('Semester_Current' => '0'),'Semester_ID',$semid,'SEMESTER','!=');
 }
 /* Post Functions */
-function view_post($pid,$uid,$button=0) { //Return post from post ID
+function view_post($pid,$uid,$button=0,$i=0) { //Return post from post ID
 	$output = "";
 	$post = post_load($pid);
 	$user = user_load($post['User_ID']);
@@ -1265,9 +1265,9 @@ function view_post($pid,$uid,$button=0) { //Return post from post ID
 	$output .= ($post['Post_Answer'] != "") ? '<div class="post_answer"><div class="post_answer_label">Answer:</div><div class="post_answer_content">'.htmlspecialchars_decode($post['Post_Answer']).'</div></div>': "";
 	$output .= ($uid != 0 && $post_rate['User_ID'] != $uid && $_SESSION['rid'] != 1) ? star_rating($pid) : '<div title="Your rating" id="post_rate_pid_'.$pid.'" class="rate_widget">'.star_rating_update($pid).'</div><div title="Average rating: '.average_post_rates_with_decimal($pid,1).'" id="average_post_rate_pid_'.$pid.'" class="average_rate">'.star_rating_average($pid).'</div>';
 	$output .= ($uid != 0) ? '<div id="save_post_rate_pid_'.$pid.'"></div>': "";
-	$output .= ($uid != 0) ? '<a title="'.(($post_vote['PostVote_Like'] == 0) ? 'Like': 'Unlike').' this post" class="button'.(($post_vote['PostVote_Like'] == 0) ? ' like': ' like clicked').'" id="post_like_pid_'.$pid.'">'.count_post_likes($pid).' Like'.((count_post_likes($pid) == 0 || count_post_likes($pid) == 1) ? "": 's').'</a>': '<a title="Like this post" class="button like disabled" id="post_like_pid_'.$pid.'">'.count_post_likes($pid).' Like'.((count_post_likes($pid) == 0 || count_post_likes($pid) == 1) ? "": 's').'</a>';
+	$output .= ($uid != 0) ? ((isset($post_vote['PostVote_Like']) && $post_vote['PostVote_Like'] == 0) ? '<a title="Unlike this post" class="button like" id="post_like_pid_'.$pid.'">'.count_post_likes($pid).' Like'.((count_post_likes($pid) == 0 || count_post_likes($pid) == 1) ? "" : 's').'</a>' : '<a title="Like this post" class="button like clicked" id="post_like_pid_'.$pid.'">'.count_post_likes($pid).' Like'.((count_post_likes($pid) == 0 || count_post_likes($pid) == 1) ? "" : 's').'</a>') : '<a title="Like this post" class="button like disabled" id="post_like_pid_'.$pid.'">'.count_post_likes($pid).' Like'.((count_post_likes($pid) == 0 || count_post_likes($pid) == 1) ? "" : 's').'</a>';	
 	$output .= ($uid != 0) ? '<div id="save_post_like_pid_'.$pid.'"></div>': "";
-	$output .= ($uid != 0) ? '<a title="'.(($post_vote['PostVote_Dislike'] == 0) ? 'Dislike': 'Undislike').' this post" class="button'.(($post_vote['PostVote_Dislike'] == 0) ? ' dislike': ' dislike clicked').'" id="post_dislike_pid_'.$pid.'">'.count_post_dislikes($pid).' Dislike'.((count_post_dislikes($pid) == 0 || count_post_dislikes($pid) == 1) ? "": 's').'</a>': '<a title="Dislike this post" class="button dislike disabled" id="post_dislike_pid_'.$pid.'">'.count_post_dislikes($pid).' Dislike'.((count_post_dislikes($pid) == 0 || count_post_dislikes($pid) == 1) ? "": 's').'</a>';
+	$output .= ($uid != 0) ? ((isset($post_vote['PostVote_Dislike']) && $post_vote['PostVote_Dislike'] == 0) ? '<a title="Undislike this post" class="button dislike" id="post_dislike_pid_'.$pid.'">'.count_post_dislikes($pid).' Dislike'.((count_post_dislikes($pid) == 0 || count_post_dislikes($pid) == 1) ? "" : 's').'</a>' : '<a title="Dislike this post" class="button dislike clicked" id="post_dislike_pid_'.$pid.'">'.count_post_dislikes($pid).' Dislike'.((count_post_dislikes($pid) == 0 || count_post_dislikes($pid) == 1) ? "" : 's').'</a>') : '<a title="Dislike this post" class="button dislike disabled" id="post_dislike_pid_'.$pid.'">'.count_post_dislikes($pid).' Dislike'.((count_post_dislikes($pid) == 0 || count_post_dislikes($pid) == 1) ? "" : 's').'</a>';
 	$output .= ($uid != 0) ? '<div id="save_post_dislike_pid_'.$pid.'"></div>': "";
 	$output .= ($uid != 0) ? '<a title="'.(($post_follow['User_ID'] != $uid) ? 'Follow': 'Unfollow').' this post" class="button'.(($post_follow['User_ID'] != $uid) ? ' follow': ' follow clicked').'" id="post_follow_pid_'.$pid.'">'.count_post_follows($pid).' Follow'.((count_post_follows($pid) == 0 || count_post_follows($pid) == 1) ? "": 's').'</a>': '<a title="Follow this post" class="button follow disabled" id="post_follow_pid_'.$pid.'">'.count_post_follows($pid).' Follow'.((count_post_follows($pid) == 0 || count_post_follows($pid) == 1) ? "": 's').'</a>';
 	$output .= '<div id="save_post_follow_pid_'.$pid.'"></div>';
@@ -1707,7 +1707,7 @@ function select_course($name,$cid = null) { //Return select element of course ID
 	$output = "";
 	$courses = $db->array_load_all('COURSE');
 	$output .= '<select id="'.$name.'" name="'.$name.'">';
-	$output .= ($_GET['p'] == 'post' || $_GET['p'] == 'post/archive' || (isset($_POST['report_type']) && ($_POST['report_type'] == 'Number of questions per week' || $_POST['report_type'] == 'Most popular questions' || $_POST['report_type'] == 'Most difficult questions'))) ? '<option value="0">All courses</option>': "";
+	$output .= (isset($_GET['p']) && ($_GET['p'] == 'post' || $_GET['p'] == 'post/archive') || (isset($_POST['report_type']) && ($_POST['report_type'] == 'Number of questions per week' || $_POST['report_type'] == 'Most popular questions' || $_POST['report_type'] == 'Most difficult questions'))) ? '<option value="0">All courses</option>': "";
 	for ($i = 0; $i < count($courses); $i++) {
 		if (($_SESSION['rid'] == 2 && course_belonged($courses[$i]['Course_ID'],$_SESSION['uid']) && $courses[$i]['Course_Allowed'] == 1) || ($_SESSION['rid'] == 3 && course_belonged($courses[$i]['Course_ID'],$_SESSION['uid'])) || (isset($_SESSION['rid']) && $courses[$i]['Course_For_Guest'] == 1) || $_SESSION['rid'] == 1) {
 			$selected = ($cid != null && $cid == $courses[$i]['Course_ID']) ? 'selected': "";
@@ -2528,9 +2528,9 @@ function list_comments($pid,$c=null) { //Return list of comments by post ID
 			$output .= '<div class="name'.(($user['Role_ID'] == 3) ? ' lecturer': "").'">'.(($comments[$i]['Comment_Hide_Name'] == 0 && user_existed($comments[$i]['User_ID'])) ? ((isset($user['User_Fullname'])) ? $user['User_Fullname']: $user['User_Username']): 'Anonymous').'</div>';
 			$output .= '<div class="date">'.ago($comments[$i]['Comment_Created']).(($comments[$i]['Comment_Edited'] != 0) ? ' - edited: '.ago($comments[$i]['Comment_Edited']): "").'</div>';
 			$output .= '<p>'.htmlspecialchars_decode($comments[$i]['Comment_Body']).'</p>';
-			$output .= '<a title="'.(($comment_vote['CommentVote_Like'] == 0) ? 'Like': 'Unlike').' this comment" class="button'.(($comment_vote['CommentVote_Like'] == 0) ? ' like': ' like clicked').'" id="comment_like_comid_'.$comid.'">'.count_comment_likes($comid).' Like'.((count_comment_likes($comid) == 0 || count_comment_likes($comid) == 1) ? "": 's').'</a>';
+			$output .= '<a title="'.((isset($comment_vote['CommentVote_Like']) && $comment_vote['CommentVote_Like'] == 0) ? 'Like': 'Unlike').' this comment" class="button'.((isset($comment_vote['CommentVote_Like']) && $comment_vote['CommentVote_Like'] == 0) ? ' like': ' like clicked').'" id="comment_like_comid_'.$comid.'">'.count_comment_likes($comid).' Like'.((count_comment_likes($comid) == 0 || count_comment_likes($comid) == 1) ? "": 's').'</a>';
 			$output .= '<div id="save_comment_like_comid_'.$comid.'"></div>';
-			$output .= '<a title="'.(($comment_vote['CommentVote_Dislike'] == 0) ? 'Dislike': 'Undislike').' this comment" class="button'.(($comment_vote['CommentVote_Dislike'] == 0) ? ' dislike': ' dislike clicked').'" id="comment_dislike_comid_'.$comid.'">'.count_comment_dislikes($comid).' Dislike'.((count_comment_dislikes($comid) == 0 || count_comment_dislikes($comid) == 1) ? "": 's').'</a>';
+			$output .= '<a title="'.((isset($comment_vote['CommentVote_Dislike']) && $comment_vote['CommentVote_Dislike'] == 0) ? 'Dislike': 'Undislike').' this comment" class="button'.((isset($comment_vote['CommentVote_Dislike']) && $comment_vote['CommentVote_Dislike'] == 0) ? ' dislike': ' dislike clicked').'" id="comment_dislike_comid_'.$comid.'">'.count_comment_dislikes($comid).' Dislike'.((count_comment_dislikes($comid) == 0 || count_comment_dislikes($comid) == 1) ? "": 's').'</a>';
 			$output .= '<div id="save_comment_dislike_comid_'.$comid.'"></div>';
 			$output .= (isset($_SESSION['uid']) && $_SESSION['uid'] == $comments[$i]['User_ID'] || ($_SESSION['rid'] == 3 && course_belonged($cid,$_SESSION['uid']))) ? '<div id="comment_comid_'.$comments[$i]['Comment_ID'].'"><textarea style="width: 290px;" id="textarea_body_comment_edit_comid_'.$comid.'" name="body">'.htmlspecialchars_decode($comments[$i]['Comment_Body']).'</textarea><a style="float: none; margin-top: -18px;" class="button" id="submit_comment_edit_comid_'.$comid.'">Submit</a></div><div id="save_comment_edit_comid_'.$comid.'"></div><a title="Edit this comment" class="button edit_comment" onclick="toggle_comment_edit('."'".'comment_comid_'.$comid."'".',this)">Edit</a><a title="Delete this comment" class="button delete_comment" id="submit_comment_delete_comid_'.$comid.'">Delete</a><div id="save_comment_delete_comid_'.$comid.'"></div>': "";
 			$output .= '</div>';
@@ -2800,80 +2800,81 @@ function sort_course_code_ascend($a,$b){ //Call back function to sort course cod
 }
 /* Filter Class */
 class Filter {
-	function __construct($num) {
+	private $num;
+	public function __construct($num) {
 		$this->num = $num;
 	}
-	function filter_cid($a) { //Call back function to filter array by course ID
+	public function filter_cid($a) { //Call back function to filter array by course ID
 		if (isset($a['Course_ID'])) {
 			if ($a['Course_ID'] == $this->num) {
 				return true;
 			}
 		}
 	}
-	function filter_course_belonged($a) { //Call back function to filter array by course belonged attribute
+	public function filter_course_belonged($a) { //Call back function to filter array by course belonged attribute
 		if (isset($a['Course_ID'])) {
 			if (course_belonged($a['Course_ID'],$_SESSION['uid']) == $this->num) {
 				return true;
 			}
 		}
 	}
-	function filter_rid($a) { //Call back function to filter array by role ID
+	public function filter_rid($a) { //Call back function to filter array by role ID
 		if (isset($a['Role_ID'])) {
 			if ($a['Role_ID'] == $this->num) {
 				return true;
 			}
 		}
 	}
-	function filter_current($a) { //Call back function to filter array by current boolean
+	public function filter_current($a) { //Call back function to filter array by current boolean
 		if (isset($a['Post_Current'])) {
 			if ($a['Post_Current'] == $this->num) {
 				return true;
 			}
 		}
 	}
-	function filter_type($a) { //Call back function to filter array by type
+	public function filter_type($a) { //Call back function to filter array by type
 		if (isset($a['type'])) {
 			if ($a['type'] == $this->num) {
 				return true;
 			}
 		}
 	}
-	function filter_week($a) { //Call back function to filter array by type
+	public function filter_week($a) { //Call back function to filter array by type
 		if (isset($a['Post_Week'])) {
 			if ($a['Post_Week'] == $this->num) {
 				return true;
 			}
 		}
 	}
-	function filter_post_hide($a) { //Call back function to filter array by type
+	public function filter_post_hide($a) { //Call back function to filter array by type
 		if (isset($a['Post_Hide_Name'])) {
 			if ($a['Post_Hide_Name'] == $this->num) {
 				return true;
 			}
 		}
 	}
-	function filter_course_allowed($a) { //Call back function to filter array by type
+	public function filter_course_allowed($a) { //Call back function to filter array by type
 		if (isset($a['Course_Allowed'])) {
 			if ($a['Course_Allowed'] == $this->num) {
 				return true;
 			}
 		}
 	}
-	function filter_post_rate($a) { //Call back function to filter array by post rate
+	public function filter_post_rate($a) { //Call back function to filter array by post rate
 		if (isset($a['PostRate'])) {
 			if ($a['PostRate'] == $this->num) {
 				return true;
 			}
 		}
 	}
-	function filter_post_like($a) { //Call back function to filter array by post like
+	public function filter_post_like($a) { //Call back function to filter array by post like
 		if (isset($a['PostVote_Like'])) {
 			if ($a['PostVote_Like'] == $this->num) {
 				return true;
 			}
 		}
 	}
-	function filter_post_dislike($a) { //Call back function to filter array by post dislike
+	public function filter_post_dislike($a) { //Call back function to filter array by post dislike
 		if (isset($a['PostVote_Dislike'])) {
 			if ($a['PostVote_Dislike'] == $this->num) {
 				return true;
