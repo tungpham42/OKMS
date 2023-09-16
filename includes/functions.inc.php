@@ -20,31 +20,6 @@ function convert_link($text) {
     $text = preg_replace('/([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/', '<a href="mailto:$1">$1</a>', $text);
     return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
 }
-function convert_html_entities_to_links($html_string) {
-    // Define a regular expression pattern to match both anchor tags and email addresses
-    $pattern = '/(&lt;a href=&quot;([^&]+)&quot;&gt;([^&]+)&lt;\/a&gt;)|(&lt;a href=&quot;mailto:([^&]+)&quot;&gt;([^&]+)&lt;\/a&gt;)/';
-
-    // Use preg_replace_callback to replace matched patterns with actual links and email links
-    $converted_string = preg_replace_callback(
-        $pattern,
-        function ($matches) {
-            if (!empty($matches[2])) {
-                // Matched a link
-                $url = htmlspecialchars_decode($matches[2]);
-                $linkText = htmlspecialchars_decode($matches[3]);
-                return '<a href="' . $url . '">' . $linkText . '</a>';
-            } elseif (!empty($matches[4])) {
-                // Matched an email link
-                $email = htmlspecialchars_decode($matches[4]);
-                $linkText = htmlspecialchars_decode($matches[5]);
-                return '<a href="mailto:' . $email . '">' . $linkText . '</a>';
-            }
-        },
-        $html_string
-    );
-
-    return $converted_string;
-}
 function table_row_class($id) { //Identify the table row class based on counter
 	$output = "";
 	if ((($id+1) % 2) == 1) {
