@@ -15,6 +15,21 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 /* General Functions */
 global $db;
+function convert_link($text) {
+    // Regular expression to match URLs in the text
+    $url_pattern = '/\bhttps?:\/\/\S+\b/';
+
+    // Regular expression to match email addresses in the text
+    $email_pattern = '/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/';
+
+    // Replace URLs with anchor tags
+    $text_with_links = preg_replace($url_pattern, '<a href="$0" target="_blank">$0</a>', $text);
+
+    // Replace email addresses with mailto links
+    $text_with_links = preg_replace($email_pattern, '<a href="mailto:$0">$0</a>', $text_with_links);
+
+    return $text_with_links;
+}
 function table_row_class($id) { //Identify the table row class based on counter
 	$output = "";
 	if ((($id+1) % 2) == 1) {
@@ -1403,8 +1418,8 @@ function create_post($uid,$cid,$week,$title,$url,$body,$answer,$hide=0) { //Crea
 				'Post_Week' => $week,
 				'Post_Title' => $title,
 				'Post_URL' => $url,
-				'Post_Question' => $body,
-				'Post_Answer' => $answer,
+				'Post_Question' => convert_link($body),
+				'Post_Answer' => convert_link($answer),
 				'Post_Hide_Name' => $hide,
 				'Post_Created' => time()
 			);
@@ -2599,7 +2614,7 @@ function create_comment($pid,$uid,$body,$hide) { //Create new comment
 	$array = array(
 				'Post_ID' => $pid,
 				'User_ID' => $uid,
-				'Comment_Body' => $body,
+				'Comment_Body' => convert_link($body),
 				'Comment_Hide_Name' => $hide,
 				'Comment_Created' => time()
 			);
@@ -2610,7 +2625,7 @@ function edit_comment($comid,$body) { //Edit comment details including comment b
 	$body = strip_tags($body);
 	$body = mysqli_real_escape_string($db->link, $body);
 	$array = array(
-				'Comment_Body' => $body,
+				'Comment_Body' => convert_link($body),
 				'Comment_Edited' => time()
 			);
 	$db->update_record($array,'Comment_ID',$comid,'COMMENT');
