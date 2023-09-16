@@ -6,15 +6,19 @@ if (isset($_POST['keyword'])) {
 	$cid = (isset($_POST['cid'])) ? $_POST['cid']: 0;
 	$posts = array();
 	if (isset($_SESSION['rid']) && $_SESSION['rid'] != 2) {
-		$result = mysqli_query($db->link, "SELECT * FROM ".PREFIX."POST WHERE (Post_Title LIKE '%".$keyword."%' OR Post_Question LIKE '%".$keyword."%' OR Post_Answer LIKE '%".$keyword."%' OR Post_URL LIKE '%".$keyword."%')");
+		$stmt = $db->link->prepare("SELECT * FROM " . $db->db_prefix . "POST WHERE (Post_Title LIKE :keyword OR Post_Question LIKE :keyword OR Post_Answer LIKE :keyword OR Post_URL LIKE :keyword)");
 	} elseif (!isset($_SESSION['rid']) || $_SESSION['rid'] == 2) {
-		$result = mysqli_query($db->link, "SELECT * FROM ".PREFIX."POST WHERE Post_Current=1 AND (Post_Title LIKE '%".$keyword."%' OR Post_Question LIKE '%".$keyword."%' OR Post_Answer LIKE '%".$keyword."%' OR Post_URL LIKE '%".$keyword."%')");
+		$stmt = $db->link->prepare("SELECT * FROM " . $db->db_prefix . "POST WHERE Post_Current=1 AND (Post_Title LIKE :keyword OR Post_Question LIKE :keyword OR Post_Answer LIKE :keyword OR Post_URL LIKE :keyword)");
 	}
-	if ($result) {
-		while($row = mysqli_fetch_assoc($result)) {
-			$posts[] = $row;
-		}
+	
+	$keyword = '%' . $keyword . '%';
+	$stmt->bindParam(':keyword', $keyword, PDO::PARAM_STR);
+	$stmt->execute();
+	
+	if ($stmt->rowCount() > 0) {
+		$posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
+	
 	if ($cid != 0) {
 		$posts = array_filter($posts, array(new Filter($cid), 'filter_cid'));
 	}

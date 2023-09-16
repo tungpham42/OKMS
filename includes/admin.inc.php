@@ -15,11 +15,23 @@ if(isset($_POST['header_login']) || isset($_POST['wrap_login'])){
 		$err[] = 'All the fields must be filled in!';
 	if(!count($err))
 	{
-		$_POST['username'] = mysqli_real_escape_string($db->link, $_POST['username']);
-		$_POST['password'] = mysqli_real_escape_string($db->link, $_POST['password']);
-		$_POST['rememberMe'] = (int)$_POST['rememberMe'];
-		// Escaping all input data
-		$row = mysqli_fetch_assoc(mysqli_query($db->link, "SELECT User_ID,User_Username,Role_ID,User_Status,User_Alias FROM ".PREFIX."USER WHERE (User_Username='{$_POST['username']}' OR User_Alias='{$_POST['username']}') AND User_Password='".md5($_POST['password'])."'"));
+		// Escape and prepare the input data
+		$username = $_POST['username'];
+		$password = $_POST['password'];
+		$rememberMe = (int)$_POST['rememberMe'];
+
+		// Hash the password
+		$passwordHash = md5($password);
+
+		// Prepare and execute the query
+		$query = "SELECT User_ID, User_Username, Role_ID, User_Status, User_Alias FROM " . PREFIX . "USER WHERE (User_Username = :username OR User_Alias = :username) AND User_Password = :password";
+		$stmt = $db->link->prepare($query);
+		$stmt->bindParam(':username', $username, PDO::PARAM_STR);
+		$stmt->bindParam(':password', $passwordHash, PDO::PARAM_STR);
+		$stmt->execute();
+
+		// Fetch the result
+		$row = $stmt->fetch(PDO::FETCH_ASSOC);
 		if((isset($row['User_Username']) || isset($row['User_Alias'])) && $row['User_Status'] == 1)
 		{
 			// If everything is OK login

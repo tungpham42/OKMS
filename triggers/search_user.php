@@ -3,13 +3,17 @@ require_once '../includes/functions.inc.php';
 require_once '../includes/admin.inc.php';
 if (isset($_POST['keyword'])) {
 	$keyword = $_POST['keyword'];
-	$users = array();
-	$result = mysqli_query($db->link, "SELECT * FROM ".PREFIX."USER WHERE (User_Username LIKE '%".$keyword."%' OR User_Fullname LIKE '%".$keyword."%' OR User_Mail LIKE '%".$keyword."%')");
-	if ($result) {
-		while($row = mysqli_fetch_assoc($result)) {
-			$users[] = $row;
-		}
+	$users = [];
+	$keyword = '%' . $keyword . '%';
+	
+	$stmt = $db->link->prepare("SELECT * FROM " . $db->db_prefix . "USER WHERE (User_Username LIKE :keyword OR User_Fullname LIKE :keyword OR User_Mail LIKE :keyword)");
+	$stmt->bindParam(':keyword', $keyword, PDO::PARAM_STR);
+	$stmt->execute();
+	
+	if ($stmt->rowCount() > 0) {
+		$users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
+	
 	sort($users);
 	usort($users,'sort_user_ascend');
 	if (count($users) == 0) {

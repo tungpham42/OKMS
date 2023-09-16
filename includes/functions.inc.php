@@ -16,19 +16,34 @@ use PHPMailer\PHPMailer\Exception;
 /* General Functions */
 global $db;
 function convert_link($text) {
-    // Regular expression to match URLs in the text
-    $url_pattern = '/\bhttps?:\/\/\S+\b/';
+	$text = preg_replace('/(https?:\/\/[^\s]+)/', '<a href="$1">$1</a>', $text);
+    $text = preg_replace('/([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/', '<a href="mailto:$1">$1</a>', $text);
+    return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
+}
+function convert_html_entities_to_links($html_string) {
+    // Define a regular expression pattern to match both anchor tags and email addresses
+    $pattern = '/(&lt;a href=&quot;([^&]+)&quot;&gt;([^&]+)&lt;\/a&gt;)|(&lt;a href=&quot;mailto:([^&]+)&quot;&gt;([^&]+)&lt;\/a&gt;)/';
 
-    // Regular expression to match email addresses in the text
-    $email_pattern = '/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/';
+    // Use preg_replace_callback to replace matched patterns with actual links and email links
+    $converted_string = preg_replace_callback(
+        $pattern,
+        function ($matches) {
+            if (!empty($matches[2])) {
+                // Matched a link
+                $url = htmlspecialchars_decode($matches[2]);
+                $linkText = htmlspecialchars_decode($matches[3]);
+                return '<a href="' . $url . '">' . $linkText . '</a>';
+            } elseif (!empty($matches[4])) {
+                // Matched an email link
+                $email = htmlspecialchars_decode($matches[4]);
+                $linkText = htmlspecialchars_decode($matches[5]);
+                return '<a href="mailto:' . $email . '">' . $linkText . '</a>';
+            }
+        },
+        $html_string
+    );
 
-    // Replace URLs with anchor tags
-    $text_with_links = preg_replace($url_pattern, '<a href="$0" target="_blank">$0</a>', $text);
-
-    // Replace email addresses with mailto links
-    $text_with_links = preg_replace($email_pattern, '<a href="mailto:$0">$0</a>', $text_with_links);
-
-    return $text_with_links;
+    return $converted_string;
 }
 function table_row_class($id) { //Identify the table row class based on counter
 	$output = "";
@@ -1246,8 +1261,8 @@ function view_post($pid,$uid,$button=0) { //Return post from post ID
 	$output .= '<span class="author_name'.(($user['Role_ID'] == 3) ? ' lecturer': "").'">'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? "": '<a href="/user/'.$user['User_Username'].'">').((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? 'Anonymous': ((isset($user['User_Fullname'])) ? $user['User_Fullname']: $user['User_Username'])).((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? "": '</a>').'</span><br/>';
 	$output .= '<a class="post_title" href="/question/'.$post['Post_URL'].'">'.$post['Post_Title'].'</a><br/>';
 	$output .= '<a class="course_code" href="/course/'.$course['Course_Code'].'">'.$course['Course_Code'].'</a><a href="/course/'.$course['Course_Code'].'/week/'.$post['Post_Week'].'"><span class="course_name">.'.$course['Course_Name'].'</span> > <span class="post_week">Week '.$post['Post_Week'].'</span></a><br/>';
-	$output .= '<span class="post_content">'.$post['Post_Question'].'</span><br/>';
-	$output .= ($post['Post_Answer'] != "") ? '<div class="post_answer"><div class="post_answer_label">Answer:</div><div class="post_answer_content">'.$post['Post_Answer'].'</div></div>': "";
+	$output .= '<span class="post_content">'.htmlspecialchars_decode($post['Post_Question']).'</span><br/>';
+	$output .= ($post['Post_Answer'] != "") ? '<div class="post_answer"><div class="post_answer_label">Answer:</div><div class="post_answer_content">'.htmlspecialchars_decode($post['Post_Answer']).'</div></div>': "";
 	$output .= ($uid != 0 && $post_rate['User_ID'] != $uid && $_SESSION['rid'] != 1) ? star_rating($pid) : '<div title="Your rating" id="post_rate_pid_'.$pid.'" class="rate_widget">'.star_rating_update($pid).'</div><div title="Average rating: '.average_post_rates_with_decimal($pid,1).'" id="average_post_rate_pid_'.$pid.'" class="average_rate">'.star_rating_average($pid).'</div>';
 	$output .= ($uid != 0) ? '<div id="save_post_rate_pid_'.$pid.'"></div>': "";
 	$output .= ($uid != 0) ? '<a title="'.(($post_vote['PostVote_Like'] == 0) ? 'Like': 'Unlike').' this post" class="button'.(($post_vote['PostVote_Like'] == 0) ? ' like': ' like clicked').'" id="post_like_pid_'.$pid.'">'.count_post_likes($pid).' Like'.((count_post_likes($pid) == 0 || count_post_likes($pid) == 1) ? "": 's').'</a>': '<a title="Like this post" class="button like disabled" id="post_like_pid_'.$pid.'">'.count_post_likes($pid).' Like'.((count_post_likes($pid) == 0 || count_post_likes($pid) == 1) ? "": 's').'</a>';
@@ -1408,18 +1423,18 @@ function create_post($uid,$cid,$week,$title,$url,$body,$answer,$hide=0) { //Crea
 	global $db;
 	$body = strip_tags($body);
 	$answer = strip_tags($answer);
-	$title = mysqli_real_escape_string($db->link, $title);
-	$url = mysqli_real_escape_string($db->link, $url);
-	$body = mysqli_real_escape_string($db->link, $body);
-	$answer = mysqli_real_escape_string($db->link, $answer);
+	$title = $title;
+	$url = $url;
+	$body = convert_link($body);
+	$answer = convert_link($answer);
 	$array = array(
 				'User_ID' => $uid,
 				'Course_ID' => $cid,
 				'Post_Week' => $week,
 				'Post_Title' => $title,
 				'Post_URL' => $url,
-				'Post_Question' => convert_link($body),
-				'Post_Answer' => convert_link($answer),
+				'Post_Question' => $body,
+				'Post_Answer' => $answer,
 				'Post_Hide_Name' => $hide,
 				'Post_Created' => time()
 			);
@@ -1429,10 +1444,10 @@ function edit_post($pid,$cid,$week,$title,$url,$body,$answer) { //Edit post deta
 	global $db;
 	$body = strip_tags($body);
 	$answer = strip_tags($answer);
-	$title = mysqli_real_escape_string($db->link, $title);
-	$url = mysqli_real_escape_string($db->link, $url);
-	$body = mysqli_real_escape_string($db->link, $body);
-	$answer = mysqli_real_escape_string($db->link, $answer);
+	$title = $title;
+	$url = $url;
+	$body = $body;
+	$answer = $answer;
 	$array = array(
 				'Course_ID' => $cid,
 				'Post_Week' => $week,
@@ -1467,10 +1482,10 @@ function repost($uid,$cid,$week,$title,$url,$body,$answer,$repostid) { //Repost 
 	global $db;
 	$body = strip_tags($body);
 	$answer = strip_tags($answer);
-	$title = mysqli_real_escape_string($db->link, $title);
-	$url = mysqli_real_escape_string($db->link, $url);
-	$body = mysqli_real_escape_string($db->link, $body);
-	$answer = mysqli_real_escape_string($db->link, $answer);
+	$title = $title;
+	$url = $url;
+	$body = $body;
+	$answer = $answer;
 	$array = array(
 				'User_ID' => $uid,
 				'Course_ID' => $cid,
@@ -2512,12 +2527,12 @@ function list_comments($pid,$c=null) { //Return list of comments by post ID
 			$output .= '<div class="comment_right_detail">';
 			$output .= '<div class="name'.(($user['Role_ID'] == 3) ? ' lecturer': "").'">'.(($comments[$i]['Comment_Hide_Name'] == 0 && user_existed($comments[$i]['User_ID'])) ? ((isset($user['User_Fullname'])) ? $user['User_Fullname']: $user['User_Username']): 'Anonymous').'</div>';
 			$output .= '<div class="date">'.ago($comments[$i]['Comment_Created']).(($comments[$i]['Comment_Edited'] != 0) ? ' - edited: '.ago($comments[$i]['Comment_Edited']): "").'</div>';
-			$output .= '<p>'.$comments[$i]['Comment_Body'].'</p>';
+			$output .= '<p>'.htmlspecialchars_decode($comments[$i]['Comment_Body']).'</p>';
 			$output .= '<a title="'.(($comment_vote['CommentVote_Like'] == 0) ? 'Like': 'Unlike').' this comment" class="button'.(($comment_vote['CommentVote_Like'] == 0) ? ' like': ' like clicked').'" id="comment_like_comid_'.$comid.'">'.count_comment_likes($comid).' Like'.((count_comment_likes($comid) == 0 || count_comment_likes($comid) == 1) ? "": 's').'</a>';
 			$output .= '<div id="save_comment_like_comid_'.$comid.'"></div>';
 			$output .= '<a title="'.(($comment_vote['CommentVote_Dislike'] == 0) ? 'Dislike': 'Undislike').' this comment" class="button'.(($comment_vote['CommentVote_Dislike'] == 0) ? ' dislike': ' dislike clicked').'" id="comment_dislike_comid_'.$comid.'">'.count_comment_dislikes($comid).' Dislike'.((count_comment_dislikes($comid) == 0 || count_comment_dislikes($comid) == 1) ? "": 's').'</a>';
 			$output .= '<div id="save_comment_dislike_comid_'.$comid.'"></div>';
-			$output .= (isset($_SESSION['uid']) && $_SESSION['uid'] == $comments[$i]['User_ID'] || ($_SESSION['rid'] == 3 && course_belonged($cid,$_SESSION['uid']))) ? '<div id="comment_comid_'.$comments[$i]['Comment_ID'].'"><textarea style="width: 290px;" id="textarea_body_comment_edit_comid_'.$comid.'" name="body">'.$comments[$i]['Comment_Body'].'</textarea><a style="float: none; margin-top: -18px;" class="button" id="submit_comment_edit_comid_'.$comid.'">Submit</a></div><div id="save_comment_edit_comid_'.$comid.'"></div><a title="Edit this comment" class="button edit_comment" onclick="toggle_comment_edit('."'".'comment_comid_'.$comid."'".',this)">Edit</a><a title="Delete this comment" class="button delete_comment" id="submit_comment_delete_comid_'.$comid.'">Delete</a><div id="save_comment_delete_comid_'.$comid.'"></div>': "";
+			$output .= (isset($_SESSION['uid']) && $_SESSION['uid'] == $comments[$i]['User_ID'] || ($_SESSION['rid'] == 3 && course_belonged($cid,$_SESSION['uid']))) ? '<div id="comment_comid_'.$comments[$i]['Comment_ID'].'"><textarea style="width: 290px;" id="textarea_body_comment_edit_comid_'.$comid.'" name="body">'.htmlspecialchars_decode($comments[$i]['Comment_Body']).'</textarea><a style="float: none; margin-top: -18px;" class="button" id="submit_comment_edit_comid_'.$comid.'">Submit</a></div><div id="save_comment_edit_comid_'.$comid.'"></div><a title="Edit this comment" class="button edit_comment" onclick="toggle_comment_edit('."'".'comment_comid_'.$comid."'".',this)">Edit</a><a title="Delete this comment" class="button delete_comment" id="submit_comment_delete_comid_'.$comid.'">Delete</a><div id="save_comment_delete_comid_'.$comid.'"></div>': "";
 			$output .= '</div>';
 			$output .= '</div>';
 			$output .= '<script>
@@ -2597,7 +2612,7 @@ function list_comments_without_right($pid,$c=null) { //Return list of comments b
 			$output .= '<div class="comment_right_detail">';
 			$output .= '<div class="name'.(($user['Role_ID'] == 3) ? ' lecturer': "").'">'.(($comments[$i]['Comment_Hide_Name'] == 0 && user_existed($comments[$i]['User_ID'])) ? ((isset($user['User_Fullname'])) ? $user['User_Fullname']: $user['User_Username']): 'Anonymous').'</div>';
 			$output .= '<div class="date">'.ago($comments[$i]['Comment_Created']).(($comments[$i]['Comment_Edited'] != 0) ? ' - edited: '.ago($comments[$i]['Comment_Edited']): "").'</div>';
-			$output .= '<p>'.$comments[$i]['Comment_Body'].'</p>';
+			$output .= '<p>'.htmlspecialchars_decode($comments[$i]['Comment_Body']).'</p>';
 			$output .= '<a title="Like this comment" class="button disabled like" id="comment_like_comid_'.$comid.'">'.count_comment_likes($comid).' Like'.((count_comment_likes($comid) == 0 || count_comment_likes($comid) == 1) ? "": 's').'</a>';
 			$output .= '<a title="Dislike this comment" class="button disabled dislike" id="comment_dislike_comid_'.$comid.'">'.count_comment_dislikes($comid).' Dislike'.((count_comment_dislikes($comid) == 0 || count_comment_dislikes($comid) == 1) ? "": 's').'</a>';
 			$output .= '</div>';
@@ -2610,11 +2625,11 @@ function list_comments_without_right($pid,$c=null) { //Return list of comments b
 function create_comment($pid,$uid,$body,$hide) { //Create new comment
 	global $db;
 	$body = strip_tags($body);
-	$body = mysqli_real_escape_string($db->link, $body);
+	$body = convert_link($body);
 	$array = array(
 				'Post_ID' => $pid,
 				'User_ID' => $uid,
-				'Comment_Body' => convert_link($body),
+				'Comment_Body' => $body,
 				'Comment_Hide_Name' => $hide,
 				'Comment_Created' => time()
 			);
@@ -2623,9 +2638,9 @@ function create_comment($pid,$uid,$body,$hide) { //Create new comment
 function edit_comment($comid,$body) { //Edit comment details including comment body and updated time
 	global $db;
 	$body = strip_tags($body);
-	$body = mysqli_real_escape_string($db->link, $body);
+	$body = convert_link($body);
 	$array = array(
-				'Comment_Body' => convert_link($body),
+				'Comment_Body' => $body,
 				'Comment_Edited' => time()
 			);
 	$db->update_record($array,'Comment_ID',$comid,'COMMENT');
@@ -2874,15 +2889,15 @@ function search_question($query,$cid,$count,$page=1) { //Search questions by pos
 	$uid = (isset($_SESSION['uid'])) ? $_SESSION['uid']: 0;
 	$posts = array();
 	if (isset($_SESSION['rid']) && $_SESSION['rid'] != 2) {
-		$result = mysqli_query($db->link, "SELECT * FROM ".PREFIX."POST WHERE (Post_Title LIKE '%".$query."%' OR Post_Question LIKE '%".$query."%' OR Post_Answer LIKE '%".$query."%' OR Post_URL LIKE '%".$query."%')");
+		$sql = "SELECT * FROM " . PREFIX . "POST WHERE (Post_Title LIKE :query OR Post_Question LIKE :query OR Post_Answer LIKE :query OR Post_URL LIKE :query)";
 	} elseif (!isset($_SESSION['rid']) || $_SESSION['rid'] == 2) {
-		$result = mysqli_query($db->link, "SELECT * FROM ".PREFIX."POST WHERE Post_Current=1 AND (Post_Title LIKE '%".$query."%' OR Post_Question LIKE '%".$query."%' OR Post_Answer LIKE '%".$query."%' OR Post_URL LIKE '%".$query."%')");
+		$sql = "SELECT * FROM " . PREFIX . "POST WHERE Post_Current=1 AND (Post_Title LIKE :query OR Post_Question LIKE :query OR Post_Answer LIKE :query OR Post_URL LIKE :query)";
 	}
-	if ($result) {
-		while($row = mysqli_fetch_assoc($result)) {
-			$posts[] = $row;
-		}
-	}
+	$stmt = $db->link->prepare($sql);
+	$queryParam = '%' . $query . '%';
+	$stmt->bindParam(':query', $queryParam, PDO::PARAM_STR);
+	$stmt->execute();
+	$posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	if ($cid != 0) {
 		$posts = array_filter($posts, array(new Filter($cid), 'filter_cid'));
 	}
@@ -3392,43 +3407,82 @@ function anti_sql($sql) {
 /* Triggers */
 function comment_like($comid,$uid) {
 	global $db;
-	$vote_sql = mysqli_query($db->link, "SELECT * FROM ".$db->db_prefix."COMMENT_VOTE WHERE Comment_ID='".$comid."' AND User_ID='".$uid."'");
-	$votes = $db->array_load_with_two_identifier('COMMENT_VOTE','Comment_ID',$comid,'User_ID',$uid);
-	sort($votes);
-	$vote = $votes[0];
-	$count = mysqli_num_rows($vote_sql);
-	if ($count == 0) {
-		$sql_in = "INSERT INTO ".$db->db_prefix."COMMENT_VOTE(User_ID,Comment_ID,CommentVote_Like,CommentVote_Dislike) VALUES('".$uid."','".$comid."','1','0')";
-		mysqli_query($db->link, $sql_in);
-	} elseif ($count == 1 && $vote['CommentVote_Like'] == 1 && $vote['CommentVote_Dislike'] == 0) {
-		mysqli_query($db->link, "UPDATE ".$db->db_prefix."COMMENT_VOTE c SET c.CommentVote_Like = 0 WHERE c.Comment_ID='".$comid."' AND c.User_ID='".$uid."'");
-	} elseif ($count == 1 && $vote['CommentVote_Like'] == 0 && $vote['CommentVote_Dislike'] == 0) {
-		mysqli_query($db->link, "UPDATE ".$db->db_prefix."COMMENT_VOTE c SET c.CommentVote_Like = 1 WHERE c.Comment_ID='".$comid."' AND c.User_ID='".$uid."'");
-		mysqli_query($db->link, "UPDATE ".$db->db_prefix."COMMENT_VOTE c SET c.CommentVote_Dislike = 0 WHERE c.Comment_ID='".$comid."' AND c.User_ID='".$uid."'");
-	} elseif ($count == 1 && $vote['CommentVote_Like'] == 0 && $vote['CommentVote_Dislike'] == 1) {
-		mysqli_query($db->link, "UPDATE ".$db->db_prefix."COMMENT_VOTE c SET c.CommentVote_Like = 1 WHERE c.Comment_ID='".$comid."' AND c.User_ID='".$uid."'");
-		mysqli_query($db->link, "UPDATE ".$db->db_prefix."COMMENT_VOTE c SET c.CommentVote_Dislike = 0 WHERE c.Comment_ID='".$comid."' AND c.User_ID='".$uid."'");
-	}
+	$comid = (int)$comid; // Cast to integer for security
+	$uid = (int)$uid; // Cast to integer for security
+	
+	// Check if the user has voted on the comment
+	$stmt = $db->link->prepare("SELECT * FROM " . $db->db_prefix . "COMMENT_VOTE WHERE Comment_ID=:comid AND User_ID=:uid");
+	$stmt->bindParam(':comid', $comid, PDO::PARAM_INT);
+	$stmt->bindParam(':uid', $uid, PDO::PARAM_INT);
+	$stmt->execute();
+	
+	$votes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	
+	if (count($votes) == 0) {
+		// User hasn't voted, insert a new vote record
+		$sql_in = "INSERT INTO " . $db->db_prefix . "COMMENT_VOTE (User_ID, Comment_ID, CommentVote_Like, CommentVote_Dislike) VALUES (:uid, :comid, 1, 0)";
+		$stmt = $db->link->prepare($sql_in);
+		$stmt->bindParam(':uid', $uid, PDO::PARAM_INT);
+		$stmt->bindParam(':comid', $comid, PDO::PARAM_INT);
+		$stmt->execute();
+	} else {
+		// User has voted, update the vote record
+		$vote = $votes[0];
+	
+		if ($vote['CommentVote_Like'] == 1 && $vote['CommentVote_Dislike'] == 0) {
+			// User liked the comment, remove the like
+			$sql_update = "UPDATE " . $db->db_prefix . "COMMENT_VOTE SET CommentVote_Like = 0 WHERE Comment_ID=:comid AND User_ID=:uid";
+		} elseif ($vote['CommentVote_Like'] == 0 && $vote['CommentVote_Dislike'] == 0) {
+			// User didn't vote or voted for dislike, set like and remove dislike
+			$sql_update = "UPDATE " . $db->db_prefix . "COMMENT_VOTE SET CommentVote_Like = 1, CommentVote_Dislike = 0 WHERE Comment_ID=:comid AND User_ID=:uid";
+		} elseif ($vote['CommentVote_Like'] == 0 && $vote['CommentVote_Dislike'] == 1) {
+			// User disliked the comment, remove the dislike
+			$sql_update = "UPDATE " . $db->db_prefix . "COMMENT_VOTE SET CommentVote_Like = 1, CommentVote_Dislike = 0 WHERE Comment_ID=:comid AND User_ID=:uid";
+		}
+	
+		$stmt = $db->link->prepare($sql_update);
+		$stmt->bindParam(':comid', $comid, PDO::PARAM_INT);
+		$stmt->bindParam(':uid', $uid, PDO::PARAM_INT);
+		$stmt->execute();
+	}	
 }
 function comment_dislike($comid,$uid) {
 	global $db;
-	$vote_sql = mysqli_query($db->link, "SELECT * FROM ".$db->db_prefix."COMMENT_VOTE WHERE Comment_ID='".$comid."' AND User_ID='".$uid."'");
-	$votes = $db->array_load_with_two_identifier('COMMENT_VOTE','Comment_ID',$comid,'User_ID',$uid);
-	sort($votes);
-	$vote = $votes[0];
-	$count = mysqli_num_rows($vote_sql);
-	if ($count == 0) {
-		$sql_in = "INSERT INTO ".$db->db_prefix."COMMENT_VOTE(User_ID,Comment_ID,CommentVote_Dislike,CommentVote_Like) VALUES('".$uid."','".$comid."','1','0')";
-		mysqli_query($db->link, $sql_in);
-	} elseif ($count == 1 && $vote['CommentVote_Dislike'] == 1 && $vote['CommentVote_Like'] == 0) {
-		mysqli_query($db->link, "UPDATE ".$db->db_prefix."COMMENT_VOTE c SET c.CommentVote_Dislike = 0 WHERE c.Comment_ID='".$comid."' AND c.User_ID='".$uid."'");
-	} elseif ($count == 1 && $vote['CommentVote_Dislike'] == 0 && $vote['CommentVote_Like'] == 0) {
-		mysqli_query($db->link, "UPDATE ".$db->db_prefix."COMMENT_VOTE c SET c.CommentVote_Dislike = 1 WHERE c.Comment_ID='".$comid."' AND c.User_ID='".$uid."'");
-		mysqli_query($db->link, "UPDATE ".$db->db_prefix."COMMENT_VOTE c SET c.CommentVote_Like = 0 WHERE c.Comment_ID='".$comid."' AND c.User_ID='".$uid."'");
-	} elseif ($count == 1 && $vote['CommentVote_Dislike'] == 0 && $vote['CommentVote_Like'] == 1) {
-		mysqli_query($db->link, "UPDATE ".$db->db_prefix."COMMENT_VOTE c SET c.CommentVote_Dislike = 1 WHERE c.Comment_ID='".$comid."' AND c.User_ID='".$uid."'");
-		mysqli_query($db->link, "UPDATE ".$db->db_prefix."COMMENT_VOTE c SET c.CommentVote_Like = 0 WHERE c.Comment_ID='".$comid."' AND c.User_ID='".$uid."'");
-	}
+	$comid = (int)$comid; // Cast to integer for security
+	$uid = (int)$uid; // Cast to integer for security
+	
+	// Check if the user has voted on the comment
+	$stmt = $db->link->prepare("SELECT * FROM " . $db->db_prefix . "COMMENT_VOTE WHERE Comment_ID=:comid AND User_ID=:uid");
+	$stmt->bindParam(':comid', $comid, PDO::PARAM_INT);
+	$stmt->bindParam(':uid', $uid, PDO::PARAM_INT);
+	$stmt->execute();
+	
+	$votes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	
+	if (count($votes) == 0) {
+		// User hasn't voted, insert a new vote record
+		$sql_in = "INSERT INTO " . $db->db_prefix . "COMMENT_VOTE (User_ID, Comment_ID, CommentVote_Dislike, CommentVote_Like) VALUES (:uid, :comid, 1, 0)";
+		$stmt = $db->link->prepare($sql_in);
+		$stmt->bindParam(':uid', $uid, PDO::PARAM_INT);
+		$stmt->bindParam(':comid', $comid, PDO::PARAM_INT);
+		$stmt->execute();
+	} else {
+		// User has voted, update the vote record
+		$vote = $votes[0];
+	
+		if ($vote['CommentVote_Dislike'] == 1 && $vote['CommentVote_Like'] == 0) {
+			// User disliked the comment, remove the dislike
+			$sql_update = "UPDATE " . $db->db_prefix . "COMMENT_VOTE SET CommentVote_Dislike = 0 WHERE Comment_ID=:comid AND User_ID=:uid";
+		} else {
+			// User either liked or didn't vote, set dislike and remove like
+			$sql_update = "UPDATE " . $db->db_prefix . "COMMENT_VOTE SET CommentVote_Dislike = 1, CommentVote_Like = 0 WHERE Comment_ID=:comid AND User_ID=:uid";
+		}
+	
+		$stmt = $db->link->prepare($sql_update);
+		$stmt->bindParam(':comid', $comid, PDO::PARAM_INT);
+		$stmt->bindParam(':uid', $uid, PDO::PARAM_INT);
+		$stmt->execute();
+	}	
 }
 function latest_post_follow($pid,$uid) {
 	global $db;
@@ -3442,42 +3496,84 @@ function latest_post_follow($pid,$uid) {
 }
 function post_like($pid,$uid) {
 	global $db;
-	$vote_sql = mysqli_query($db->link, "SELECT * FROM ".$db->db_prefix."POST_VOTE WHERE Post_ID='".$pid."' AND User_ID='".$uid."'");
-	$votes = $db->array_load_with_two_identifier('POST_VOTE','Post_ID',$pid,'User_ID',$uid);
-	sort($votes);
-	$vote = $votes[0];
-	$count = mysqli_num_rows($vote_sql);
-	if ($count == 0) {
-		$sql_in = "INSERT INTO ".$db->db_prefix."POST_VOTE(User_ID,Post_ID,PostVote_Like,PostVote_Dislike) VALUES('".$uid."','".$pid."','1','0')";
-		mysqli_query($db->link, $sql_in);
-	} elseif ($count == 1 && $vote['PostVote_Like'] == 1 && $vote['PostVote_Dislike'] == 0) {
-		mysqli_query($db->link, "UPDATE ".$db->db_prefix."POST_VOTE p SET p.PostVote_Like = 0 WHERE p.Post_ID='".$pid."' AND p.User_ID='".$uid."'");
-	} elseif ($count == 1 && $vote['PostVote_Like'] == 0 && $vote['PostVote_Dislike'] == 0) {
-		mysqli_query($db->link, "UPDATE ".$db->db_prefix."POST_VOTE p SET p.PostVote_Like = 1 WHERE p.Post_ID='".$pid."' AND p.User_ID='".$uid."'");
-		mysqli_query($db->link, "UPDATE ".$db->db_prefix."POST_VOTE p SET p.PostVote_Dislike = 0 WHERE p.Post_ID='".$pid."' AND p.User_ID='".$uid."'");
-	} elseif ($count == 1 && $vote['PostVote_Like'] == 0 && $vote['PostVote_Dislike'] == 1) {
-		mysqli_query($db->link, "UPDATE ".$db->db_prefix."POST_VOTE p SET p.PostVote_Like = 1 WHERE p.Post_ID='".$pid."' AND p.User_ID='".$uid."'");
-		mysqli_query($db->link, "UPDATE ".$db->db_prefix."POST_VOTE p SET p.PostVote_Dislike = 0 WHERE p.Post_ID='".$pid."' AND p.User_ID='".$uid."'");
+	$pid = (int)$pid; // Cast to integer for security
+	$uid = (int)$uid; // Cast to integer for security
+	
+	// Check if the user has voted on the post
+	$stmt = $db->link->prepare("SELECT * FROM " . $db->db_prefix . "POST_VOTE WHERE Post_ID=:pid AND User_ID=:uid");
+	$stmt->bindParam(':pid', $pid, PDO::PARAM_INT);
+	$stmt->bindParam(':uid', $uid, PDO::PARAM_INT);
+	$stmt->execute();
+	
+	$votes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	
+	if (count($votes) == 0) {
+		// User hasn't voted, insert a new vote record
+		$sql_in = "INSERT INTO " . $db->db_prefix . "POST_VOTE (User_ID, Post_ID, PostVote_Like, PostVote_Dislike) VALUES (:uid, :pid, 1, 0)";
+		$stmt = $db->link->prepare($sql_in);
+		$stmt->bindParam(':uid', $uid, PDO::PARAM_INT);
+		$stmt->bindParam(':pid', $pid, PDO::PARAM_INT);
+		$stmt->execute();
+	} else {
+		// User has voted, update the vote record
+		$vote = $votes[0];
+	
+		if ($vote['PostVote_Like'] == 1 && $vote['PostVote_Dislike'] == 0) {
+			// User liked the post, remove the like
+			$sql_update = "UPDATE " . $db->db_prefix . "POST_VOTE SET PostVote_Like = 0 WHERE Post_ID=:pid AND User_ID=:uid";
+		} elseif ($vote['PostVote_Like'] == 0 && $vote['PostVote_Dislike'] == 0) {
+			// User either didn't vote or voted for dislike, set like and remove dislike
+			$sql_update = "UPDATE " . $db->db_prefix . "POST_VOTE SET PostVote_Like = 1, PostVote_Dislike = 0 WHERE Post_ID=:pid AND User_ID=:uid";
+		} elseif ($vote['PostVote_Like'] == 0 && $vote['PostVote_Dislike'] == 1) {
+			// User disliked the post, remove the dislike
+			$sql_update = "UPDATE " . $db->db_prefix . "POST_VOTE SET PostVote_Like = 1, PostVote_Dislike = 0 WHERE Post_ID=:pid AND User_ID=:uid";
+		}
+	
+		$stmt = $db->link->prepare($sql_update);
+		$stmt->bindParam(':pid', $pid, PDO::PARAM_INT);
+		$stmt->bindParam(':uid', $uid, PDO::PARAM_INT);
+		$stmt->execute();
 	}
 }
 function post_dislike($pid,$uid) {
 	global $db;
-	$vote_sql = mysqli_query($db->link, "SELECT * FROM ".$db->db_prefix."POST_VOTE WHERE Post_ID='".$pid."' AND User_ID='".$uid."'");
-	$votes = $db->array_load_with_two_identifier('POST_VOTE','Post_ID',$pid,'User_ID',$uid);
-	sort($votes);
-	$vote = $votes[0];
-	$count = mysqli_num_rows($vote_sql);
-	if ($count == 0) {
-		$sql_in = "INSERT INTO ".$db->db_prefix."POST_VOTE(User_ID,Post_ID,PostVote_Dislike,PostVote_Like) VALUES('".$uid."','".$pid."','1','0')";
-		mysqli_query($db->link, $sql_in);
-	} elseif ($count == 1 && $vote['PostVote_Dislike'] == 1 && $vote['PostVote_Like'] == 0) {
-		mysqli_query($db->link, "UPDATE ".$db->db_prefix."POST_VOTE p SET p.PostVote_Dislike = 0 WHERE p.Post_ID='".$pid."' AND p.User_ID='".$uid."'");
-	} elseif ($count == 1 && $vote['PostVote_Dislike'] == 0 && $vote['PostVote_Like'] == 0) {
-		mysqli_query($db->link, "UPDATE ".$db->db_prefix."POST_VOTE p SET p.PostVote_Dislike = 1 WHERE p.Post_ID='".$pid."' AND p.User_ID='".$uid."'");
-		mysqli_query($db->link, "UPDATE ".$db->db_prefix."POST_VOTE p SET p.PostVote_Like = 0 WHERE p.Post_ID='".$pid."' AND p.User_ID='".$uid."'");
-	} elseif ($count == 1 && $vote['PostVote_Dislike'] == 0 && $vote['PostVote_Like'] == 1) {
-		mysqli_query($db->link, "UPDATE ".$db->db_prefix."POST_VOTE p SET p.PostVote_Dislike = 1 WHERE p.Post_ID='".$pid."' AND p.User_ID='".$uid."'");
-		mysqli_query($db->link, "UPDATE ".$db->db_prefix."POST_VOTE p SET p.PostVote_Like = 0 WHERE p.Post_ID='".$pid."' AND p.User_ID='".$uid."'");
+	$pid = (int)$pid; // Cast to integer for security
+	$uid = (int)$uid; // Cast to integer for security
+	
+	// Check if the user has voted on the post
+	$stmt = $db->link->prepare("SELECT * FROM " . $db->db_prefix . "POST_VOTE WHERE Post_ID=:pid AND User_ID=:uid");
+	$stmt->bindParam(':pid', $pid, PDO::PARAM_INT);
+	$stmt->bindParam(':uid', $uid, PDO::PARAM_INT);
+	$stmt->execute();
+	
+	$votes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	
+	if (count($votes) == 0) {
+		// User hasn't voted, insert a new vote record
+		$sql_in = "INSERT INTO " . $db->db_prefix . "POST_VOTE (User_ID, Post_ID, PostVote_Dislike, PostVote_Like) VALUES (:uid, :pid, 1, 0)";
+		$stmt = $db->link->prepare($sql_in);
+		$stmt->bindParam(':uid', $uid, PDO::PARAM_INT);
+		$stmt->bindParam(':pid', $pid, PDO::PARAM_INT);
+		$stmt->execute();
+	} else {
+		// User has voted, update the vote record
+		$vote = $votes[0];
+	
+		if ($vote['PostVote_Dislike'] == 1 && $vote['PostVote_Like'] == 0) {
+			// User disliked the post, remove the dislike
+			$sql_update = "UPDATE " . $db->db_prefix . "POST_VOTE SET PostVote_Dislike = 0 WHERE Post_ID=:pid AND User_ID=:uid";
+		} elseif ($vote['PostVote_Dislike'] == 0 && $vote['PostVote_Like'] == 0) {
+			// User either didn't vote or voted for like, set dislike and remove like
+			$sql_update = "UPDATE " . $db->db_prefix . "POST_VOTE SET PostVote_Dislike = 1, PostVote_Like = 0 WHERE Post_ID=:pid AND User_ID=:uid";
+		} elseif ($vote['PostVote_Dislike'] == 0 && $vote['PostVote_Like'] == 1) {
+			// User liked the post, remove the like
+			$sql_update = "UPDATE " . $db->db_prefix . "POST_VOTE SET PostVote_Dislike = 1, PostVote_Like = 0 WHERE Post_ID=:pid AND User_ID=:uid";
+		}
+	
+		$stmt = $db->link->prepare($sql_update);
+		$stmt->bindParam(':pid', $pid, PDO::PARAM_INT);
+		$stmt->bindParam(':uid', $uid, PDO::PARAM_INT);
+		$stmt->execute();
 	}
 }
 function post_follow($pid,$uid) {
