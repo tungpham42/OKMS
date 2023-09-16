@@ -11,8 +11,27 @@ $hash = md5(rand(0,1000));
 $err = auth_error_array($name,$fullname,$pass,$mail,$rid,$pass1,$has_agreed);
 if (isset($_POST['submit']) && $pass == $pass1):
 	if (!count($err)):
-		create_user($rid,$name,$fullname,$alias,$pass,$mail,$hash);
-		if(mysqli_affected_rows($link)==1)
+		$table_name = 'USER';
+
+        // Prepare the INSERT statement
+        $insertStatement = $pdo->prepare("INSERT INTO {$db->db_prefix}{$table_name} 
+            (Role_ID, User_Username, User_Fullname, User_Alias, User_Password, User_Mail, User_Created, User_Hash, User_Status)
+            VALUES (:rid, :name, :fullname, :alias, :pass, :mail, :created, :hash, :status)");
+
+        // Bind the parameters
+        $insertStatement->bindParam(':rid', $rid, PDO::PARAM_INT);
+        $insertStatement->bindParam(':name', $name, PDO::PARAM_STR);
+        $insertStatement->bindParam(':fullname', $fullname, PDO::PARAM_STR);
+        $insertStatement->bindParam(':alias', $alias, PDO::PARAM_STR);
+        $insertStatement->bindParam(':pass', $pass, PDO::PARAM_STR);
+        $insertStatement->bindParam(':mail', $mail, PDO::PARAM_STR);
+        $insertStatement->bindParam(':created', time(), PDO::PARAM_INT);
+        $insertStatement->bindParam(':hash', $hash, PDO::PARAM_STR);
+        $insertStatement->bindParam(':status', "0", PDO::PARAM_STR);
+
+        // Execute the INSERT statement
+        $insertStatement->execute();
+		if ($insertStatement->rowCount() == 1)
 		{
 			send_mail(	$mail,
 					'Online KMS Registration System - Your New Account',

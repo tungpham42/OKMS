@@ -1,6 +1,8 @@
 <?php //Activate or deactivate user
 require_once '../includes/functions.inc.php';
 require_once '../includes/admin.inc.php';
+error_reporting(-1);
+ini_set('display_errors', 'On');
 if (isset($_POST['uid'])) {
 	$uid = $_POST['uid'];
 	$user = user_load($uid);

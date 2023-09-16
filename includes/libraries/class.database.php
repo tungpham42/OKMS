@@ -1,9 +1,10 @@
 <?php
 class Database {
-    public $db_host;
-    public $db_user;
-    public $db_pass;
-    public $db_database;
+    private $db_host;
+    private $db_user;
+    private $db_pass;
+    private $db_database;
+
     public $db_prefix;
     public $link;
 
@@ -25,48 +26,40 @@ class Database {
         }
     }
 
-    public function array_load_all($table_name) {
+    public function fetchRows($stmt) {
         $array = array();
-        $stmt = $this->link->query("SELECT * FROM {$this->db_prefix}{$table_name}");
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $array[] = $row;
         }
         return $array;
+    }
+
+    public function array_load_all($table_name) {
+        $stmt = $this->link->query("SELECT * FROM {$this->db_prefix}{$table_name}");
+        return $this->fetchRows($stmt);
     }
 
     public function array_load_with_operator($table_name, $identifier, $value, $operator) {
-        $array = array();
         $stmt = $this->link->prepare("SELECT * FROM {$this->db_prefix}{$table_name} WHERE {$identifier}{$operator} :value");
         $stmt->bindParam(':value', $value);
         $stmt->execute();
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $array[] = $row;
-        }
-        return $array;
+        return $this->fetchRows($stmt);
     }
 
     public function array_load_with_two_identifier($table_name, $identifier1, $value1, $identifier2, $value2) {
-        $array = array();
         $stmt = $this->link->prepare("SELECT * FROM {$this->db_prefix}{$table_name} WHERE {$identifier1}=:value1 AND {$identifier2}=:value2");
         $stmt->bindParam(':value1', $value1);
         $stmt->bindParam(':value2', $value2);
         $stmt->execute();
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $array[] = $row;
-        }
-        return $array;
+        return $this->fetchRows($stmt);
     }
 
     public function array_load_with_two_values($table_name, $identifier, $value1, $value2) {
-        $array = array();
         $stmt = $this->link->prepare("SELECT * FROM {$this->db_prefix}{$table_name} WHERE {$identifier}=:value1 OR {$identifier}=:value2");
         $stmt->bindParam(':value1', $value1);
         $stmt->bindParam(':value2', $value2);
         $stmt->execute();
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $array[] = $row;
-        }
-        return $array;
+        return $this->fetchRows($stmt);
     }
 
     public function array_load($table_name, $identifier, $value) {
@@ -82,16 +75,28 @@ class Database {
     }
 
     public function update_record_with_operator($array = array(), $identifier, $value, $table_name, $operator) {
-        $sets = array();
-        foreach ($array as $key => $val) {
-            $sets[] = "{$key}=?";
-        }
-        $sets = implode(', ', $sets);
-        $query = "UPDATE {$this->db_prefix}{$table_name} SET {$sets} WHERE {$identifier}{$operator}?";
-        $stmt = $this->link->prepare($query);
-        $stmt->execute(array_values($array));
-        $stmt->bindParam(1, $value);
-        $stmt->execute();
+		$sets = array();
+		$params = array(); // To store the parameters for binding
+		$i = 1; // Counter for parameter binding
+		
+		foreach ($array as $key => $val) {
+			$sets[] = "{$key}=?";
+			$params[] = $val; // Add the parameter value to the array
+			$i++; // Increment the counter
+		}
+	
+		$params[] = $value; // Add the WHERE condition parameter
+	
+		$sets = implode(', ', $sets);
+		$query = "UPDATE {$this->db_prefix}{$table_name} SET {$sets} WHERE {$identifier}{$operator}?";
+		$stmt = $this->link->prepare($query);
+	
+		// Bind parameters using a loop
+		foreach ($params as $key => $param) {
+			$stmt->bindParam($key + 1, $params[$key]); // Bind parameters
+		}
+	
+		$stmt->execute();	
     }
 
     public function update_record($array = array(), $identifier, $value, $table_name) {
