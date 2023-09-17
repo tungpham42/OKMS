@@ -1400,7 +1400,7 @@ legend > a{
 table.course, table.course td, table.post {
 	border: 0;
 }
-form.post.edit {
+form.post-edit, form.post-delete {
 	width: 25px;
 	float: left;
 }

@@ -1316,7 +1316,7 @@ function view_post($pid,$uid,$button=0) { //Return post from post ID
 				});
 				</script>';
 	$output .= '</div></div>';
-	$output .= ($button == 1 && isset($_SESSION['rid']) && course_belonged($cid,$_SESSION['uid']) && ($uid == $post['User_ID'] || $_SESSION['rid'] != 2)) ? '<form class="post edit" method="POST" action="/post/edit"><input type="hidden" name="pid" value="'.$post['Post_ID'].'" /><input type="hidden" name="old_cid" value="'.$post['Course_ID'].'" /><input type="hidden" name="old_week" value="'.$post['Post_Week'].'" /><input type="hidden" name="old_title" value="'.$post['Post_Title'].'" /><input type="hidden" name="old_url" value="'.$post['Post_URL'].'" /><input type="hidden" name="old_body" value="'.str_replace('"',"'",$post['Post_Question']).'" /><input name="post_edit" type="submit" value="Edit"/></form><form method="POST" action="/post/delete"><input type="hidden" name="pid" value="'.$post['Post_ID'].'" /><input title="Delete" name="post_delete" type="submit" value="Delete"/></form>': "";
+	$output .= ($button == 1 && isset($_SESSION['rid']) && course_belonged($cid,$_SESSION['uid']) && ($uid == $post['User_ID'] || $_SESSION['rid'] != 2)) ? '<form class="post-edit" method="POST" action="/post/edit"><input type="hidden" name="pid" value="'.$post['Post_ID'].'" /><input type="hidden" name="old_cid" value="'.$post['Course_ID'].'" /><input type="hidden" name="old_week" value="'.$post['Post_Week'].'" /><input type="hidden" name="old_title" value="'.$post['Post_Title'].'" /><input type="hidden" name="old_url" value="'.$post['Post_URL'].'" /><input type="hidden" name="old_body" value="'.str_replace('"',"'",$post['Post_Question']).'" /><input name="post_edit" type="submit" value="Edit"/></form><form class="post-delete" method="POST" action="/post/delete"><input type="hidden" name="pid" value="'.$post['Post_ID'].'" /><input title="Delete" name="post_delete" type="submit" value="Delete"/></form>': "";
 	return $output;
 }
 function select_week($name,$week=null) { //Return select element of week numbers
@@ -1890,13 +1890,13 @@ function follow_notify($pid,$commenter_name,$comment) { //Send notification emai
 		$subject = 'Notification for the post "'.$post['Post_Title'].'"';
 		$from = 'okms.vietnam@gmail.com';
 		send_mail($to,$subject,'
-<table>
-	<tr>
+<table style="border: 1px solid black;">
+	<tr style="border: 1px solid black;">
 		<td>
 			<img src="'.currentURL().'/images/banner_email.png" width="480" height="80" />
 		</td>
 	</tr>
-	<tr>
+	<tr style="border: 1px solid black;">
 		<td>
 			<p>Hi <b>'.$user['User_Fullname'].'</b></p>
 			<p>'.$commenter_name.' commented on the post that you have followed</p>
