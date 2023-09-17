@@ -853,7 +853,7 @@ select#question_cid {width: calc(100% - 52px);}
 	background: #E6E7E8;
 	padding: 0;
 	padding-bottom: 42px;
-	min-height: 420px;
+	min-height: 200px;
 	height: 100%;
 	height: auto !important;
 	margin: 0 auto;
@@ -864,7 +864,7 @@ select#question_cid {width: calc(100% - 52px);}
 #inner_content {color: #414041;}
 #content {
 	position: relative;
-	min-height: 420px;
+	min-height: 200px;
 	background: transparent;
 	text-align: left;
 	top: 0;
@@ -1620,7 +1620,7 @@ a.details_rate_trigger {
 }
 #content .control_bar {
 	position: relative;
-	width: 420px;
+	width: 200px;
 	height: 60px;
 }
 .no_cursor {

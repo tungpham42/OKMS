@@ -32,8 +32,8 @@ if ($("input#search_box").val() == '') {
 </script>
 <?php
 echo (isset($_SESSION['uid'])) ? following_list($_SESSION['uid']): '';
-echo latest_questions(3);
-echo most_commented(3);
+echo latest_questions(5);
+echo most_commented(5);
 ?>
 <br/>
 <div class="heading">External Links</div>
