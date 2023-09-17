@@ -3,6 +3,8 @@ require_once '../includes/functions.inc.php';
 require_once '../includes/admin.inc.php';
 $rid = (isset($_SESSION['rid'])) ? $_SESSION['rid']: 0;
 $uid = (isset($_SESSION['uid'])) ? $_SESSION['uid']: 0;
+$cid = isset($_POST['cid']) ? $_POST['cid']: 0;
+$week = isset($_POST['week']) ? $_POST['week']: 0;
 $course = course_load($cid);
 $user = user_load_from_name($username);
 $profile_uid = $user['User_ID'];
@@ -16,7 +18,7 @@ switch ($feeds_type) {
 		echo view_course($cid,$uid,10);
 		break;
 	case 'course_week':
-		echo view_course_week($course_week['cid'],$course_week['week'],10,$uid,'sort_post_date_descend');
+		echo view_course_week($cid,$week,10,$uid,'sort_post_date_descend');
 		break;
 	case 'post':
 		echo view_post($pid,$uid,1);

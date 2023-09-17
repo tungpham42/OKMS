@@ -2450,7 +2450,7 @@ function ask_question($rid,$cid,$week) {
 									$(".element_textarea").val("");
 									$("#question_hide").attr("checked",false);
 									$("#follow_post").load("/triggers/latest_post_follow.php",function(){
-										$("#feeds").load("/triggers/feeds_update.php",{feeds_type:"'.$feeds_type.'"},function(){
+										$("#feeds").load("/triggers/feeds_update.php",{feeds_type:"'.$feeds_type.'", cid:"'.$cid.'", week:"'.$week.'"},function(){
 											openWrap("Post created");
 										});
 									});
