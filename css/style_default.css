@@ -1823,3 +1823,6 @@ ul.user_course, ul.user_course > li {
 		display: none;
 	}
 }
+body.terms #inner_content, body.help #inner_content {
+    font-size: 1.4em;
+}

@@ -20,6 +20,31 @@ function convert_link($text) {
     $text = preg_replace('/([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/', '<a href="mailto:$1">$1</a>', $text);
     return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
 }
+function convert_html_entities_to_links($html_string) {
+    // Define a regular expression pattern to match both anchor tags and email addresses
+    $pattern = '/(&lt;a href=&quot;([^&]+)&quot;&gt;([^&]+)&lt;\/a&gt;)|(&lt;a href=&quot;mailto:([^&]+)&quot;&gt;([^&]+)&lt;\/a&gt;)/';
+
+    // Use preg_replace_callback to replace matched patterns with actual links and email links
+    $converted_string = preg_replace_callback(
+        $pattern,
+        function ($matches) {
+            if (!empty($matches[2])) {
+                // Matched a link
+                $url = htmlspecialchars_decode($matches[2]);
+                $linkText = htmlspecialchars_decode($matches[3]);
+                return '<a href="' . $url . '">' . $linkText . '</a>';
+            } elseif (!empty($matches[4])) {
+                // Matched an email link
+                $email = htmlspecialchars_decode($matches[4]);
+                $linkText = htmlspecialchars_decode($matches[5]);
+                return '<a href="mailto:' . $email . '">' . $linkText . '</a>';
+            }
+        },
+        $html_string
+    );
+
+    return $converted_string;
+}
 function table_row_class($id) { //Identify the table row class based on counter
 	$output = "";
 	if ((($id+1) % 2) == 1) {
@@ -1214,7 +1239,7 @@ function set_current_semester($semid) { //Set current semester
 	$db->update_record_with_operator(array('Semester_Current' => '0'),'Semester_ID',$semid,'SEMESTER','!=');
 }
 /* Post Functions */
-function view_post($pid,$uid,$button=0,$i=0) { //Return post from post ID
+function view_post($pid,$uid,$button=0) { //Return post from post ID
 	$output = "";
 	$post = post_load($pid);
 	$user = user_load($post['User_ID']);
@@ -1224,11 +1249,11 @@ function view_post($pid,$uid,$button=0,$i=0) { //Return post from post ID
 	$post_vote = post_vote_load($pid,$_SESSION['uid']);
 	$post_follow = post_follow_load($pid,$_SESSION['uid']);
 	$post_rate = post_rate_load($pid,$_SESSION['uid']);
-	$post = post_load($pid);
 	$title = $post['Post_Title'];
 	$email = $user['User_Mail'];
 	$size = 40;
 	$default = DEFAULT_AVATAR;
+	$i = 0;
 	$grav_url = "https://0.gravatar.com/avatar/" . md5( strtolower( trim((string) $email ) ) ) . "?d=identicon&s=" . $size;
 	$output .= '<div class="post '.(($i == 0) ? 'first': "").'">';
 	$output .= '<a class="author" href="'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? '#': '/user/'.$user['User_Username']).'"><img alt="'.$user['User_Username'].'" src="'.((isset($post['Post_Hide_Name']) && $post['Post_Hide_Name'] == 1 || !user_existed($post['User_ID'])) ? $default: $grav_url).'" width="40px" height="40px"/></a>';
@@ -1240,9 +1265,9 @@ function view_post($pid,$uid,$button=0,$i=0) { //Return post from post ID
 	$output .= ($post['Post_Answer'] != "") ? '<div class="post_answer"><div class="post_answer_label">Answer:</div><div class="post_answer_content">'.htmlspecialchars_decode($post['Post_Answer']).'</div></div>': "";
 	$output .= ($uid != 0 && $post_rate['User_ID'] != $uid && $_SESSION['rid'] != 1) ? star_rating($pid) : '<div title="Your rating" id="post_rate_pid_'.$pid.'" class="rate_widget">'.star_rating_update($pid).'</div><div title="Average rating: '.average_post_rates_with_decimal($pid,1).'" id="average_post_rate_pid_'.$pid.'" class="average_rate">'.star_rating_average($pid).'</div>';
 	$output .= ($uid != 0) ? '<div id="save_post_rate_pid_'.$pid.'"></div>': "";
-	$output .= ($uid != 0) ? ((isset($post_vote['PostVote_Like']) && $post_vote['PostVote_Like'] == 0) ? '<a title="Unlike this post" class="button like" id="post_like_pid_'.$pid.'">'.count_post_likes($pid).' Like'.((count_post_likes($pid) == 0 || count_post_likes($pid) == 1) ? "" : 's').'</a>' : '<a title="Like this post" class="button like clicked" id="post_like_pid_'.$pid.'">'.count_post_likes($pid).' Like'.((count_post_likes($pid) == 0 || count_post_likes($pid) == 1) ? "" : 's').'</a>') : '<a title="Like this post" class="button like disabled" id="post_like_pid_'.$pid.'">'.count_post_likes($pid).' Like'.((count_post_likes($pid) == 0 || count_post_likes($pid) == 1) ? "" : 's').'</a>';	
+	$output .= ($uid != 0) ? '<a title="'.(($post_vote['PostVote_Like'] == 0) ? 'Like': 'Unlike').' this post" class="button'.(($post_vote['PostVote_Like'] == 0) ? ' like': ' like clicked').'" id="post_like_pid_'.$pid.'">'.count_post_likes($pid).' Like'.((count_post_likes($pid) == 0 || count_post_likes($pid) == 1) ? "": 's').'</a>': '<a title="Like this post" class="button like disabled" id="post_like_pid_'.$pid.'">'.count_post_likes($pid).' Like'.((count_post_likes($pid) == 0 || count_post_likes($pid) == 1) ? "": 's').'</a>';
 	$output .= ($uid != 0) ? '<div id="save_post_like_pid_'.$pid.'"></div>': "";
-	$output .= ($uid != 0) ? ((isset($post_vote['PostVote_Dislike']) && $post_vote['PostVote_Dislike'] == 0) ? '<a title="Undislike this post" class="button dislike" id="post_dislike_pid_'.$pid.'">'.count_post_dislikes($pid).' Dislike'.((count_post_dislikes($pid) == 0 || count_post_dislikes($pid) == 1) ? "" : 's').'</a>' : '<a title="Dislike this post" class="button dislike clicked" id="post_dislike_pid_'.$pid.'">'.count_post_dislikes($pid).' Dislike'.((count_post_dislikes($pid) == 0 || count_post_dislikes($pid) == 1) ? "" : 's').'</a>') : '<a title="Dislike this post" class="button dislike disabled" id="post_dislike_pid_'.$pid.'">'.count_post_dislikes($pid).' Dislike'.((count_post_dislikes($pid) == 0 || count_post_dislikes($pid) == 1) ? "" : 's').'</a>';
+	$output .= ($uid != 0) ? '<a title="'.(($post_vote['PostVote_Dislike'] == 0) ? 'Dislike': 'Undislike').' this post" class="button'.(($post_vote['PostVote_Dislike'] == 0) ? ' dislike': ' dislike clicked').'" id="post_dislike_pid_'.$pid.'">'.count_post_dislikes($pid).' Dislike'.((count_post_dislikes($pid) == 0 || count_post_dislikes($pid) == 1) ? "": 's').'</a>': '<a title="Dislike this post" class="button dislike disabled" id="post_dislike_pid_'.$pid.'">'.count_post_dislikes($pid).' Dislike'.((count_post_dislikes($pid) == 0 || count_post_dislikes($pid) == 1) ? "": 's').'</a>';
 	$output .= ($uid != 0) ? '<div id="save_post_dislike_pid_'.$pid.'"></div>': "";
 	$output .= ($uid != 0) ? '<a title="'.(($post_follow['User_ID'] != $uid) ? 'Follow': 'Unfollow').' this post" class="button'.(($post_follow['User_ID'] != $uid) ? ' follow': ' follow clicked').'" id="post_follow_pid_'.$pid.'">'.count_post_follows($pid).' Follow'.((count_post_follows($pid) == 0 || count_post_follows($pid) == 1) ? "": 's').'</a>': '<a title="Follow this post" class="button follow disabled" id="post_follow_pid_'.$pid.'">'.count_post_follows($pid).' Follow'.((count_post_follows($pid) == 0 || count_post_follows($pid) == 1) ? "": 's').'</a>';
 	$output .= '<div id="save_post_follow_pid_'.$pid.'"></div>';
@@ -1682,7 +1707,7 @@ function select_course($name,$cid = null) { //Return select element of course ID
 	$output = "";
 	$courses = $db->array_load_all('COURSE');
 	$output .= '<select id="'.$name.'" name="'.$name.'">';
-	$output .= (isset($_GET['p']) && ($_GET['p'] == 'post' || $_GET['p'] == 'post/archive') || (isset($_POST['report_type']) && ($_POST['report_type'] == 'Number of questions per week' || $_POST['report_type'] == 'Most popular questions' || $_POST['report_type'] == 'Most difficult questions'))) ? '<option value="0">All courses</option>': "";
+	$output .= (isset($_GET['p']) && ($_GET['p'] == 'post' || $_GET['p']) == 'post/archive' || (isset($_POST['report_type']) && ($_POST['report_type'] == 'Number of questions per week' || $_POST['report_type'] == 'Most popular questions' || $_POST['report_type'] == 'Most difficult questions'))) ? '<option value="0">All courses</option>': "";
 	for ($i = 0; $i < count($courses); $i++) {
 		if (($_SESSION['rid'] == 2 && course_belonged($courses[$i]['Course_ID'],$_SESSION['uid']) && $courses[$i]['Course_Allowed'] == 1) || ($_SESSION['rid'] == 3 && course_belonged($courses[$i]['Course_ID'],$_SESSION['uid'])) || (isset($_SESSION['rid']) && $courses[$i]['Course_For_Guest'] == 1) || $_SESSION['rid'] == 1) {
 			$selected = ($cid != null && $cid == $courses[$i]['Course_ID']) ? 'selected': "";
@@ -2503,9 +2528,9 @@ function list_comments($pid,$c=null) { //Return list of comments by post ID
 			$output .= '<div class="name'.(($user['Role_ID'] == 3) ? ' lecturer': "").'">'.(($comments[$i]['Comment_Hide_Name'] == 0 && user_existed($comments[$i]['User_ID'])) ? ((isset($user['User_Fullname'])) ? $user['User_Fullname']: $user['User_Username']): 'Anonymous').'</div>';
 			$output .= '<div class="date">'.ago($comments[$i]['Comment_Created']).(($comments[$i]['Comment_Edited'] != 0) ? ' - edited: '.ago($comments[$i]['Comment_Edited']): "").'</div>';
 			$output .= '<p>'.htmlspecialchars_decode($comments[$i]['Comment_Body']).'</p>';
-			$output .= '<a title="'.((isset($comment_vote['CommentVote_Like']) && $comment_vote['CommentVote_Like'] == 0) ? 'Like': 'Unlike').' this comment" class="button'.((isset($comment_vote['CommentVote_Like']) && $comment_vote['CommentVote_Like'] == 0) ? ' like': ' like clicked').'" id="comment_like_comid_'.$comid.'">'.count_comment_likes($comid).' Like'.((count_comment_likes($comid) == 0 || count_comment_likes($comid) == 1) ? "": 's').'</a>';
+			$output .= '<a title="'.(($comment_vote['CommentVote_Like'] == 0) ? 'Like': 'Unlike').' this comment" class="button'.(($comment_vote['CommentVote_Like'] == 0) ? ' like': ' like clicked').'" id="comment_like_comid_'.$comid.'">'.count_comment_likes($comid).' Like'.((count_comment_likes($comid) == 0 || count_comment_likes($comid) == 1) ? "": 's').'</a>';
 			$output .= '<div id="save_comment_like_comid_'.$comid.'"></div>';
-			$output .= '<a title="'.((isset($comment_vote['CommentVote_Dislike']) && $comment_vote['CommentVote_Dislike'] == 0) ? 'Dislike': 'Undislike').' this comment" class="button'.((isset($comment_vote['CommentVote_Dislike']) && $comment_vote['CommentVote_Dislike'] == 0) ? ' dislike': ' dislike clicked').'" id="comment_dislike_comid_'.$comid.'">'.count_comment_dislikes($comid).' Dislike'.((count_comment_dislikes($comid) == 0 || count_comment_dislikes($comid) == 1) ? "": 's').'</a>';
+			$output .= '<a title="'.(($comment_vote['CommentVote_Dislike'] == 0) ? 'Dislike': 'Undislike').' this comment" class="button'.(($comment_vote['CommentVote_Dislike'] == 0) ? ' dislike': ' dislike clicked').'" id="comment_dislike_comid_'.$comid.'">'.count_comment_dislikes($comid).' Dislike'.((count_comment_dislikes($comid) == 0 || count_comment_dislikes($comid) == 1) ? "": 's').'</a>';
 			$output .= '<div id="save_comment_dislike_comid_'.$comid.'"></div>';
 			$output .= (isset($_SESSION['uid']) && $_SESSION['uid'] == $comments[$i]['User_ID'] || ($_SESSION['rid'] == 3 && course_belonged($cid,$_SESSION['uid']))) ? '<div id="comment_comid_'.$comments[$i]['Comment_ID'].'"><textarea style="width: 290px;" id="textarea_body_comment_edit_comid_'.$comid.'" name="body">'.htmlspecialchars_decode($comments[$i]['Comment_Body']).'</textarea><a style="float: none; margin-top: -18px;" class="button" id="submit_comment_edit_comid_'.$comid.'">Submit</a></div><div id="save_comment_edit_comid_'.$comid.'"></div><a title="Edit this comment" class="button edit_comment" onclick="toggle_comment_edit('."'".'comment_comid_'.$comid."'".',this)">Edit</a><a title="Delete this comment" class="button delete_comment" id="submit_comment_delete_comid_'.$comid.'">Delete</a><div id="save_comment_delete_comid_'.$comid.'"></div>': "";
 			$output .= '</div>';

@@ -482,8 +482,11 @@ elseif ($p == 'sitemap'):
 	$title = 'Sitemap';
 	$body_class = 'sitemap';
 elseif ($p == 'terms-and-conditions'):
-	$title = 'Terms and Conditions';
+	$title = 'OKMS Terms and Conditions Page';
 	$body_class = 'terms';
+elseif ($p == 'help'):
+	$title = 'OKMS Help Page';
+	$body_class = 'help';
 else:
 	$title = '404 page not found';
 	$body_class = 'not-found';

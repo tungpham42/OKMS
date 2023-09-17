@@ -25,9 +25,9 @@ require 'includes/admin.inc.php';
 		<meta property="og:image:width" content="200">
 		<meta property="og:image:height" content="200">
 		<title><?php echo $site_name.(($p != 'home' && $p != '') ? ' - ': ' ').$title; ?></title>
-		<link rel="stylesheet" href="/css/style_<?php echo (isset($_SESSION['theme'])) ? $_SESSION['theme']: 'default'; ?>.css" type="text/css" media="screen">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.1/css/bootstrap-grid.min.css" integrity="sha512-2cWcZ9cbPMZFm2inlFOhwsBVbNMmNxKBtVXqL8OY9tXCZahhnIfXMxPCzpKqiHF2I2mOiNHNXEDUDglwd+4uYw==" crossorigin="anonymous" referrerpolicy="no-referrer">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.1/css/bootstrap-utilities.min.css" integrity="sha512-cfwnOJPyV+wKMunF+AeiFo+CJX+AN3xF+DyT7TQ0P9/RjcVM9ZlRFoN6m6ZjU+avqGKL8w8hKFXkdjSk8CDl0A==" crossorigin="anonymous" referrerpolicy="no-referrer">
+		<link rel="stylesheet" href="/css/style_default.css?v=<?php echo time(); ?>" type="text/css" media="screen">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/css/bootstrap-grid.min.css" integrity="sha512-ZuRTqfQ3jNAKvJskDAU/hxbX1w25g41bANOVd1Co6GahIe2XjM6uVZ9dh0Nt3KFCOA061amfF2VeL60aJXdwwQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/css/bootstrap-utilities.min.css" integrity="sha512-IspcQcJxnKFKfac3SzzLPXyGt77Twdkh1QmoLJlk+VDWCeGNVf7rCl/Srop+WwzX3S7IS2nxe9sfqLuMergysw==" crossorigin="anonymous" referrerpolicy="no-referrer">
 		<!--[if IE]>
 		<link type="text/css" rel="stylesheet" media="all" href="/css/ie.css">
 		<![endif]-->
@@ -79,7 +79,7 @@ require 'includes/admin.inc.php';
 <!--
 	<script type="text/javascript" src="/js/jquery.js"></script>
 -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js" integrity="sha512-J9QfbPuFlqGD2CYVCa6zn8/7PEgZnGpM5qtFOBZgwujjDnG5w5Fjx46YzqvIh/ORstcj7luStvvIHkisQi5SKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="https://cdn.jsdelivr.net/npm/transliteration@2.3.5/dist/browser/bundle.umd.min.js" integrity="sha256-WM+Q7gs+YPKhWaTZxr24xQ9DF8yT7m2WJdrKYBVdGh4=" crossorigin="anonymous"></script>
 	<script type="text/javascript" src="/js/animation.js"></script>
 	<script type="text/javascript" src="/js/scripts.js"></script>
@@ -371,6 +371,8 @@ require 'includes/admin.inc.php';
 							include('templates/sitemap.tpl.php');
 						elseif ($p == 'terms-and-conditions'):
 							include('templates/terms.tpl.php');
+						elseif ($p == 'help'):
+							include('templates/help.tpl.php');
 						else:
 							echo 'Page not found';
 						endif;

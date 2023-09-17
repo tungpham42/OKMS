@@ -8,9 +8,25 @@ $title = (isset($_POST['title'])) ? $_POST['title']: '';
 $url = (isset($_POST['url'])) ? $_POST['url']: '';
 $body = (isset($_POST['body'])) ? $_POST['body']: '';
 $answer = (isset($_POST['answer'])) ? $_POST['answer']: '';
+$hide = (isset($_POST['hide'])) ? $_POST['hide']: 0;
 if (isset($_POST['submit'])):
-	create_post($uid,$cid,$week,$title,$url,$body,$answer);
-	if(mysql_affected_rows($link)==1)
+	$table_name = 'POST';
+	// Prepare the INSERT statement
+	$insertStatement = $db->link->prepare("INSERT INTO {$db->db_prefix}{$table_name} (User_ID, Course_ID, Post_Week, Post_Title, Post_URL, Post_Question, Post_Answer, Post_Hide_Name, Post_Created) VALUES (:uid, :cid, :week, :title, :url, :body, :answer, :hide, :created)");
+	// Bind the parameters
+	$insertStatement->bindParam(':uid', $uid, PDO::PARAM_INT);
+	$insertStatement->bindParam(':cid', $cid, PDO::PARAM_INT);
+	$insertStatement->bindParam(':week', $week, PDO::PARAM_INT);
+	$insertStatement->bindParam(':title', $title, PDO::PARAM_STR);
+	$insertStatement->bindParam(':url', $url, PDO::PARAM_STR);
+	$insertStatement->bindParam(':body', $body, PDO::PARAM_STR);
+	$insertStatement->bindParam(':answer', $answer, PDO::PARAM_STR);
+	$insertStatement->bindParam(':hide', $hide, PDO::PARAM_INT);
+	$insertStatement->bindParam(':created', time(), PDO::PARAM_INT);
+
+	// Execute the INSERT statement
+	$insertStatement->execute();
+	if ($insertStatement->rowCount() == 1)
 	{
 		sleep(1);
 		header('location: '.currentURL().'/post');

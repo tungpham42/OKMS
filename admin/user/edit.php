@@ -12,9 +12,9 @@ $current_pass = isset($_POST['current_pass']) ? $_POST['current_pass']: '';
 $pass = isset($_POST['pass']) ? $_POST['pass']: '';
 $pass1 = isset($_POST['pass1']) ? $_POST['pass1']: '';
 $mail = isset($_POST['mail']) ? $_POST['mail']: '';
-$err = ($current_pass == '' && $pass == '') ? null: pass_error_array($uid,$current_pass,$pass,$pass1);
+$err = ($current_pass == '' && $pass == '') ? array('No errors!'): pass_error_array($uid,$current_pass,$pass,$pass1);
 if (isset($_POST['submit'])):
-	if (!count($err)){
+	if ($err !== null && !count($err)){
 		if (!isset($pass) || $pass == '' && $current_pass == ''):
 			edit_user_without_pass($_POST['uid'],$rid,$fullname);
 		elseif (isset($pass) && $pass != ''):

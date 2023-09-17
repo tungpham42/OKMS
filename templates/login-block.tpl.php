@@ -139,7 +139,7 @@ if($_SESSION['username'])
 				<?php
 				endif;
 				?>
-				<li><a href="#">Help</a></li>
+				<li><a href="/help">Help</a></li>
 				<li><a href="/triggers/logout.php">Logout</a></li>
 			</ul>
 		</div>
