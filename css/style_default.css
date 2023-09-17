@@ -1198,7 +1198,8 @@ td.count {
 	background-color: #FDD7C8;
 	border: 0 solid transparent;
 	color: black;
-	margin-bottom:1px;
+	margin-bottom: 1px;
+	white-space: pre-line;
 }
 .comment .avatar{
 	/*
