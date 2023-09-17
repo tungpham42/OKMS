@@ -1316,7 +1316,7 @@ function view_post($pid,$uid,$button=0) { //Return post from post ID
 				});
 				</script>';
 	$output .= '</div></div>';
-	$output .= ($button == 1 && isset($_SESSION['rid']) && course_belonged($cid,$_SESSION['uid']) && ($uid == $post['User_ID'] || $_SESSION['rid'] != 2)) ? '<form style="width: 25px;float: left;" method="POST" action="/post/edit"><input type="hidden" name="pid" value="'.$post['Post_ID'].'" /><input type="hidden" name="old_cid" value="'.$post['Course_ID'].'" /><input type="hidden" name="old_week" value="'.$post['Post_Week'].'" /><input type="hidden" name="old_title" value="'.$post['Post_Title'].'" /><input type="hidden" name="old_url" value="'.$post['Post_URL'].'" /><input type="hidden" name="old_body" value="'.str_replace('"',"'",$post['Post_Question']).'" /><input name="post_edit" type="submit" value="Edit"/></form><form method="POST" action="/post/delete"><input type="hidden" name="pid" value="'.$post['Post_ID'].'" /><input title="Delete" name="post_delete" type="submit" value="Delete"/></form>': "";
+	$output .= ($button == 1 && isset($_SESSION['rid']) && course_belonged($cid,$_SESSION['uid']) && ($uid == $post['User_ID'] || $_SESSION['rid'] != 2)) ? '<form class="post edit" method="POST" action="/post/edit"><input type="hidden" name="pid" value="'.$post['Post_ID'].'" /><input type="hidden" name="old_cid" value="'.$post['Course_ID'].'" /><input type="hidden" name="old_week" value="'.$post['Post_Week'].'" /><input type="hidden" name="old_title" value="'.$post['Post_Title'].'" /><input type="hidden" name="old_url" value="'.$post['Post_URL'].'" /><input type="hidden" name="old_body" value="'.str_replace('"',"'",$post['Post_Question']).'" /><input name="post_edit" type="submit" value="Edit"/></form><form method="POST" action="/post/delete"><input type="hidden" name="pid" value="'.$post['Post_ID'].'" /><input title="Delete" name="post_delete" type="submit" value="Delete"/></form>': "";
 	return $output;
 }
 function select_week($name,$week=null) { //Return select element of week numbers
@@ -1367,7 +1367,7 @@ function list_posts($cid=0,$count=0,$page=1) { //Return list of posts, for lectu
 		}
 	}
 	$output .= '</table>';
-	$output .= '<span class="count" style="text-align: center;">'.$j.' post'.(($j > 1) ? 's': "").' to display.</span>';
+	$output .= '<span class="count posts">'.$j.' post'.(($j > 1) ? 's': "").' to display.</span>';
 	$output .= '<div class="paging">'.$pagination->getLinks().'</div>';
 	$output .= '<script>
 				function turnPage(page) {
@@ -1890,13 +1890,13 @@ function follow_notify($pid,$commenter_name,$comment) { //Send notification emai
 		$subject = 'Notification for the post "'.$post['Post_Title'].'"';
 		$from = 'okms.vietnam@gmail.com';
 		send_mail($to,$subject,'
-<table style="border: 1px solid black;">
-	<tr style="border: 1px solid black;">
+<table>
+	<tr>
 		<td>
 			<img src="'.currentURL().'/images/banner_email.png" width="480" height="80" />
 		</td>
 	</tr>
-	<tr style="border: 1px solid black;">
+	<tr>
 		<td>
 			<p>Hi <b>'.$user['User_Fullname'].'</b></p>
 			<p>'.$commenter_name.' commented on the post that you have followed</p>
@@ -2095,7 +2095,7 @@ function post_rate_details($pid) {
 	$post = post_load($pid);
 	$rates = array('1','2','3','4','5');
 	$rate_descriptions = array('It is easy','Not challenge','Normal question','A bit challenge','This is hard');
-	$output .= '<h5>Rating details for the post "'.$post['Post_Title'].'"</h5><div id="chart_rate_details_pid_'.$pid.'" style="width: 280px; height: 120px;"></div>';
+	$output .= '<h5>Rating details for the post "'.$post['Post_Title'].'"</h5><div id="chart_rate_details_pid_'.$pid.'"></div>';
 	$output .= '<script>
 				(function() {
 					YUI().use("charts", function (Y)
@@ -2375,11 +2375,11 @@ function ask_question($rid,$cid,$week) {
 	$output .= '<div id="question_section" title="Ask question">';
 	$output .= '<span id="question_label">Type a question..</span>';
 	$output .= '<a id="question_close_button"></a>';
-	$output .= '<div class="question_element" style="margin-top: 5px; left: 20px;"><label for="question_title">Subject: </label><input class="element_input" id="question_title" name="question_title" type="text" size="30" /></div>';
+	$output .= '<div class="question_element"><label for="question_title">Subject: </label><input class="element_input" id="question_title" name="question_title" type="text" size="30" /></div>';
 	$output .= '<input class="element_input" id="question_url" name="question_url" type="hidden" />';
-	$output .= '<div class="question_element"><label for="question_body">Type a question.. </label><br/><textarea style="resize: none; overflow: auto" class="element_textarea" id="question_body" name="question_body" rows="1"></textarea></div><br/>';
-	$output .= ($rid != 2 && $rid != 4) ? '<div class="question_element"><label for="question_answer">(Optional) Type an answer.. </label><br/><textarea style="resize: none; overflow: auto" class="element_textarea" id="question_answer" name="question_answer" rows="1"></textarea></div><br/>': '<input type="hidden" id="question_answer" value="" />';
-	$output .= ($rid == 2 || $rid == 4) ? '<div class="question_element"><input style="float: left;width: 20px;margin-right: 0px;margin-top: 7px;" id="question_hide" type="checkbox" name="hide" value="1" /><label for="question_hide">Hide your username from others</label></div>': '<input id="question_hide" type="hidden" name="hide" value="0" />';
+	$output .= '<div class="question_element"><label for="question_body">Type a question.. </label><br/><textarea class="element_textarea" id="question_body" name="question_body" rows="1"></textarea></div><br/>';
+	$output .= ($rid != 2 && $rid != 4) ? '<div class="question_element"><label for="question_answer">(Optional) Type an answer.. </label><br/><textarea class="element_textarea" id="question_answer" name="question_answer" rows="1"></textarea></div><br/>': '<input type="hidden" id="question_answer" value="" />';
+	$output .= ($rid == 2 || $rid == 4) ? '<div class="question_element"><input id="question_hide" type="checkbox" name="hide" value="1" /><label for="question_hide">Hide your username from others</label></div>': '<input id="question_hide" type="hidden" name="hide" value="0" />';
 	$output .= '<div id="question_bottom">';
 	$output .= '<div class="question_element week"><label for="question_week">Week: </label>'.(($week == 0) ? select_week('question_week'): select_week('question_week',$week)).'</div>';
 	$output .= ($cid == 0) ? '<div class="question_element course"><label for="question_cid">Course: </label>'.select_course('question_cid').'</div>': '<input type="hidden" id="question_cid" value="'.$cid.'" />';
@@ -2532,7 +2532,7 @@ function list_comments($pid,$c=null) { //Return list of comments by post ID
 			$output .= '<div id="save_comment_like_comid_'.$comid.'"></div>';
 			$output .= '<a title="'.(($comment_vote['CommentVote_Dislike'] == 0) ? 'Dislike': 'Undislike').' this comment" class="button'.(($comment_vote['CommentVote_Dislike'] == 0) ? ' dislike': ' dislike clicked').'" id="comment_dislike_comid_'.$comid.'">'.count_comment_dislikes($comid).' Dislike'.((count_comment_dislikes($comid) == 0 || count_comment_dislikes($comid) == 1) ? "": 's').'</a>';
 			$output .= '<div id="save_comment_dislike_comid_'.$comid.'"></div>';
-			$output .= (isset($_SESSION['uid']) && $_SESSION['uid'] == $comments[$i]['User_ID'] || ($_SESSION['rid'] == 3 && course_belonged($cid,$_SESSION['uid']))) ? '<div id="comment_comid_'.$comments[$i]['Comment_ID'].'"><textarea style="width: 290px;" id="textarea_body_comment_edit_comid_'.$comid.'" name="body">'.htmlspecialchars_decode($comments[$i]['Comment_Body']).'</textarea><a style="float: none; margin-top: -18px;" class="button" id="submit_comment_edit_comid_'.$comid.'">Submit</a></div><div id="save_comment_edit_comid_'.$comid.'"></div><a title="Edit this comment" class="button edit_comment" onclick="toggle_comment_edit('."'".'comment_comid_'.$comid."'".',this)">Edit</a><a title="Delete this comment" class="button delete_comment" id="submit_comment_delete_comid_'.$comid.'">Delete</a><div id="save_comment_delete_comid_'.$comid.'"></div>': "";
+			$output .= (isset($_SESSION['uid']) && $_SESSION['uid'] == $comments[$i]['User_ID'] || ($_SESSION['rid'] == 3 && course_belonged($cid,$_SESSION['uid']))) ? '<div id="comment_comid_'.$comments[$i]['Comment_ID'].'"><textarea id="textarea_body_comment_edit_comid_'.$comid.'" name="body">'.strip_tags(htmlspecialchars_decode($comments[$i]['Comment_Body'])).'</textarea><a class="button" id="submit_comment_edit_comid_'.$comid.'">Submit</a></div><div id="save_comment_edit_comid_'.$comid.'"></div><a title="Edit this comment" class="button edit_comment" onclick="toggle_comment_edit('."'".'comment_comid_'.$comid."'".',this)">Edit</a><a title="Delete this comment" class="button delete_comment" id="submit_comment_delete_comid_'.$comid.'">Delete</a><div id="save_comment_delete_comid_'.$comid.'"></div>': "";
 			$output .= '</div>';
 			$output .= '</div>';
 			$output .= '<script>
@@ -2562,7 +2562,7 @@ function list_comments($pid,$c=null) { //Return list of comments by post ID
 	$output .= '<div id="addCommentContainer">';
 	$output .= '<a class="author" href="/user/'.$current_user['User_Username'].'"><img src="'.$current_grav_url.'" width="30px"/></a>';
 	$output .= '<textarea placeholder="Leave a comment..." name="body" id="textarea_body_comment_create_pid_'.$pid.'" cols="20" rows="5"></textarea>';
-	$output .= '<input id="input_hide_comment_create_pid_'.$pid.'" type="checkbox" name="hide" value="1" /><label for="hide" style="position: relative; top: -2px;">Hide your username from others</label><br/>';
+	$output .= '<input id="input_hide_comment_create_pid_'.$pid.'" type="checkbox" name="hide" value="1" /><label for="input_hide_comment_create_pid_'.$pid.'">Hide your username from others</label><br/>';
 	$output .= '<input id="input_uid_comment_create_pid_'.$pid.'" type="hidden" value="'.$_SESSION['uid'].'" />';
 	$output .= '<a class="button" id="submit_comment_create_pid_'.$pid.'">Create comment</a>';
 	$output .= '</div>';
@@ -3150,7 +3150,7 @@ function report_most_popular($count,$cid=0) {
 function chart_questions_per_course() {
 	$output = "";
 	$courses = courses_load_from_uid($_SESSION['uid']);
-	$output .= '<h2>Number of questions and their figures in your courses</h2><div id="mychart" style="width: 1024px; min-height: 320px;"></div>';
+	$output .= '<h2>Number of questions and their figures in your courses</h2><div id="mychart"></div>';
 	$output .= '<script>
 				(function() {
 					YUI().use("charts-legend", function (Y)
@@ -3222,7 +3222,7 @@ function chart_questions_per_week($cid=0) {
 	$output .= '<div id="chart_course_week">';
 	$output .= select_course('cid',$cid);
 	$output .= '<h2>Number of questions per week of '.(($cid == 0) ? 'all courses': '"'.$course['Course_Name'].'"').'</h2>';
-	$output .= '<div id="mychart" style="width: 1024px; min-height: 320px;"></div>';
+	$output .= '<div id="mychart"></div>';
 	$output .= '</div>';
 	$output .= '<script>
 				(function() {

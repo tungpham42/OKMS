@@ -797,6 +797,14 @@ textarea#question_body, textarea#question_answer {
 	float: left;
 	width: calc(100% - 12px);
 	margin-left: 5px;
+	resize: none;
+	overflow: auto;
+}
+input#question_hide {
+	float: left;
+	width: 20px;
+	margin-right: 0px;
+	margin-top: 7px;
 }
 label[for="question_body"],label[for="question_answer"],label[for="question_hide"] {
 	color: #BE1E2D;
@@ -923,7 +931,7 @@ white-space:pre-wrap;
 #content .post_right_detail span.author_name.lecturer {color: #BE1E2D;}
 #content .post_right_detail span.course_name {color: #4f4f4f;}
 #content .post_right_detail span.post_week {color: #4f4f4f;}
-#content .post_right_detail span.post_content, .post_answer {color: black;font-size: 15px;}
+#content .post_right_detail span.post_content, .post_answer {color: black;font-size: 15px;text-align: left;display: block;}
 #content .post_right_detail div.post_rate {color: black;font-size: 14px;}
 #content .post_right_detail a.post_see_more {color: #808285; float: right;}
 #content .post_right_detail a.post_see_more:hover {text-decoration: underline;}
@@ -1126,6 +1134,9 @@ table {
 	border: 1px solid #E9E4E5;
 	border-collapse:collapse;
 }
+table tr {
+	border: 1px solid #E9E4E5;
+}
 table td {
 	vertical-align: middle;
 	padding: 8px 10px;
@@ -1170,6 +1181,9 @@ td.count {
 	background: #efefef;
 	text-align: center;
 }
+.count.posts {
+	text-align: center;
+}
 #debug {display: none; margin-top: 12px;}
 .post .post_rate_text {
 	color: #BE1E2D;
@@ -1185,10 +1199,6 @@ td.count {
 	border: 0 solid transparent;
 	color: black;
 	margin-bottom:1px;
-}
-.post_answer {
-	width: 100%;
-	margin-top: 12px;
 }
 .comment .avatar{
 	/*
@@ -1270,6 +1280,21 @@ td.count {
 
 #addCommentContainer textarea{
 	width: calc(100% - 50px);
+}
+#question_close_button + .question_element {
+	margin-top: 5px;
+	left: 20px;
+}
+[id^="textarea_body_comment_edit_comid_"] {
+	width: calc(100% - 8px);
+}
+[id^="submit_comment_edit_comid_"] {
+	float: none;
+	margin-top: -18px;
+}
+[id^="chart_rate_details_pid_"] {
+	width: 280px;
+	height: 120px;
 }
 [id^="submit_comment_create_pid_"] {
 	float: right;
@@ -1374,6 +1399,10 @@ legend > a{
 }
 table.course, table.course td, table.post {
 	border: 0;
+}
+form.post.edit {
+	width: 25px;
+	float: left;
 }
 body.front table.course {
 	width: 508px;
@@ -1825,4 +1854,8 @@ ul.user_course, ul.user_course > li {
 }
 body.terms #inner_content, body.help #inner_content {
     font-size: 1.4em;
+}
+#mychart {
+	width: 1024px;
+	min-height: 320px;
 }
