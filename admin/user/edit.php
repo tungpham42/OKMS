@@ -15,7 +15,7 @@ $mail = isset($_POST['mail']) ? $_POST['mail']: '';
 $err = ($current_pass == '' && $pass == '') ? array('No errors!'): pass_error_array($uid,$current_pass,$pass,$pass1);
 if (isset($_POST['submit'])):
 	if ($err !== null && !count($err)){
-		if (!isset($pass) || $pass == '' && $current_pass == ''):
+		if ($pass == '' || $current_pass == ''):
 			edit_user_without_pass($_POST['uid'],$rid,$fullname);
 		elseif (isset($pass) && $pass != ''):
 			edit_user($_POST['uid'],$rid,$fullname,$pass);
@@ -43,7 +43,7 @@ if (isset($_POST['submit'])):
 			echo 'We sent you an email with your changed account information!';
 		}
 		sleep(3);
-		header('location: '.currentURL().'/home');
+		header('location: '.currentURL());
 		//else echo 'This username or email is already taken!';
 	} else {
 		echo '<span style="color: red;">'.implode('<br />',$err).'<br/></span>';
@@ -63,19 +63,19 @@ endif;
 		</tr>
 		<tr>
 			<td><label for="fullname">Fullname:</label></td>
-			<td><input type="text" name="fullname" value="<?php echo $old_fullname; ?>" size="60" maxlength="128" class="required" /></td>
+			<td><input type="text" name="fullname" value="<?php echo $old_fullname; ?>" size="60" maxlength="128" class="required" required/></td>
 		</tr>
 		<tr>
 			<td><label for="current_pass">Current Password:</label></td>
-			<td><input type="password" name="current_pass" size="60" maxlength="128" /></td>
+			<td><input type="password" name="current_pass" size="60" maxlength="128" required/></td>
 		</tr>
 		<tr>
 			<td><label for="pass">New Password:</label></td>
-			<td><input type="password" name="pass" size="60" maxlength="128" /></td>
+			<td><input type="password" name="pass" size="60" maxlength="128" required/></td>
 		</tr>
 		<tr>
 			<td><label for="pass1">Retype New Password:</label></td>
-			<td><input type="password" name="pass1" size="60" maxlength="128" /><span id="check_pass"></span></td>
+			<td><input type="password" name="pass1" size="60" maxlength="128" required/><span id="check_pass"></span></td>
 		</tr>
 		<tr>
 			<td><label for="mail">Email:</label></td>
@@ -91,7 +91,7 @@ endif;
 		</tr>
 		<tr>
 			<td><input onclick="checkPass();" type="submit" name="submit" value="Save" /></td>
-			<td><a class="button" href="/user">Cancel</a></td>
+			<td><a class="button" href="/">Cancel</a></td>
 		</tr>
 	</table>
 </form>
