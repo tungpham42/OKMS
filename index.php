@@ -7,7 +7,7 @@ require 'includes/functions.inc.php';
 require 'includes/admin.inc.php';
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
 		<meta charset="UTF-8">
 		<meta http-equiv="content-type" content="text/html;charset=utf-8">
@@ -18,13 +18,13 @@ require 'includes/admin.inc.php';
 		<meta property="og:url" content="<?php echo baseURL(); ?>">
 		<meta property="og:type" content="website">
 		<meta property="og:locale" content="en_US">
-		<meta property="og:title" content="<?php echo $site_name.(($p != 'home' && $p != '') ? ' - ': ' ').$title; ?>">
+		<meta property="og:title" content="<?php echo $title.(($p != 'home' && $p != '') ? ' - ': ' ').$site_name; ?>">
 		<meta property="og:description" content="<?php echo $meta_description; ?>">
 		<meta property="og:image" content="<?php echo currentURL(); ?>/images/okms_200x200.png">
 		<meta property="og:image:type" content="image/png">
 		<meta property="og:image:width" content="200">
 		<meta property="og:image:height" content="200">
-		<title><?php echo $site_name.(($p != 'home' && $p != '') ? ' - ': ' ').$title; ?></title>
+		<title><?php echo $title.(($p != 'home' && $p != '') ? ' - ': ' ').$site_name; ?></title>
 		<link rel="stylesheet" href="/css/style_default.css?v=<?php echo time(); ?>" type="text/css" media="screen">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/css/bootstrap-grid.min.css" integrity="sha512-ZuRTqfQ3jNAKvJskDAU/hxbX1w25g41bANOVd1Co6GahIe2XjM6uVZ9dh0Nt3KFCOA061amfF2VeL60aJXdwwQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/css/bootstrap-utilities.min.css" integrity="sha512-IspcQcJxnKFKfac3SzzLPXyGt77Twdkh1QmoLJlk+VDWCeGNVf7rCl/Srop+WwzX3S7IS2nxe9sfqLuMergysw==" crossorigin="anonymous" referrerpolicy="no-referrer">
