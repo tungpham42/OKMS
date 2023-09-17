@@ -2942,6 +2942,9 @@ function currentURL() { //Get current page URL
 	}
 	return $page_url;
 }
+function baseURL() {
+	return currentURL().$_SERVER['REQUEST_URI'];
+}
 /* Menu Functions */
 function style_active_course_menu() { //Return the style of active course menu list
 	global $db;

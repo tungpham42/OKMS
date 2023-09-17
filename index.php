@@ -15,7 +15,7 @@ require 'includes/admin.inc.php';
 		<meta name="description" content="<?php echo $meta_description; ?>">
 		<meta name="keywords" content="kms,cms,online_kms,knowledge management system">
 		<meta name="author" content="Tung Pham">
-		<meta property="og:url" content="<?php echo currentURL(); ?>">
+		<meta property="og:url" content="<?php echo baseURL(); ?>">
 		<meta property="og:type" content="website">
 		<meta property="og:locale" content="en_US">
 		<meta property="og:title" content="<?php echo $site_name.(($p != 'home' && $p != '') ? ' - ': ' ').$title; ?>">
@@ -79,7 +79,7 @@ require 'includes/admin.inc.php';
 <!--
 	<script type="text/javascript" src="/js/jquery.js"></script>
 -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js" integrity="sha512-J9QfbPuFlqGD2CYVCa6zn8/7PEgZnGpM5qtFOBZgwujjDnG5w5Fjx46YzqvIh/ORstcj7luStvvIHkisQi5SKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="https://cdn.jsdelivr.net/npm/transliteration@2.3.5/dist/browser/bundle.umd.min.js" integrity="sha256-WM+Q7gs+YPKhWaTZxr24xQ9DF8yT7m2WJdrKYBVdGh4=" crossorigin="anonymous"></script>
 	<script type="text/javascript" src="/js/animation.js"></script>
 	<script type="text/javascript" src="/js/scripts.js"></script>
