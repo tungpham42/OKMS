@@ -37,7 +37,7 @@ if (isset($_POST['submit'])):
 	header('location: '.currentURL().'/course');
 endif;
 ?>
-<script type="text/javascript" src="js/multipleselect.js"></script>
+<script type="text/javascript" src="/js/multipleselect.js"></script>
 <fieldset>
 <form method="post" action="" onsubmit="multipleSelectOnSubmit()">
 <input type="hidden" name="cid" value="<?php echo $cid; ?>" />
