@@ -115,7 +115,7 @@ if($_SESSION['username'])
 	<div id="header-login-form" class="logged_in">
 		<a class="avatar" href="/user/<?php echo $_SESSION['uid']; ?>"><img src="<?php echo "https://0.gravatar.com/avatar/".md5(strtolower(trim($email)))."?d=identicon&s=".$size; ?>" width="24px" /></a>
 		<a class="username" href="/user/<?php echo $_SESSION['uid']; ?>"><?php echo (isset($user['User_Fullname'])) ? $user['User_Fullname']: $user['User_Username']; ?></a>
-		<a class="front" href=".">Home</a>
+		<a class="front" href="/">Home</a>
 		<span id="user-toggle"></span>
 		<div id="user-panel">
 			<ul>
