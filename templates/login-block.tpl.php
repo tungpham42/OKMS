@@ -86,7 +86,7 @@ if(isset($_POST['header_login'])){
 		}
 		if(isset($_SESSION['username']))
 		{
-			header('Location: '.$_SERVER['HTTP_REFERER'].'');
+			header('Location: '.currenrURL().'');
 		} 
 		?>
 

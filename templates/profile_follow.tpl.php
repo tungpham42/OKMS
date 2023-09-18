@@ -10,5 +10,5 @@ echo '</div>';
 <script>
 setInterval(function(){
 	$("#feeds").load("/triggers/feeds_update.php",{feeds_type:"profile_follow"});
-},1000*60*5);
+},1000*30);
 </script>

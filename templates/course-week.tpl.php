@@ -14,6 +14,6 @@ endif;
 ?>
 <script>
 setInterval(function(){
-	$("#feeds").load("/triggers/feeds_update.php",{feeds_type:"course_week"});
-},1000*60*5);
+	$("#feeds").load("/triggers/feeds_update.php",{feeds_type:"course_week", cid: "<?php echo $cid; ?>", week: "<?php echo $week; ?>"});
+},1000*30);
 </script>
