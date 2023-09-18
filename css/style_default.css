@@ -165,6 +165,7 @@ span.counter {
 .quicklinks {
 	width: 240px;
 	height: 220px;
+	margin: auto;
 	margin-bottom: 20px;
 }
 img.quicklink {
@@ -1850,7 +1851,7 @@ ul.user_course, ul.user_course > li {
 		display: none;
 	}
 }
-body.terms #inner_content, body.help #inner_content {
+body.terms #inner_content, body.help #inner_content, body.user #inner_content {
     font-size: 1.4em;
 }
 #mychart {

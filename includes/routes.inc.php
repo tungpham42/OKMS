@@ -55,10 +55,13 @@ for ($i = 0; $i < count($courses); $i++) {
 /* Title */
 if (!isset($_SESSION['rid']) && isset($_GET['p']) && ($_GET['p'] == 'user/create' || $_GET['p'] == 'user/register')):
 	$title = 'Register new account';
+	$body_class = 'user';
 elseif (!isset($_SESSION['rid']) && isset($_GET['p']) && $_GET['p'] == 'user/password_reset'):
 	$title = 'Lost your password?';
+	$body_class = 'user';
 elseif (!isset($_SESSION['rid']) && isset($_GET['p']) && $_GET['p'] == 'user/verify'):
 	$title = 'User verification';
+	$body_class = 'user';
 elseif (!isset($_GET['p']) || $_GET['p'] == 'home'):
 	$title = "";
 	$body_class = 'front';
