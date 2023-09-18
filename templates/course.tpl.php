@@ -7,8 +7,3 @@ echo '<div id="feeds">';
 echo view_course($cid,$uid,10);
 echo '</div>';
 ?>
-<script>
-setInterval(function(){
-	$("#feeds").load("/triggers/feeds_update.php",{feeds_type:"course", cid: "<?php echo $cid; ?>", week: "<?php echo $week; ?>"});
-},1000*30);
-</script>

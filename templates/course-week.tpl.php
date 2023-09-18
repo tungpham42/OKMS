@@ -12,8 +12,3 @@ else:
 	echo '</div>';
 endif;
 ?>
-<script>
-setInterval(function(){
-	$("#feeds").load("/triggers/feeds_update.php",{feeds_type:"course_week", cid: "<?php echo $course_week['cid']; ?>", week: "<?php echo $course_week['week']; ?>"});
-},1000*30);
-</script>

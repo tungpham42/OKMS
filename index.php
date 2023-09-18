@@ -9,45 +9,7 @@ require 'includes/admin.inc.php';
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<meta charset="UTF-8">
-		<meta http-equiv="content-type" content="text/html;charset=utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="<?php echo $meta_description; ?>">
-		<meta name="keywords" content="kms,cms,online_kms,knowledge management system">
-		<meta name="author" content="Tung Pham">
-		<meta property="og:url" content="<?php echo baseURL(); ?>">
-		<meta property="og:type" content="website">
-		<meta property="og:locale" content="en_US">
-		<meta property="og:title" content="<?php echo $title.(($p != 'home' && $p != '') ? ' - ': ' ').$site_name; ?>">
-		<meta property="og:description" content="<?php echo $meta_description; ?>">
-		<meta property="og:image" content="<?php echo currentURL(); ?>/images/okms_200x200.png">
-		<meta property="og:image:type" content="image/png">
-		<meta property="og:image:width" content="200">
-		<meta property="og:image:height" content="200">
-		<title><?php echo $title.(($p != 'home' && $p != '') ? ' - ': ' ').$site_name; ?></title>
-		<link rel="stylesheet" href="/css/style_default.css?v=<?php echo time(); ?>" type="text/css" media="screen">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/css/bootstrap-grid.min.css" integrity="sha512-ZuRTqfQ3jNAKvJskDAU/hxbX1w25g41bANOVd1Co6GahIe2XjM6uVZ9dh0Nt3KFCOA061amfF2VeL60aJXdwwQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.2/css/bootstrap-utilities.min.css" integrity="sha512-IspcQcJxnKFKfac3SzzLPXyGt77Twdkh1QmoLJlk+VDWCeGNVf7rCl/Srop+WwzX3S7IS2nxe9sfqLuMergysw==" crossorigin="anonymous" referrerpolicy="no-referrer">
-		<!--[if IE]>
-		<link type="text/css" rel="stylesheet" media="all" href="/css/ie.css">
-		<![endif]-->
-		<script>
-		if (navigator.appName == 'Microsoft Internet Explorer') {
-			document.write('<link type="text/css" rel="stylesheet" media="all" href="/css/ie.css">');
-		}
-		</script>
-		<!--<script src="http://yui.yahooapis.com/3.6.0/build/yui/yui-min.js"></script>-->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/yui/3.18.1/yui/yui-min.js" integrity="sha512-xRL1U0vZqWAcR3uFMaar+fYTEA3spq+rHdDnlV/xQIj3nhrvRrLTvvWwQLjcyuvTy8eCNwFQEIavOjbCLythRQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-		<link rel="shortcut icon" href="/images/favicon.ico">
-		<!-- Google tag (gtag.js) -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZETS4QXH8Z"></script>
-		<script>
-		window.dataLayer = window.dataLayer || [];
-		function gtag(){dataLayer.push(arguments);}
-		gtag('js', new Date());
-
-		gtag('config', 'G-ZETS4QXH8Z');
-		</script>
+	<?php include('templates/partials/head.tpl.php'); ?>
 	</head>
 	<body class="<?php echo $body_class; ?>">
 	<noscript>
@@ -88,7 +50,7 @@ require 'includes/admin.inc.php';
 	<div id="header" class="container-fluid fixed-top shadow-lg">
 		<div id="inner_header" class="container-xxl pe-0">
 			<div class="col-12">
-			<?php include('templates/header.tpl.php'); ?>
+			<?php include('templates/partials/header.tpl.php'); ?>
 			</div>
 		</div>
 	</div>
@@ -98,289 +60,18 @@ require 'includes/admin.inc.php';
 		<div id="main" class="container-xxl px-0">
 			<div class="row px-0 w-100">
 				<!-- Start Side Bar -->
-				<div id="leftmenu" class="col-xxl-2 col-xl-2 col-lg-12 col-md-12 col-sm-12 col-xs-12"><?php include('templates/leftmenu.tpl.php'); ?></div>
+				<div id="leftmenu" class="col-xxl-2 col-xl-2 col-lg-12 col-md-12 col-sm-12 col-xs-12"><?php include('templates/partials/leftmenu.tpl.php'); ?></div>
 				<!-- End Side Bar -->			
 				<div id="content" class="col-xxl-7 col-xl-7 col-lg-9 col-md-12 col-sm-12 col-xs-12">
 					<div id="inner_content">
 						<h1 class="title"><?php echo $title; ?></h1>
 						<?php
-						if (!isset($_SESSION['rid']) && isset($_GET['p']) && $_GET['p'] == 'user/create'):
-							include('templates/register-page.tpl.php');
-						elseif (!isset($_SESSION['rid']) && isset($_GET['p']) && $_GET['p'] == 'user/register'):
-							include('templates/register-guest-page.tpl.php');
-						elseif (!isset($_SESSION['rid']) && isset($_GET['p']) && $_GET['p'] == 'user/password_reset'):
-							include('templates/passwordreset-page.tpl.php');
-						elseif (!isset($_SESSION['rid']) && isset($_GET['p']) && $_GET['p'] == 'user/verify'):
-							include('templates/verify-page.tpl.php');
-						elseif (!isset($_GET['p']) || $_GET['p'] == 'home'):
-							include('templates/front.tpl.php');
-						elseif ($p == 'search'):
-							include('templates/search.tpl.php');
-						elseif ($p == 'option'):
-							if (isset($_SESSION['rid']) && $_SESSION['rid'] == 1):
-								include('admin/option/index.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'course'):
-							if (isset($_SESSION['rid']) && $_SESSION['rid'] != 2 || $_SESSION['rid'] == 3):
-								include('admin/course/index.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'course/create'):
-							if (isset($_SESSION['rid']) && $_SESSION['rid'] != 2 && $_SESSION['rid'] != 3):
-								include('admin/course/create.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'course/edit'):
-							if (isset($_SESSION['rid']) && $_SESSION['rid'] != 2 || ($_SESSION['rid'] == 3 && $course['User_ID'] == $_SESSION['uid'])):
-								include('admin/course/edit.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'course/delete'):
-							if (isset($_SESSION['rid']) && $_SESSION['rid'] != 2 && $_SESSION['rid'] != 3):
-								include('admin/course/delete.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'course/assign'):
-							if (isset($_SESSION['rid']) && $_SESSION['rid'] != 2 || ($_SESSION['rid'] == 3 && $course['User_ID'] == $_SESSION['uid'])):
-								include('admin/course/assign.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'course/enrol'):
-							if (isset($_SESSION['rid']) && $_SESSION['rid'] != 2 && $_SESSION['rid'] != 1):
-								include('admin/course/enrol.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'course/promote'):
-							if (isset($_SESSION['rid']) && $_SESSION['rid'] != 2 && $_SESSION['rid'] != 3):
-								include('admin/course/promote.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'course/csv'):
-							if (isset($_SESSION['rid']) && $_SESSION['rid'] == 3):
-								include('admin/course/csv.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'course/excel'):
-							if (isset($_SESSION['rid']) && $_SESSION['rid'] == 3):
-								include('admin/course/excel.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'menu'):
-							if (isset($_SESSION['rid']) && $_SESSION['rid'] != 2 && $_SESSION['rid'] != 3):
-								include('admin/menu/index.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'menu/create'):
-							if (isset($_SESSION['rid']) && $_SESSION['rid'] != 2 && $_SESSION['rid'] != 3):
-								include('admin/menu/create.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'menu/edit'):
-							if (isset($_SESSION['rid']) && $_SESSION['rid'] != 2 && $_SESSION['rid'] != 3):
-								include('admin/menu/edit.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'menu/delete'):
-							if (isset($_SESSION['rid']) && $_SESSION['rid'] != 2 && $_SESSION['rid'] != 3):
-								include('admin/menu/delete.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'post'):
-							if (isset($_SESSION['rid']) && $_SESSION['rid'] != 2):
-								include('admin/post/index.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'post/create'):
-							if (isset($_SESSION['rid']) && $_SESSION['rid'] != 2):
-								include('admin/post/create.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'post/edit'):
-							if (isset($_SESSION['rid'])):
-								include('admin/post/edit.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'post/delete'):
-							if (isset($_SESSION['rid'])):
-								include('admin/post/delete.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'post/archive'):
-							if (isset($_SESSION['rid']) && $_SESSION['rid'] != 2):
-								include('admin/post/archive.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'report'):
-							if (isset($_SESSION['rid']) && $_SESSION['rid'] != 2):
-								include('templates/report.tpl.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'role'):
-							if (isset($_SESSION['rid']) && $_SESSION['rid'] != 2 && $_SESSION['rid'] != 3):
-								include('admin/role/index.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'role/create'):
-							if (isset($_SESSION['rid']) && $_SESSION['rid'] != 2 && $_SESSION['rid'] != 3):
-								include('admin/role/create.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'role/edit'):
-							if (isset($_SESSION['rid']) && $_SESSION['rid'] != 2 && $_SESSION['rid'] != 3):
-								include('admin/role/edit.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'role/delete'):
-							if (isset($_SESSION['rid']) && $_SESSION['rid'] != 2 && $_SESSION['rid'] != 3):
-								include('admin/role/delete.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'semester'):
-							if (isset($_SESSION['rid']) && $_SESSION['rid'] != 2 && $_SESSION['rid'] != 3):
-								include('admin/semester/index.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'semester/create'):
-							if (isset($_SESSION['rid']) && $_SESSION['rid'] != 2 && $_SESSION['rid'] != 3):
-								include('admin/semester/create.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'semester/edit'):
-							if (isset($_SESSION['rid']) && $_SESSION['rid'] != 2 && $_SESSION['rid'] != 3):
-								include('admin/semester/edit.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'semester/delete'):
-							if (isset($_SESSION['rid']) && $_SESSION['rid'] != 2 && $_SESSION['rid'] != 3):
-								include('admin/semester/delete.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'type'):
-							if (isset($_SESSION['rid']) && $_SESSION['rid'] != 2 && $_SESSION['rid'] != 3):
-								include('admin/type/index.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'type/create'):
-							if (isset($_SESSION['rid']) && $_SESSION['rid'] != 2 && $_SESSION['rid'] != 3):
-								include('admin/type/create.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'type/edit'):
-							if (isset($_SESSION['rid']) && $_SESSION['rid'] != 2 && $_SESSION['rid'] != 3):
-								include('admin/type/edit.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'type/delete'):
-							if (isset($_SESSION['rid']) && $_SESSION['rid'] != 2 && $_SESSION['rid'] != 3):
-								include('admin/type/delete.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'user'):
-							if (isset($_SESSION['rid']) && $_SESSION['rid'] != 2 && $_SESSION['rid'] != 3):
-								include('admin/user/index.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'user/create'):
-							if (!isset($_SESSION['rid']) || isset($_SESSION['rid']) && $_SESSION['rid'] != 2 && $_SESSION['rid'] != 3):
-								include('admin/user/create.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'user/edit'):
-							if (isset($_SESSION['rid'])):
-								include('admin/user/edit.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'user/delete'):
-							if (isset($_SESSION['rid'])):
-								include('admin/user/delete.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'user/csv'):
-							if (isset($_SESSION['rid']) && $_SESSION['rid'] != 2 && $_SESSION['rid'] != 3):
-								include('admin/user/csv.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif ($p == 'user/excel'):
-							if (isset($_SESSION['rid']) && $_SESSION['rid'] != 2 && $_SESSION['rid'] != 3):
-								include('admin/user/excel.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif (isset($_SESSION['rid']) && $p == 'user/password_reset'):
-							echo 'You are not authorized';
-						elseif (isset($_SESSION['rid']) && $p == 'user/verify'):
-							echo 'You are not authorized';
-						elseif (in_array($p,$user_paths)):
-							$user = user_load($uid);
-							if (isset($_SESSION['username']) && $_SESSION['username'] == $user['User_Username'] || $_SESSION['rid'] == 1):
-								include('admin/user/account.php');
-							else:
-								echo 'You are not authorized';
-							endif;
-						elseif (in_array($p,$profile_paths)):
-							include('templates/profile.tpl.php');
-						elseif (in_array($p,$profile_follow_paths)):
-							include('templates/profile_follow.tpl.php');
-						elseif (in_array($p,$post_paths)):
-							include('templates/post.tpl.php');
-						elseif (in_array($p,$week_paths)):
-							include('templates/week.tpl.php');
-						elseif (in_array($p,$course_paths)):
-							include('templates/course.tpl.php');
-						elseif (in_array($p,$course_week_paths)):
-							include('templates/course-week.tpl.php');
-						elseif ($p == 'sitemap'):
-							include('templates/sitemap.tpl.php');
-						elseif ($p == 'terms-and-conditions'):
-							include('templates/terms.tpl.php');
-						elseif ($p == 'help'):
-							include('templates/help.tpl.php');
-						else:
-							echo 'Page not found';
-						endif;
+						include('templates/views.tpl.php');
 						?>
 					</div>
 				</div>
 				<div id="rightmenu" class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-xs-12">
-					<?php include('templates/rightmenu.tpl.php'); ?>
+					<?php include('templates/partials/rightmenu.tpl.php'); ?>
 				</div>
 			</div>
 		<script type="text/javascript" src="/js/jquery.validate.js"></script>
@@ -424,7 +115,7 @@ require 'includes/admin.inc.php';
 	</div>
 	<!-- Start Footer -->
 	<div id="footer" class="container-fluid">
-		<?php include('templates/footer.tpl.php'); ?>
+		<?php include('templates/partials/footer.tpl.php'); ?>
 	</div>
 	<!-- End Footer -->
 	<div id="overlay"></div>

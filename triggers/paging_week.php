@@ -4,7 +4,7 @@ require_once '../includes/admin.inc.php';
 $uid = (isset($_SESSION['uid'])) ? $_SESSION['uid']: 0;
 $week = (isset($_POST['week'])) ? $_POST['week']: '';
 $count = (isset($_POST['count'])) ? $_POST['count']: '';
-$page = (isset($_POST['page'])) ? $_POST['page']: '';
+$page = (isset($_POST['page'])) ? $_POST['page']: 1;
 echo view_week($week,$count,$uid,'sort_post_date_descend',$page);
 ?>
 <script type="text/javascript">

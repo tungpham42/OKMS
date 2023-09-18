@@ -20,31 +20,6 @@ function convert_link($text) {
     $text = preg_replace('/([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4})/', '<a href="mailto:$1">$1</a>', $text);
     return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
 }
-function convert_html_entities_to_links($html_string) {
-    // Define a regular expression pattern to match both anchor tags and email addresses
-    $pattern = '/(&lt;a href=&quot;([^&]+)&quot;&gt;([^&]+)&lt;\/a&gt;)|(&lt;a href=&quot;mailto:([^&]+)&quot;&gt;([^&]+)&lt;\/a&gt;)/';
-
-    // Use preg_replace_callback to replace matched patterns with actual links and email links
-    $converted_string = preg_replace_callback(
-        $pattern,
-        function ($matches) {
-            if (!empty($matches[2])) {
-                // Matched a link
-                $url = htmlspecialchars_decode($matches[2]);
-                $linkText = htmlspecialchars_decode($matches[3]);
-                return '<a href="' . $url . '">' . $linkText . '</a>';
-            } elseif (!empty($matches[4])) {
-                // Matched an email link
-                $email = htmlspecialchars_decode($matches[4]);
-                $linkText = htmlspecialchars_decode($matches[5]);
-                return '<a href="mailto:' . $email . '">' . $linkText . '</a>';
-            }
-        },
-        $html_string
-    );
-
-    return $converted_string;
-}
 function table_row_class($id) { //Identify the table row class based on counter
 	$output = "";
 	if ((($id+1) % 2) == 1) {
@@ -1566,6 +1541,9 @@ function view_course($cid,$uid,$count,$page=1) { //Return course details with fe
 				function turnPage(page) {
 					$("#feeds").load("/triggers/paging_course.php",{cid:'.$cid.',count:'.$count.',page:page});
 				}
+				setInterval(function(){
+					$("#feeds").load("/triggers/feeds_update.php",{feeds_type:"course",cid:'.$cid.',page:'.$page.'});
+				},1000*60*5);
 				</script>';
 	if (count($posts) == 0) {
 		$output .= '<h3>This course has no post. Be the first to ask question.</h3>';
@@ -2186,6 +2164,9 @@ function front_page_listing($count,$uid,$sort_type,$option,$page=1) { //Return l
 				$("select#option").change(function(){
 					$("#feeds").load("/triggers/filter_front.php",{option:$(this).val()});
 				});
+				setInterval(function(){
+					$("#feeds").load("/triggers/feeds_update.php",{feeds_type:"front",page:'.$page.'});
+				},1000*60*5);
 				</script>';
 	return $output;
 }
@@ -2302,6 +2283,9 @@ function view_week($week,$count,$uid,$sort_type,$page=1) { //Return list of post
 				function turnPage(page) {
 					$("#feeds").load("/triggers/paging_week.php",{week:'.$week.',count:'.$count.',page:page});
 				}
+				setInterval(function(){
+					$("#feeds").load("/triggers/feeds_update.php",{feeds_type:"week",week:'.$week.',page:'.$page.'});
+				},1000*60*5);
 				</script>';
 	if (count($posts) == 0) {
 		$output .= '<h3>There is no post for this week.</h3>';
@@ -2342,6 +2326,9 @@ function view_course_week($cid,$week,$count,$uid,$sort_type,$page=1) { //Return 
 				function turnPage(page) {
 					$("#feeds").load("/triggers/paging_course_week.php",{cid:'.$cid.',week:'.$week.',count:'.$count.',page:page});
 				}
+				setInterval(function(){
+					$("#feeds").load("/triggers/feeds_update.php",{feeds_type:"course_week",cid:'.$cid.',week:'.$week.',page:'.$page.'});
+				},1000*60*5);
 				</script>';
 	if (count($posts) == 0) {
 		$output .= '<h3>There is no post for this course and week.</h3>';

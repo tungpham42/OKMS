@@ -1134,9 +1134,6 @@ table {
 	border: 1px solid #E9E4E5;
 	border-collapse:collapse;
 }
-table tr {
-	border: 1px solid #E9E4E5;
-}
 table td {
 	vertical-align: middle;
 	padding: 8px 10px;

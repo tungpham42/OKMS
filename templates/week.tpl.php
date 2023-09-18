@@ -6,8 +6,3 @@ echo '<div id="feeds">';
 echo view_week($week,10,$uid,'sort_post_date_descend');
 echo '</div>';
 ?>
-<script>
-setInterval(function(){
-	$("#feeds").load("/triggers/feeds_update.php",{feeds_type:"week", cid: "<?php echo $cid; ?>", week: "<?php echo $week; ?>"});
-},1000*30);
-</script>
