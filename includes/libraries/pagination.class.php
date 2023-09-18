@@ -24,7 +24,7 @@
 *	Modified by Tung Pham 19 Sep 2012: Added Page Limit Feature
 \************************************************************/
 
-class pagination
+class Pagination
 {
 
 	/**
@@ -168,7 +168,7 @@ class pagination
 		$slinks = array();
 		
 		$this->pagesGroup = ceil($this->pages / $this->pageLimit);
-		$this->prev = floor($this->page / $this->pageLimit) * $this->pageLimit;			
+		$this->prev = floor($this->page / ($this->pageLimit + 1)) * $this->pageLimit;			
 		$this->next = ceil($this->page / $this->pageLimit) * $this->pageLimit + 1;
 		$this->pageFloor = ($this->pagesGroup - 1) * $this->pageLimit;
 		$this->pageStart = $this->pageLimit * (ceil($this->page / $this->pageLimit) - 1) + 1;

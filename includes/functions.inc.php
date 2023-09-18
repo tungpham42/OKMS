@@ -2,7 +2,7 @@
 
 require('database.inc.php');
 require('libraries/class.phpmailer.php');
-// Include the pagination class
+// Include the Pagination class
 require('libraries/pagination.class.php');
 //PHPExcel Class
 require('libraries/PHPExcel/PHPExcel.php');
@@ -13,6 +13,7 @@ define('DEFAULT_AVATAR', '/images/avatar.jpg');
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
+
 /* General Functions */
 global $db;
 function convert_link($text) {
@@ -767,7 +768,7 @@ function list_users($rid=0,$count=0,$page=1) { //Return users list, for admin us
 	}
 	usort($users,'sort_user_ascend');
 	$user_count = count($users);
-	$pagination = new pagination($users,$page,$count,5);
+	$pagination = new Pagination($users,$page,$count,5);
 	$pagination->setShowFirstAndLast(true);
 	$pagination->setMainSeperator("");
 	$users = $pagination->getResults();
@@ -815,7 +816,7 @@ function view_profile($count,$profile_uid,$uid,$sort_type,$page=1) { //Return li
 		$posts[$p]['comments_count'] = count_comments($posts[$p]['Post_ID']);
 	}
 	usort($posts,$sort_type);
-	$pagination = new pagination($posts,$page,$count,5);
+	$pagination = new Pagination($posts,$page,$count,5);
 	$pagination->setShowFirstAndLast(true);
 	$pagination->setMainSeperator("");
 	$posts = $pagination->getResults();
@@ -858,7 +859,7 @@ function view_profile_follow($count,$profile_uid,$uid,$sort_type,$page=1) { //Re
 	}
 	sort($posts);
 	usort($posts,$sort_type);
-	$pagination = new pagination($posts,$page,$count,5);
+	$pagination = new Pagination($posts,$page,$count,5);
 	$pagination->setShowFirstAndLast(true);
 	$pagination->setMainSeperator("");
 	$posts = $pagination->getResults();
@@ -1315,7 +1316,7 @@ function list_posts($cid=0,$count=0,$page=1) { //Return list of posts, for lectu
 	}
 	$posts = ($_SESSION['rid'] == 3) ? array_filter($posts, array(new Filter(true), 'filter_course_belonged')) : $posts;
 	usort($posts, 'sort_post_date_descend');
-	$pagination = new pagination($posts,$page,$count,5);
+	$pagination = new Pagination($posts,$page,$count,5);
 	$pagination->setShowFirstAndLast(true);
 	$pagination->setMainSeperator("");
 	$posts = $pagination->getResults();
@@ -1360,7 +1361,7 @@ function list_archives($cid=0,$count=0,$page=1) { //Return list of archive posts
 		$posts = array_filter($posts, array(new Filter($cid), 'filter_cid'));
 	}
 	usort($posts, 'sort_post_date_descend');
-	$pagination = new pagination($posts,$page,$count,5);
+	$pagination = new Pagination($posts,$page,$count,5);
 	$pagination->setShowFirstAndLast(true);
 	$pagination->setMainSeperator("");
 	$posts = $pagination->getResults();
@@ -1522,7 +1523,7 @@ function view_course($cid,$uid,$count,$page=1) { //Return course details with fe
 	$posts = posts_load_from_cid($cid);
 	$posts = array_filter($posts, array(new Filter(1), 'filter_current'));
 	usort($posts, 'sort_post_date_descend');
-	$pagination = new pagination($posts,$page,$count,5);
+	$pagination = new Pagination($posts,$page,$count,5);
 	$pagination->setShowFirstAndLast(true);
 	$pagination->setMainSeperator("");
 	$posts = $pagination->getResults();
@@ -2142,7 +2143,7 @@ function front_page_listing($count,$uid,$sort_type,$option,$page=1) { //Return l
 		$posts[$p]['comments_count'] = count_comments($posts[$p]['Post_ID']);
 	}
 	usort($posts,$sort_type);
-	$pagination = new pagination($posts,$page,$count,5);
+	$pagination = new Pagination($posts,$page,$count,5);
 	$pagination->setShowFirstAndLast(true);
 	$pagination->setMainSeperator("");
 	$posts = $pagination->getResults();
@@ -2264,7 +2265,7 @@ function view_week($week,$count,$uid,$sort_type,$page=1) { //Return list of post
 	}
 	sort($posts);
 	usort($posts,$sort_type);
-	$pagination = new pagination($posts,$page,$count,5);
+	$pagination = new Pagination($posts,$page,$count,5);
 	$pagination->setShowFirstAndLast(true);
 	$pagination->setMainSeperator("");
 	$posts = $pagination->getResults();
@@ -2307,7 +2308,7 @@ function view_course_week($cid,$week,$count,$uid,$sort_type,$page=1) { //Return 
 	}
 	sort($posts);
 	usort($posts,$sort_type);
-	$pagination = new pagination($posts,$page,$count,5);
+	$pagination = new Pagination($posts,$page,$count,5);
 	$pagination->setShowFirstAndLast(true);
 	$pagination->setMainSeperator("");
 	$posts = $pagination->getResults();
@@ -2890,7 +2891,7 @@ function search_question($query,$cid,$count,$page=1) { //Search questions by pos
 		$posts = array_filter($posts, array(new Filter($cid), 'filter_cid'));
 	}
 	usort($posts,'sort_post_date_descend');
-	$pagination = new pagination($posts,$page,$count,5);
+	$pagination = new Pagination($posts,$page,$count,5);
 	$pagination->setShowFirstAndLast(true);
 	$pagination->setMainSeperator("");
 	$posts = $pagination->getResults();
