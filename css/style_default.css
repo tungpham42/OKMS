@@ -411,7 +411,7 @@ body:not(.logged-in) #rememberMe, body:not(.logged-in) #rememberMePopup {
 #header-login-form #user-panel > ul > li {
 	position: relative;
 	display: block;
-	text-align: left;
+	text-align: start;
 }
 #header-login-form #user-panel > ul > li > a {
 	color: black;
@@ -875,7 +875,7 @@ select#question_cid {width: calc(100% - 52px);}
 	position: relative;
 	min-height: 200px;
 	background: transparent;
-	text-align: left;
+	text-align: start;
 	top: 0;
 }
 #content p,#content h1 {
@@ -932,7 +932,7 @@ white-space:pre-wrap;
 #content .post_right_detail span.author_name.lecturer {color: #BE1E2D;}
 #content .post_right_detail span.course_name {color: #4f4f4f;}
 #content .post_right_detail span.post_week {color: #4f4f4f;}
-#content .post_right_detail span.post_content, .post_answer {color: black;font-size: 15px;text-align: left;display: block;}
+#content .post_right_detail span.post_content, .post_answer {color: black;font-size: 15px;text-align: start;display: block;}
 #content .post_right_detail div.post_rate {color: black;font-size: 14px;}
 #content .post_right_detail a.post_see_more {color: #808285; float: right;}
 #content .post_right_detail a.post_see_more:hover {text-decoration: underline;}
@@ -979,7 +979,7 @@ a.button.like:active, a.button.dislike:active, a.button.follow:active, a.button.
 	position: relative;
 	width: 100%;
 	min-height: 135px;
-	text-align: left;
+	text-align: start;
 	color: #D1D3D4;
 	border-top: 4px solid #BE1E2D;
 	font-size: 10px;
