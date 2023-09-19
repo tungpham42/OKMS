@@ -1520,7 +1520,6 @@ body.admin table {
 }
 body.admin #content {
 	position: fixed;
-	background: #F4F5F5;
 	z-index: 0;
 	margin: 0 auto;
 	width: 100%;
