@@ -280,7 +280,7 @@ body.logged-in #header-login-form {
 @media only screen and (max-width: 876px) {
 	body:not(.logged-in) #header-login-form {
 		top: 7px !important;
-		background-color: #414042;
+		background-color: transparent;
 		right: 30px !important;
 	}
 	#banner, #footer {
