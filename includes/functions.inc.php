@@ -1542,9 +1542,6 @@ function view_course($cid,$uid,$count,$page=1) { //Return course details with fe
 				function turnPage(page) {
 					$("#feeds").load("/triggers/paging_course.php",{cid:'.$cid.',count:'.$count.',page:page});
 				}
-				setInterval(function(){
-					$("#feeds").load("/triggers/feeds_update.php",{feeds_type:"course",cid:'.$cid.',page:'.$page.'});
-				},1000*60*5);
 				</script>';
 	if (count($posts) == 0) {
 		$output .= '<h3>This course has no post. Be the first to ask question.</h3>';
@@ -2165,9 +2162,6 @@ function front_page_listing($count,$uid,$sort_type,$option,$page=1) { //Return l
 				$("select#option").change(function(){
 					$("#feeds").load("/triggers/filter_front.php",{option:$(this).val()});
 				});
-				setInterval(function(){
-					$("#feeds").load("/triggers/feeds_update.php",{feeds_type:"front",option:"'.$option.'",page:'.$page.'});
-				},1000*60*5);
 				</script>';
 	return $output;
 }
@@ -2284,9 +2278,6 @@ function view_week($week,$count,$uid,$sort_type,$page=1) { //Return list of post
 				function turnPage(page) {
 					$("#feeds").load("/triggers/paging_week.php",{week:'.$week.',count:'.$count.',page:page});
 				}
-				setInterval(function(){
-					$("#feeds").load("/triggers/feeds_update.php",{feeds_type:"week",week:'.$week.',page:'.$page.'});
-				},1000*60*5);
 				</script>';
 	if (count($posts) == 0) {
 		$output .= '<h3>There is no post for this week.</h3>';
@@ -2327,9 +2318,6 @@ function view_course_week($cid,$week,$count,$uid,$sort_type,$page=1) { //Return 
 				function turnPage(page) {
 					$("#feeds").load("/triggers/paging_course_week.php",{cid:'.$cid.',week:'.$week.',count:'.$count.',page:page});
 				}
-				setInterval(function(){
-					$("#feeds").load("/triggers/feeds_update.php",{feeds_type:"course_week",cid:'.$cid.',week:'.$week.',page:'.$page.'});
-				},1000*60*5);
 				</script>';
 	if (count($posts) == 0) {
 		$output .= '<h3>There is no post for this course and week.</h3>';
@@ -2471,11 +2459,11 @@ function ask_question($rid,$cid,$week) {
 				}
 				$("input#question_title").keyup(updateField).keydown(updateField).change(updateField);
 				$("textarea#question_body, textarea#question_answer").keyup(function(){
-					limits($(this), 2000);
+					limits($(this), 5000);
 				}).keydown(function(){
-					limits($(this), 2000);
+					limits($(this), 5000);
 				}).change(function(){
-					limits($(this), 2000);
+					limits($(this), 5000);
 				});
 				$("input#question_title").keyup(function(){
 					limits($(this), 100);
