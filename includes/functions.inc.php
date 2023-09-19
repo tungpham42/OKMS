@@ -3220,7 +3220,7 @@ function chart_questions_per_week($cid=0) {
 			   ';
 	for ($i = 0; $i < count($weeks); $i++) {
 		$output .= '
-							{week: "Week '.$weeks[$i].'", "Questions": '.(($cid != 0) ? count_posts_by_course_week($cid,$weeks[$i]): count_posts_by_week($weeks[$i])).', "Likes": '.(($cid != 0) ? count_post_likes_by_course_week($cid,$weeks[$i]): count_post_likes_by_week($weeks[$i])).', "Dislikes": '.(($cid != 0) ? count_post_dislikes_by_course_week($cid,$weeks[$i]): count_post_dislikes_by_week($weeks[$i])).', "Follows": '.(($cid != 0) ? count_post_follows_by_course_week($cid,$weeks[$i]): count_post_follows_by_week($weeks[$i])).', "Comments": '.(($cid != 0) ? count_comments_by_course_week($cid,$weeks[$i]): count_comments_by_week($weeks[$i])).(($i != (count($weeks)-1)) ? '},': '}');
+							{week: "'.$weeks[$i].'", "Questions": '.(($cid != 0) ? count_posts_by_course_week($cid,$weeks[$i]): count_posts_by_week($weeks[$i])).', "Likes": '.(($cid != 0) ? count_post_likes_by_course_week($cid,$weeks[$i]): count_post_likes_by_week($weeks[$i])).', "Dislikes": '.(($cid != 0) ? count_post_dislikes_by_course_week($cid,$weeks[$i]): count_post_dislikes_by_week($weeks[$i])).', "Follows": '.(($cid != 0) ? count_post_follows_by_course_week($cid,$weeks[$i]): count_post_follows_by_week($weeks[$i])).', "Comments": '.(($cid != 0) ? count_comments_by_course_week($cid,$weeks[$i]): count_comments_by_week($weeks[$i])).(($i != (count($weeks)-1)) ? '},': '}');
 	}
 	$output .= '		];
 						var myAxes = {
