@@ -2166,7 +2166,7 @@ function front_page_listing($count,$uid,$sort_type,$option,$page=1) { //Return l
 					$("#feeds").load("/triggers/filter_front.php",{option:$(this).val()});
 				});
 				setInterval(function(){
-					$("#feeds").load("/triggers/feeds_update.php",{feeds_type:"front",page:'.$page.'});
+					$("#feeds").load("/triggers/feeds_update.php",{feeds_type:"front",option:"'.$option.'",page:'.$page.'});
 				},1000*60*5);
 				</script>';
 	return $output;
@@ -2471,18 +2471,18 @@ function ask_question($rid,$cid,$week) {
 				}
 				$("input#question_title").keyup(updateField).keydown(updateField).change(updateField);
 				$("textarea#question_body, textarea#question_answer").keyup(function(){
-					limits($(this), 900);
+					limits($(this), 2000);
 				}).keydown(function(){
-					limits($(this), 900);
+					limits($(this), 2000);
 				}).change(function(){
-					limits($(this), 900);
+					limits($(this), 2000);
 				});
 				$("input#question_title").keyup(function(){
-					limits($(this), 42);
+					limits($(this), 100);
 				}).keydown(function(){
-					limits($(this), 42);
+					limits($(this), 100);
 				}).change(function(){
-					limits($(this), 42);
+					limits($(this), 100);
 				});
 				</script>';
 	$output .= '</div>';
@@ -2537,11 +2537,11 @@ function list_comments($pid,$c=null) { //Return list of comments by post ID
 							commentDeleteDialog('.$comid.','.$pid.');
 						});
 						$("textarea#textarea_body_comment_edit_comid_'.$comid.'").keyup(function(){
-							limits($(this), 420);
+							limits($(this), 1000);
 						}).keydown(function(){
-							limits($(this), 420);
+							limits($(this), 1000);
 						}).change(function(){
-							limits($(this), 420);
+							limits($(this), 1000);
 						});
 						</script>
 						';
@@ -2564,11 +2564,11 @@ function list_comments($pid,$c=null) { //Return list of comments by post ID
 					}
 				});
 				$("textarea#textarea_body_comment_create_pid_'.$pid.'").keyup(function(){
-					limits($(this), 420);
+					limits($(this), 1000);
 				}).keydown(function(){
-					limits($(this), 420);
+					limits($(this), 1000);
 				}).change(function(){
-					limits($(this), 420);
+					limits($(this), 1000);
 				});
 				</script>
 				';
