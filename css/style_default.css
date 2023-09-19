@@ -288,6 +288,11 @@ body.logged-in #header-login-form {
 	}
 	#header {
 		height: 68px !important;
+		background-color: #BE1E2D;
+		background-image: url('/images/LOGO_mobile.png');
+		background-position: left;
+		background-repeat: no-repeat;
+		background-size: contain;
 	}
 	body {
 		padding-top: 68px !important;
