@@ -7,8 +7,3 @@ echo '<div id="feeds">';
 echo view_profile_follow(10,$profile_uid,$uid,'sort_post_date_descend');
 echo '</div>';
 ?>
-<script>
-setInterval(function(){
-	$("#feeds").load("/triggers/feeds_update.php",{feeds_type:"profile_follow"});
-},1000*30);
-</script>
