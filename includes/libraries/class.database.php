@@ -66,6 +66,21 @@ class Database {
         return $this->array_load_with_operator($table_name, $identifier, $value, '=');
     }
 
+    public function array_single_load($table_name, $identifier, $value) {
+        $stmt = $this->link->prepare("SELECT * FROM {$this->db_prefix}{$table_name} WHERE {$identifier}=:value");
+        $stmt->bindParam(':value', $value);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    
+    public function array_single_load_with_two_identifier($table_name, $identifier1, $value1, $identifier2, $value2) {
+        $stmt = $this->link->prepare("SELECT * FROM {$this->db_prefix}{$table_name} WHERE {$identifier1}=:value1 AND {$identifier2}=:value2");
+        $stmt->bindParam(':value1', $value1);
+        $stmt->bindParam(':value2', $value2);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function insert_record($array = array(), $table_name) {
         $keys = implode(', ', array_keys($array));
         $values = implode(', ', array_fill(0, count($array), '?'));
