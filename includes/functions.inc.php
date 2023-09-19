@@ -2931,7 +2931,7 @@ function style_active_course_menu() { //Return the style of active course menu l
 		$output .= 'body.cid-'.$courses[$i]['Course_ID'].' #leftmenu > ul > li > a.cid-'.$courses[$i]['Course_ID'];
 		$output .= ($i != count($courses)-1) ? ',': "";
 	}
-	$output .= ' {text-decoration: underline}';
+	$output .= ' {font-weight: bolder; font-size: 1.4rem;}';
 	$output .= '</style>';
 	return $output;
 }
