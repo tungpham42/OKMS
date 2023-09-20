@@ -3292,11 +3292,11 @@ function count_interactions($pid) {
 function csv_to_array($filename="", $delimiter=',')
 {
 	if(!file_exists($filename) || !is_readable($filename))
-		return FALSE;
+		return false;
 	$formattedArr = array();
-	if (($handle = fopen($filename, 'r')) !== FALSE)
+	if (($handle = fopen($filename, 'r')) !== false)
 	{
-		while (($data = fgetcsv($handle, 1000, $delimiter)) !== FALSE)
+		while (($data = fgetcsv($handle, 1000, $delimiter)) !== false)
 		{
 			$formattedArr = $data;
 		}
