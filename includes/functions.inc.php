@@ -1618,7 +1618,7 @@ function view_courses_by_uid($uid) { //Return courses list by user ID
 				$course = course_load($courses[$i]['Course_ID']);
 				$users = users_load_by_cid($courses[$i]['Course_ID']);
 				$output .= '<li class="course">';
-				$output .= '<a title="'.$course['Course_Name'].'" class="cid-'.$course['Course_ID'].' course_code" href="/course/'.$course['Course_Code'].'">'.$course['Course_Code'].'</a><br/>';
+				$output .= '<a title="'.$course['Course_Name'].'" class="cid-'.$course['Course_ID'].' course_code" href="/course/'.$course['Course_Code'].'">'.$course['Course_Code'].' ('.count_posts_from_cid($course['Course_ID']).')</a><br/>';
 				$output .= '<span class="course_name">'.$course['Course_Name'].'</span>';
 				$output .= '</li>';
 			}
@@ -1656,7 +1656,7 @@ function view_other_courses_by_uid($uid) { //Return other courses list by user I
 		for ($i = 0; $i < count($courses_diff); $i++) {
 			$course = course_load($courses_diff[$i]['Course_ID']);
 			$output .= '<li class="course">';
-			$output .= '<a title="'.$course['Course_Name'].'" class="cid-'.$course['Course_ID'].' course_code" href="/course/'.$course['Course_Code'].'">'.$course['Course_Code'].'</a><br/>';
+			$output .= '<a title="'.$course['Course_Name'].'" class="cid-'.$course['Course_ID'].' course_code" href="/course/'.$course['Course_Code'].'">'.$course['Course_Code'].' ('.count_posts_from_cid($course['Course_ID']).')</a><br/>';
 			$output .= '<span class="course_name">'.$course['Course_Name'].'</span>';
 			$output .= '</li>';
 		}
